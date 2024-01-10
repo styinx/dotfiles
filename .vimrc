@@ -19,6 +19,7 @@ call vundle#begin()
   Plugin 'junegunn/fzf'
   Plugin 'vim-airline/vim-airline'
   Plugin 'vim-airline/vim-airline-themes'
+  Plugin 'Yggdroot/indentLine'
 call vundle#end()
 
 filetype plugin on          " support for known file types
@@ -67,6 +68,16 @@ set foldmethod=manual       " enable folding
 set spell                   " enable spell check (may need to download language package)
 
 
+" Special characters
+set list                    " show special characters
+set listchars=eol:¬
+set listchars+=tab:»\
+set listchars+=trail:·
+set listchars+=space:·
+set listchars+=extends:›
+set listchars+=precedes:‹
+
+
 " Status line
 set statusline=%{StatuslineMode()}
 set statusline+=\ \ \       " Separator
@@ -96,12 +107,8 @@ inoremap [ []<Esc>i
 inoremap ( ()<Esc>i
 inoremap " ""<Esc>i
 inoremap ' ''<Esc>i
-nmap <S-j> <C-e>
-nmap <S-k> <C-y>
-nmap <C-j> <C-w>j
-nmap <C-k> <C-w>k
-nmap <C-h> <C-w>h
-nmap <C-l> <C-w>l
+nmap <C-j> <C-e>
+nmap <C-k> <C-y>
 nmap <S-A-o> :execute 'GFiles'<CR>
 nmap <S-A-s> :execute ls<CR>
 
@@ -151,12 +158,14 @@ let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
 let g:airline_symbols.branch = ''
-let g:airline_symbols.colnr = ' ℅:'
+let g:airline_symbols.colnr = ' C:'
 let g:airline_symbols.readonly = ''
-let g:airline_symbols.linenr = ' :'
-let g:airline_symbols.maxlinenr = '☰ '
+let g:airline_symbols.linenr = ' L:'
+let g:airline_symbols.maxlinenr = ' '
 let g:airline_symbols.dirty='⚡'
 
+" Plugin - Indent lines
+let g:indentLine_char = '|'
 
 
 " Function definitions
