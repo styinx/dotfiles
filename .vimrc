@@ -12,16 +12,21 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
-  Plugin 'VundleVim/Vundle.vim'
-  Plugin 'jaxbot/semantic-highlight.vim'
+  Plugin 'adelarsq/vim-matchit'
   Plugin 'ap/vim-css-color'
+  Plugin 'jaxbot/semantic-highlight.vim'
   Plugin 'junegunn/fzf.vim'
   Plugin 'junegunn/fzf'
+  Plugin 'preservim/tagbar'
+  Plugin 'tpope/vim-fugitive'
   Plugin 'vim-airline/vim-airline'
   Plugin 'vim-airline/vim-airline-themes'
+  Plugin 'VundleVim/Vundle.vim'
+  Plugin 'yegappan/taglist'
   Plugin 'Yggdroot/indentLine'
 call vundle#end()
 
+filetype on
 filetype plugin on          " support for known file types
 filetype plugin indent on   " allow auto-indenting depending on file type
 
@@ -96,10 +101,16 @@ hi StatusLineNC guifg=#777777 guibg=#444444
 
 " Keyboard
 let mapleader=' '
+nmap <F8> :TagbarToggle<CR>
 map <F11> <Esc>:call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 0)<CR>
 map <leader>f :call FormatBuffer()<CR>
+nmap tj :TagbarOpen('cfj')<CR>
 nmap <leader>s :SemanticHighlightToggle<CR>
 nmap <leader>o <Esc>o<Esc>
+nmap <C-j> <C-e>
+nmap <C-k> <C-y>
+nmap <S-A-o> :execute 'GFiles'<CR>
+nmap <S-A-s> :execute ls<CR>
 inoremap <leader>{ {<CR><BS>}<Esc>ko
 inoremap jk <ESC>
 inoremap { {}<Esc>i
@@ -107,10 +118,6 @@ inoremap [ []<Esc>i
 inoremap ( ()<Esc>i
 inoremap " ""<Esc>i
 inoremap ' ''<Esc>i
-nmap <C-j> <C-e>
-nmap <C-k> <C-y>
-nmap <S-A-o> :execute 'GFiles'<CR>
-nmap <S-A-s> :execute ls<CR>
 
 set backspace=eol,start,indent
 
@@ -151,21 +158,38 @@ if !exists('g:airline_symbols')
 endif
 
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tagbar#enabled = 1
+let g:airline#extensions#tagbar#flags = 'f'
 let g:airline_powerline_fonts = 1
+let g:airline_inactive_collapse=0
+let g:airline_section_a = airline#section#create(['mode'])
+let g:airline_section_c = airline#section#create(['file'])
+let g:airline_section_x = airline#section#create(['tagbar'])
+let g:airline_section_y = airline#section#create(['ffenc'])
+let g:airline_section_z = airline#section#create(['%c', ' ', '%P'])
 let g:airline_theme = 'deus'
 let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
 let g:airline_symbols.branch = ''
-let g:airline_symbols.colnr = ' C:'
 let g:airline_symbols.readonly = ''
-let g:airline_symbols.linenr = ' L:'
-let g:airline_symbols.maxlinenr = ' '
 let g:airline_symbols.dirty='⚡'
 
 " Plugin - Indent lines
 let g:indentLine_char = '|'
+
+" Plugin - Tagbar
+let g:tagbar_ctags_bin = '~/ctags/ctags.exe'
+let g:tagbar_autofocus = 1
+let g:tagbar_autoclose = 1
+let g:tagbar_autoshowtag = 1
+let g:tagbar_compact = 2
+let g:tagbar_indent = 2
+let g:tagbar_foldlevel = 3
+let g:tagbar_sort = 0
+let g:tagbar_position = 'topleft vertical'
+let g:tagbar_iconchars = ['', '']
 
 
 " Function definitions
