@@ -71,6 +71,16 @@ set cursorline              " highlight current line
 set ttyfast                 " speed up scrolling
 set foldmethod=manual       " enable folding
 set spell                   " enable spell check (may need to download language package)
+set termguicolors           " enable 24bit terminal colors
+
+
+" Cursor Appearance
+set guicursor=n-v-c:block-Cursor
+set guicursor+=i:ver100-iCursor
+set guicursor+=n-v-c:blinkon0
+set guicursor+=i:blinkwait10
+let &t_SI .= "\e[6 q"
+let &t_EI .= "\e[2 q"
 
 
 " Special characters
