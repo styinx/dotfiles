@@ -1,0 +1,14 @@
+[user]
+    email = zornchrisjo@gmail.com
+    name = Chris
+[alias]
+    l = log --pretty=format:'%C(auto)%H%C(reset) %ci %>(12)%cr %C(cyan)%an%C(reset) %s %C(auto)%d%C(reset)'
+    la = l --author="$1"
+    s = status
+    t = l --tags --no-walk
+    cl = clone --recursive
+    pl = !"git pull; git submodule foreach git pull origin master"
+    am = commit --ammend --no-edit
+    g = log --graph --color --pretty=format:'%C(auto)%H%C(auto)%d%C(reset)%n%cd %C(green)(%cr)%C(reset)%n %C(cyan)%cn (%ce)%C(reset)%n %s%n'
+    fc = l --name-only -S$1
+    fm = l --grep=$1
