@@ -1,18 +1,22 @@
-" System
+" [System]
+
 set belloff=all
 set noerrorbells
 set visualbell
-set nobackup                " do not store backup files
-set autoread                " automatically reload files
+set nobackup                                " do not store backup files
+set autoread                                " automatically reload files
 
 
-" Plugins
+" [Plugins]
+"
 filetype off
 
 set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
   Plugin 'adelarsq/vim-matchit'
+  Plugin 'alvan/vim-closetag'
+  Plugin 'AndrewRadev/tagalong.vim'
   Plugin 'ap/vim-css-color'
   Plugin 'jaxbot/semantic-highlight.vim'
   Plugin 'junegunn/fzf.vim'
@@ -27,89 +31,100 @@ call vundle#begin()
 call vundle#end()
 
 filetype on
-filetype plugin on          " support for known file types
-filetype plugin indent on   " allow auto-indenting depending on file type
+filetype plugin on                          " support for known file types
+filetype plugin indent on                   " allow auto-indenting depending on file type
 
 set showcmd
 
 
-" Appearance
+" [Appearance]
+
+" Syntax
 syntax on                                   " syntax highlighting
-set guifont=DroidSansMono_Nerd_Font:h11     " font name and size
+set guifont=DroidSansMono_Nerd_Font:h10.5   " font name and size
 colorscheme codedark                        " name of color scheme
 
+" GUI
+set guioptions=acd                          " Auto select, console dialog, dark theme
+set guioptions-=e                           " no tab bar
+set guioptions-=m                           " no menu bar
+set guioptions-=r                           " no scroll bar
+set guioptions-=T                           " no tool bar
 
-" GUI Appearance
-set guioptions-=m           " no menu bar
-set guioptions-=T           " no tool bar
-set guioptions-=e           " no tab bar
-set guioptions-=r           " no scroll bar
-set guioptions=acd          " Auto select, console dialogs, dark theme
+" Cursor
+"set guicursor=n-c-v:block-Cursor           " in normal mode use block cursor
+"set guicursor+=i:ver100-iCursor
+"set guicursor+=n-v-c:blinkon0
+"set guicursor+=i:blinkwait10
 
-
-" Editor properties
-set noswapfile              " do not create swap files
-set laststatus=2            " show status line
-set nocompatible            " disable compatibility to old-time vi
-set showmatch               " show matching
-set number relativenumber   " show line number in current line
-set scrolloff=10            " scroll n lines beyond current line
-set ignorecase              " case insensitive
-set mouse=v                 " middle-click paste with
-set hlsearch                " highlight search
-set incsearch               " incremental search
-set tabstop=4               " number of columns occupied by a tab
-set softtabstop=4           " see multiple spaces as tab stops so <BS> does the right thing
-set expandtab               " converts tabs to white space
-set shiftwidth=4            " width for indents
-set autoindent              " indent a new line the same amount as the line just typed
-set wildmode=longest,list   " get bash-like tab completions
-set cc=100                  " set an 100 column border
-set mouse=a                 " enable mouse click
-set encoding=utf-8          " file encoding
-set cursorline              " highlight current line
-set ttyfast                 " speed up scrolling
-set foldmethod=manual       " enable folding
-set spell                   " enable spell check (may need to download language package)
-set termguicolors           " enable 24bit terminal colors
-
-
-" Cursor Appearance
-set guicursor=n-v-c:block-Cursor
-set guicursor+=i:ver100-iCursor
-set guicursor+=n-v-c:blinkon0
-set guicursor+=i:blinkwait10
-let &t_SI .= "\e[6 q"
-let &t_EI .= "\e[2 q"
-
-
-" Special characters
-set list                    " show special characters
-set listchars=eol:¬
-set listchars+=tab:»\
-set listchars+=trail:·
-set listchars+=space:·
-set listchars+=extends:›
-set listchars+=precedes:‹
-
+let &t_SI .= "\e[5 q"                       " bar cursor when starting insert mode
+let &t_EI .= "\e[1 q"                       " bar cursor when ending insert mode
 
 " Status line
 set statusline=%{StatuslineMode()}
-set statusline+=\ \ \       " Separator
-set statusline+=%f\ [%n]    " File and buffer
-set statusline+=\ \ \       " Separator
-set statusline+=%k          " Key map
-set statusline+=%=          " Right aligned
-set statusline+=%2v\        " current column
-set statusline+=[%3l/%3L]   " current line, total lines
-set statusline+=\           " Separator
-set statusline+=%P          " percentage
+set statusline+=\ \ \                       " Separator
+set statusline+=%f\ [%n]                    " File and buffer
+set statusline+=\ \ \                       " Separator
+set statusline+=%k                          " Key map
+set statusline+=%=                          " Right aligned
+set statusline+=%2v\                        " current column
+set statusline+=[%3l/%3L]                   " current line, total lines
+set statusline+=\                           " Separator
+set statusline+=%P                          " percentage
 
 hi StatusLine   guifg=#cccccc guibg=#006699
 hi StatusLineNC guifg=#777777 guibg=#444444
 
 
-" Keyboard
+" [Editor]
+
+" ...
+set encoding=utf-8                          " file encoding
+set nocompatible                            " disable compatibility to old-time vi
+set noswapfile                              " do not create swap files
+set mouse=a                                 " mouse usable in any mode
+set spell                                   " enable spell check (may need to download language package)
+
+" Cursor
+set cursorline                              " highlight current line
+set number relativenumber                   " show line number in current line
+set showmatch                               " show matching symbols
+set scrolloff=10                            " scroll n lines beyond current line
+
+" Searching
+set hlsearch                                " highlight search
+set ignorecase                              " case insensitive
+set incsearch                               " incremental search
+
+" Spacing
+set autoindent                              " indent a new line the same amount as the line just typed
+set expandtab                               " converts tabs to white space
+set shiftwidth=4                            " width for indents
+set smarttab                                " auto tabs
+set softtabstop=4                           " see multiple spaces as tab stops so <BS> does the right thing
+set tabstop=4                               " number of columns occupied by a tab
+
+" Visual
+set cc=100                                  " set an 100 column border
+set foldmethod=manual                       " enable folding
+set laststatus=2                            " always show status line
+set termguicolors                           " enable 24bit terminal colors
+set ttyfast                                 " speed up scrolling
+set wildmode=longest,list                   " get bash-like tab completions
+
+" Special characters
+set list                                    " show special characters
+set listchars=eol:¬
+set listchars+=extends:›
+set listchars+=precedes:‹
+set listchars+=tab:»\
+set listchars+=trail:·
+set listchars+=space:·
+
+
+" [Keyboard]
+
+" Keymaps
 let mapleader=' '
 nmap <F8> :TagbarToggle<CR>
 map <F11> <Esc>:call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 0)<CR>
@@ -129,15 +144,31 @@ inoremap ( ()<Esc>i
 inoremap " ""<Esc>i
 inoremap ' ''<Esc>i
 
-set backspace=eol,start,indent
+" Backspace
+set backspace=eol,start,indent              "
+set whichwrap+=b                            " allow backspace to move the cursor
 
 
-" autocmd
+" [autocmd]
+
 autocmd BufWritePre *.h,*.hpp,*.c,*.cpp :call FormatBuffer()
 autocmd BufWritePre * :%s/\s\+$//e
+au BufNewFile,BufRead,BufReadPost *.template set syntax=HTML
 
 
-" Plugin - Semantic Highlight
+" [Plugin - Closetag]
+
+let g:closetag_filenames = '*.html,*.xml'
+let g:closetag_filetypes = 'html,xml'
+
+
+" [Plugin - Tagalong]
+
+let g:tagalong_filetypes = ['html', 'xml']
+
+
+" [Plugin - Semantic Highlight]
+
 let g:semanticGUIColors = [
   \"#4c93a1","#97a65f","#99b68f","#b0a568","#9d70a8",
   \"#b56069","#6a90af","#9f714e","#b77f69","#7fbe6a",
@@ -162,7 +193,8 @@ let g:semanticGUIColors = [
 \]
 
 
-" Plugin - Airline
+" [Plugin - Airline]
+
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
@@ -186,10 +218,14 @@ let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.dirty='⚡'
 
-" Plugin - Indent lines
+
+" [Plugin - Indent lines]
+
 let g:indentLine_char = '|'
 
-" Plugin - Tagbar
+
+" [Plugin - Tagbar]
+
 let g:tagbar_ctags_bin = '~/ctags/ctags.exe'
 let g:tagbar_autofocus = 1
 let g:tagbar_autoclose = 1
@@ -202,8 +238,9 @@ let g:tagbar_position = 'topleft vertical'
 let g:tagbar_iconchars = ['', '']
 
 
-" Function definitions
+" [Functions]
 
+" Show mode in status line
 function! StatuslineMode()
   let l:mode=mode()
   if l:mode==#"n"
@@ -225,6 +262,7 @@ function! StatuslineMode()
   endif
 endfunction
 
+" Format c,c++ files
 function FormatBuffer()
   if &modified && !empty(findfile('.clang-format', expand('%:p:h') . ';'))
     let cursor_pos = getpos('.')
