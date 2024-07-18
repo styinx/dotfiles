@@ -1,26 +1,24 @@
+"""
+Copy configuration files from repository directory to home directory.
+"""
 from sys import version_info
 from pathlib import Path
 from shutil import copy, copytree
+from blacklist import blacklist
 
 if version_info < (3, 8, 0):
     print(f'Python version {version_info} too old')
     exit(1)
 
-blacklist = [
-    '.git',
-    'read.py',
-    'write.py'
-]
+repo = Path(__file__).parent.resolve()
+home = Path().home() / 'test'
+ignore = list(map(lambda x : repo / x, blacklist))
 
-src = Path(__file__).parent.resolve()
-dst = Path().home() / 'test'
-blackpaths = list(map(lambda x : src / x, blacklist))
-
-for entry in src.glob('*'):
-    if entry in blackpaths:
+for entry in repo.glob('*'):
+    if entry in ignore:
         continue
 
-    new_entry = dst / entry.relative_to(src)
+    new_entry = home / entry.relative_to(repo)
     if entry.is_file():
         copy(entry, new_entry)
     else:
