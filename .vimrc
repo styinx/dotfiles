@@ -41,7 +41,7 @@ set showcmd
 
 " Syntax
 syntax on                                   " syntax highlighting
-set guifont=DroidSansMono_Nerd_Font:h10.5   " font name and size
+set guifont=DroidSansM_Nerd_Font:h10.5      " font name and size
 colorscheme codedark                        " name of color scheme
 
 " GUI
