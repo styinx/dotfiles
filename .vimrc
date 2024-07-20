@@ -95,6 +95,7 @@ set scrolloff=10                            " scroll n lines beyond current line
 set hlsearch                                " highlight search
 set ignorecase                              " case insensitive
 set incsearch                               " incremental search
+set smartcase                               " ignore lowercase
 
 " Spacing
 set autoindent                              " indent a new line the same amount as the line just typed
@@ -105,7 +106,7 @@ set softtabstop=4                           " see multiple spaces as tab stops s
 set tabstop=4                               " number of columns occupied by a tab
 
 " Visual
-set cc=100                                  " set an 100 column border
+set colorcolumn=100                         " set an 100 column border
 set foldmethod=manual                       " enable folding
 set laststatus=2                            " always show status line
 set termguicolors                           " enable 24bit terminal colors
@@ -117,9 +118,9 @@ set list                                    " show special characters
 set listchars=eol:¬
 set listchars+=extends:›
 set listchars+=precedes:‹
+set listchars+=space:·
 set listchars+=tab:»\
 set listchars+=trail:·
-set listchars+=space:·
 
 
 " [Keyboard]
@@ -132,12 +133,8 @@ map <leader>f :call FormatBuffer()<CR>
 nmap tj :TagbarOpen('cfj')<CR>
 nmap <leader>s :SemanticHighlightToggle<CR>
 nmap <leader>o <Esc>o<Esc>
-nmap <C-j> <C-e>
-nmap <C-k> <C-y>
-nmap <S-A-o> :execute 'GFiles'<CR>
-nmap <S-A-s> :execute ls<CR>
 inoremap <leader>{ {<CR><BS>}<Esc>ko
-inoremap jk <ESC>
+inoremap jk <Esc>
 inoremap { {}<Esc>i
 inoremap [ []<Esc>i
 inoremap ( ()<Esc>i
