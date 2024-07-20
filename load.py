@@ -11,7 +11,7 @@ if version_info < (3, 8, 0):
     exit(1)
 
 repo = Path(__file__).parent.resolve()
-home = Path().home() / 'test'
+home = Path().home()
 ignore = list(map(lambda x : repo / x, blacklist))
 
 for entry in repo.glob('*'):
