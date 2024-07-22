@@ -4,15 +4,15 @@ Copy configuration files from home directory to repo directory.
 from sys import version_info
 from pathlib import Path
 from shutil import copy, copytree
-from blacklist import blacklist
+from blacklist import blacklist, check, confirm
 
-if version_info < (3, 8, 0):
-    print(f'Python version {version_info} too old')
-    exit(1)
+check()
 
 repo = Path(__file__).parent.resolve()
 home = Path().home()
 ignore = list(map(lambda x : repo / x, blacklist))
+
+confirm(home, repo)
 
 for replace_entry in repo.glob('*'):
     if replace_entry in ignore:
