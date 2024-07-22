@@ -1,9 +1,7 @@
 """
 Copy configuration files from home directory to repo directory.
 """
-from util import copy, entries, home, repo
+from util import copy, home, repo
 
 
-ignore = list(map(lambda x : repo / x, entries))
-
-copy(home, repo, ignore)
+copy(home, repo)

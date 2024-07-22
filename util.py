@@ -3,6 +3,18 @@ from pathlib import Path
 from sys import version_info
 
 
+home = Path().home()
+repo = Path(__file__).parent.resolve()
+entries = repo.glob('*')
+ignore = [
+    '.git',
+    '__pycache__',
+    'install.py',
+    'backup.py',
+    'util.py',
+]
+
+
 def check():
     if version_info < (3, 8, 0):
         print(f'Python version {version_info} too old')
@@ -16,30 +28,23 @@ def confirm(src: Path, dst: Path):
         exit(1)
 
 
-def copy(src: Path, dst: Path, ignore: [Path]):
+def copy(src: Path, dst: Path):
+
     confirm(src, dst)
 
-    for entry in src.glob('*'):
-        if entry in ignore:
+    for entry in entries:
+        if entry.name in ignore:
             continue
 
-        new_entry = dst / entry.relative_to(src)
-        if entry.is_file():
-            shutil.copy(entry, new_entry)
-        else:
-            shutil.copytree(entry, new_entry, dirs_exist_ok=True)
+        s_entry = src / entry.name
+        d_entry = dst / entry.name
 
-        print(f'{str(entry):40s} -> {str(new_entry):40s}')
+        if s_entry.is_file():
+            shutil.copy(s_entry, d_entry)
+        else:
+            shutil.copytree(s_entry, d_entry, dirs_exist_ok=True)
+
+        print(f'{str(s_entry):40s} -> {str(d_entry):40s}')
 
 
 check()
-
-repo = Path(__file__).parent.resolve()
-home = Path().home()
-
-entries = [
-    '.git',
-    'install.py',
-    'backup.py',
-    'util.py',
-]
