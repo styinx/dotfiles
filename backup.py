@@ -1,7 +1,9 @@
 """
 Copy configuration files from home directory to repo directory.
 """
-from util import copy, home, repo
+from util import confirm, recurse, home, repo, exceptions
 
 
-copy(home, repo)
+confirm(home, repo)
+
+recurse(repo, home, repo, exceptions)

@@ -1,18 +1,8 @@
-import shutil
+from os import getenv
+from platform import system
 from pathlib import Path
+from shutil import copy, copytree
 from sys import version_info
-
-
-home = Path().home()
-repo = Path(__file__).parent.resolve()
-entries = repo.glob('*')
-ignore = [
-    '.git',
-    '__pycache__',
-    'install.py',
-    'backup.py',
-    'util.py',
-]
 
 
 def check():
@@ -28,23 +18,52 @@ def confirm(src: Path, dst: Path):
         exit(1)
 
 
-def copy(src: Path, dst: Path):
-
-    confirm(src, dst)
-
-    for entry in entries:
+def recurse(path: Path, src, dst, exceptions: dict):
+    for entry in path.glob('*'):
         if entry.name in ignore:
             continue
 
-        s_entry = src / entry.name
-        d_entry = dst / entry.name
+        postfix = entry.relative_to(repo)
+        s_entry = src / postfix
+        d_entry = dst / postfix
+
+        if entry.name in exceptions:
+            if not isinstance(list(exceptions[entry.name].values())[0], dict):
+                exception = exceptions[entry.name][system()] / entry.name
+                if src == repo:
+                    d_entry = exception
+                else:
+                    s_entry = exception
+            else:
+                recurse(entry, src, dst, exceptions[entry.name])
+                continue
 
         if s_entry.is_file():
-            shutil.copy(s_entry, d_entry)
+            copy(s_entry, d_entry)
         else:
-            shutil.copytree(s_entry, d_entry, dirs_exist_ok=True)
+            copytree(s_entry, d_entry, dirs_exist_ok=True)
 
-        print(f'{str(s_entry):40s} -> {str(d_entry):40s}')
+        print(f'{str(s_entry):60s} -> {str(d_entry):60s}')
+
+
+exceptions = {
+    '.config' : {
+        'nvim' : {
+            'Windows': Path(getenv('LOCALAPPDATA'))
+        }
+    },
+}
 
 
 check()
+
+home = Path().home()
+repo = Path(__file__).parent.resolve()
+ignore = [
+    '.git',
+    '__pycache__',
+    'wt',
+    'install.py',
+    'backup.py',
+    'util.py',
+]
