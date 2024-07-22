@@ -126,6 +126,7 @@ nmap tj :TagbarOpen('cfj')<CR>
 nmap <leader>s :SemanticHighlightToggle<CR>
 nmap <leader>o <Esc>o<Esc>
 inoremap <leader>{ <Space>{<CR><BS>}<Esc>O
+inoremap <leader>[ <Space>{<CR><BS>}<Esc>O
 inoremap jk <Esc>
 inoremap { {}<Esc>i
 inoremap [ []<Esc>i
