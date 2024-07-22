@@ -14,20 +14,12 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
-  Plugin 'adelarsq/vim-matchit'
-  Plugin 'alvan/vim-closetag'
-  Plugin 'AndrewRadev/tagalong.vim'
-  Plugin 'ap/vim-css-color'
   Plugin 'jaxbot/semantic-highlight.vim'
   Plugin 'junegunn/fzf.vim'
   Plugin 'junegunn/fzf'
-  Plugin 'preservim/tagbar'
-  Plugin 'tpope/vim-fugitive'
   Plugin 'vim-airline/vim-airline'
   Plugin 'vim-airline/vim-airline-themes'
   Plugin 'VundleVim/Vundle.vim'
-  Plugin 'yegappan/taglist'
-  Plugin 'Yggdroot/indentLine'
 call vundle#end()
 
 filetype on
@@ -153,17 +145,6 @@ autocmd BufWritePre * :%s/\s\+$//e
 au BufNewFile,BufRead,BufReadPost *.template set syntax=HTML
 
 
-" [Plugin - Closetag]
-
-let g:closetag_filenames = '*.html,*.xml'
-let g:closetag_filetypes = 'html,xml'
-
-
-" [Plugin - Tagalong]
-
-let g:tagalong_filetypes = ['html', 'xml']
-
-
 " [Plugin - Semantic Highlight]
 
 let g:semanticGUIColors = [
@@ -214,25 +195,6 @@ let g:airline_right_alt_sep = ''
 let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.dirty='⚡'
-
-
-" [Plugin - Indent lines]
-
-let g:indentLine_char = '|'
-
-
-" [Plugin - Tagbar]
-
-let g:tagbar_ctags_bin = '~/ctags/ctags.exe'
-let g:tagbar_autofocus = 1
-let g:tagbar_autoclose = 1
-let g:tagbar_autoshowtag = 1
-let g:tagbar_compact = 2
-let g:tagbar_indent = 2
-let g:tagbar_foldlevel = 3
-let g:tagbar_sort = 0
-let g:tagbar_position = 'topleft vertical'
-let g:tagbar_iconchars = ['', '']
 
 
 " [Functions]
