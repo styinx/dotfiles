@@ -1,4 +1,12 @@
 return {
-    'williamboman/mason.nvim',
-    cmd = 'Mason'
+
+  "williamboman/mason.nvim",
+  opts = {
+    ensure_installed = {
+      "clangd",
+      "cmake",
+      "lua_ls",
+      "pyright",
+    },
+  },
 }

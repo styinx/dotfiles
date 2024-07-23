@@ -14,6 +14,7 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
+  Plugin 'bfrg/vim-cpp-modern'
   Plugin 'jaxbot/semantic-highlight.vim'
   Plugin 'junegunn/fzf.vim'
   Plugin 'junegunn/fzf'
