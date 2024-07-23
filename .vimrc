@@ -5,6 +5,7 @@ set noerrorbells
 set visualbell
 set nobackup                                " do not store backup files
 set autoread                                " automatically reload files
+set termguicolors                           " enable 24bit terminal colors
 
 
 " [Plugins]
@@ -102,7 +103,6 @@ set tabstop=4                               " number of columns occupied by a ta
 set colorcolumn=100                         " set an 100 column border
 set foldmethod=manual                       " enable folding
 set laststatus=2                            " always show status line
-set termguicolors                           " enable 24bit terminal colors
 set ttyfast                                 " speed up scrolling
 set wildmode=longest,list                   " get bash-like tab completions
 
