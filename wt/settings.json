@@ -13,6 +13,10 @@
             "keys": "alt+shift+d"
         },
         {
+            "command": "find",
+            "keys": "ctrl+shift+f"
+        },
+        {
             "command": "unbound",
             "keys": "ctrl+shift+w"
         },
@@ -21,8 +25,12 @@
             "keys": "ctrl+shift+t"
         },
         {
-            "command": "find",
-            "keys": "ctrl+shift+f"
+            "command": 
+            {
+                "action": "copy",
+                "singleLine": false
+            },
+            "keys": "ctrl+c"
         },
         {
             "command": 
@@ -34,14 +42,6 @@
         {
             "command": "closePane",
             "keys": "alt+shift+w"
-        },
-        {
-            "command": 
-            {
-                "action": "copy",
-                "singleLine": false
-            },
-            "keys": "ctrl+c"
         },
         {
             "command": "paste",
@@ -63,25 +63,33 @@
     "initialCols": 100,
     "initialRows": 60,
     "launchMode": "default",
+    "newTabMenu": 
+    [
+        {
+            "type": "remainingProfiles"
+        }
+    ],
     "profiles": 
     {
         "defaults": 
         {
-            "cursorColor": "#FFFFFF",
+          "colorScheme": "Campbell",
+            "cursorColor": "#DDDDDD",
             "font": 
             {
                 "face": "Consolas",
-                "size": 10.0
+                "size": 10.5
             },
             "padding": "0, 0, 0, 0"
         },
         "list": 
         [
             {
-                "colorScheme": "OneStar",
+                "colorScheme": "Campbell",
                 "font": 
                 {
-                    "face": "Cascadia Code PL"
+                    "face": "CaskaydiaCove NFM",
+                    "size": 10.5
                 },
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
                 "hidden": false,
@@ -117,18 +125,6 @@
                 "icon": "C:/cygwin64/Cygwin-Terminal.ico",
                 "name": "Cygwin",
                 "startingDirectory": "C:/cygwin64/home/%USERNAME%"
-            },
-            {
-                "guid": "{f2dc8d1a-0fc8-5167-9168-7f74cd73ef50}",
-                "hidden": false,
-                "name": "Developer Command Prompt for VS 2022",
-                "source": "Windows.Terminal.VisualStudio"
-            },
-            {
-                "guid": "{e405d619-4174-58b5-a139-e94deef58854}",
-                "hidden": false,
-                "name": "Developer PowerShell for VS 2022",
-                "source": "Windows.Terminal.VisualStudio"
             }
         ]
     },
@@ -148,13 +144,13 @@
             "brightYellow": "#F9F1A5",
             "cursorColor": "#FFFFFF",
             "cyan": "#3A96DD",
-            "foreground": "#CCCCCC",
+            "foreground": "#AAAAAA",
             "green": "#13A10E",
             "name": "Campbell",
             "purple": "#881798",
             "red": "#C50F1F",
-            "selectionBackground": "#FFFFFF",
-            "white": "#CCCCCC",
+            "selectionBackground": "#888888",
+            "white": "#AAAAAA",
             "yellow": "#C19C00"
         },
         {
@@ -386,6 +382,29 @@
             "selectionBackground": "#FFFFFF",
             "white": "#B5BBAE",
             "yellow": "#C4A000"
+        },
+        {
+            "background": "#300A24",
+            "black": "#171421",
+            "blue": "#0037DA",
+            "brightBlack": "#767676",
+            "brightBlue": "#08458F",
+            "brightCyan": "#2C9FB3",
+            "brightGreen": "#26A269",
+            "brightPurple": "#A347BA",
+            "brightRed": "#C01C28",
+            "brightWhite": "#F2F2F2",
+            "brightYellow": "#A2734C",
+            "cursorColor": "#FFFFFF",
+            "cyan": "#3A96DD",
+            "foreground": "#FFFFFF",
+            "green": "#26A269",
+            "name": "Ubuntu-ColorScheme",
+            "purple": "#881798",
+            "red": "#C21A23",
+            "selectionBackground": "#FFFFFF",
+            "white": "#CCCCCC",
+            "yellow": "#A2734C"
         },
         {
             "background": "#000000",
