@@ -92,11 +92,12 @@
         {
           "type": "exit",
           "style": "plain",
-          "template": "{{ .Code }}",
-          "foreground": "#33CC11",
+          "template": " {{ if gt .Code 0 }}\uf00d {{ reason .Code }}{{ else }}\uf42e{{ end }} ",
+          "foreground": "#DDDDDD",
           "foreground_templates": 
           [
-            "{{ if gt .Code 0 }}#CC3333{{ end }}"
+            "{{ if gt .Code 0 }}#CC3333{{ end }}",
+            "{{ if eq .Code 0 }}#33CC33{{ end }}"
           ],
           "properties": 
           {
