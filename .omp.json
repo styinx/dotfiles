@@ -33,14 +33,14 @@
           "foreground": "#0099CC",
           "foreground_templates": 
           [
-            "{{ if gt .Ahead 0 }}#0099CC{{ end }}",
-            "{{ if gt .Behind 0 }}#CC9900{{ end }}"
+            "{{ if gt .Ahead 0 }}#CC0099{{ end }}",
+            "{{ if gt .Behind 0 }}#9900CC{{ end }}"
           ],
           "background": "#002244",
           "background_templates": 
           [
-            "{{ if gt .Ahead 0 }}#002244{{ end }}",
-            "{{ if gt .Behind 0 }}#442200"
+            "{{ if gt .Ahead 0 }}#440022{{ end }}",
+            "{{ if gt .Behind 0 }}#220044{{ end }}"
           ],
           "properties": 
           {
