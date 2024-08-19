@@ -3,13 +3,15 @@
   "version": 2,
   "final_space": true,
   "console_title": true,
-  "console_title_template": "{{.PWD}}",
-  "blocks": [
+  "console_title_template": "{{ .PWD }}",
+  "blocks": 
+  [
     {
       "type": "prompt",
       "alignment": "left",
       "newline": true,
-      "segments": [
+      "segments": 
+      [
         {
           "type": "path",
           "style": "diamond",
@@ -17,7 +19,8 @@
           "template": "{{ .Path }} ",
           "foreground": "#00AA00",
           "background": "#003300",
-          "properties": {
+          "properties": 
+          {
             "style": "full",
             "folder_separator_icon": "/"
           }
@@ -28,16 +31,19 @@
           "trailing_diamond": "\ue0b0",
           "template": " {{ .HEAD }}{{ if gt .Ahead 0 }} +{{.Ahead}}{{end}}{{ if gt .Behind 0 }} -{{.Behind}}{{end}} ",
           "foreground": "#0099CC",
-          "foreground_templates": [
+          "foreground_templates": 
+          [
             "{{ if gt .Ahead 0 }}#0099CC{{ end }}",
             "{{ if gt .Behind 0 }}#CC9900{{ end }}"
           ],
           "background": "#002244",
-          "background_templates": [
+          "background_templates": 
+          [
             "{{ if gt .Ahead 0 }}#002244{{ end }}",
             "{{ if gt .Behind 0 }}#442200"
           ],
-           "properties": {
+          "properties": 
+          {
             "branch_max_length": 25,
             "fetch_status": true,
             "cherry_pick_icon": "\u2713 ",
@@ -55,7 +61,8 @@
           "foreground": "#CCCC00",
           "background": "#333300",
           "template": "{{ if gt .Working.Modified 0 }} *{{ .Working.Modified}}{{ end }}{{ if gt .Working.Added 0 }} +{{ .Working.Added}}{{ end }}{{ if gt .Working.Deleted 0 }} -{{ .Working.Deleted}}{{ end }} ",
-          "properties": {
+          "properties": 
+          {
             "fetch_status": true
           }
         },
@@ -66,7 +73,8 @@
           "foreground": "#DDAA00",
           "background": "#442200",
           "template": "{{ if gt .Staging.Added 0 }} +{{ .Staging.Added}}{{ end }}{{ if gt .Staging.Deleted 0 }} -{{ .Staging.Deleted}}{{ end }}{{ if gt .Staging.Untracked 0 }} ?{{ .Staging.Untracked}}{{ end }} ",
-          "properties": {
+          "properties": 
+          {
             "fetch_status": true
           }
         },
@@ -75,7 +83,8 @@
           "style": "plain",
           "template": " {{ .FormattedMs }} ",
           "foreground": "#DDDDDD",
-          "properties": {
+          "properties": 
+          {
             "always_enabled": false,
             "style": "round"
           }
@@ -83,12 +92,14 @@
         {
           "type": "exit",
           "style": "plain",
-          "template": "",
+          "template": "{{ .Code }}",
           "foreground": "#33CC11",
-          "foreground_templates": [
+          "foreground_templates": 
+          [
             "{{ if gt .Code 0 }}#CC3333{{ end }}"
           ],
-          "properties": {
+          "properties": 
+          {
             "always_enabled": false
           }
         }
