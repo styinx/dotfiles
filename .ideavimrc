@@ -1,0 +1,67 @@
+" [Editor]
+
+" ...
+set encoding=utf-8                          " file encoding
+set nocompatible                            " disable compatibility to old-time vi
+set noswapfile                              " do not create swap files
+set mouse=a                                 " mouse usable in any mode
+set spell                                   " enable spell check (may need to download language package)
+
+" Cursor
+set cursorline                              " highlight current line
+set number relativenumber                   " show line number in current line
+set showmatch                               " show matching symbols
+set scrolloff=10                            " scroll n lines beyond current line
+
+" Searching
+set hlsearch                                " highlight search
+set ignorecase                              " case insensitive
+set incsearch                               " incremental search
+set smartcase                               " ignore lowercase
+
+" Spacing
+set autoindent                              " indent a new line the same amount as the line just typed
+set expandtab                               " converts tabs to white space
+set shiftwidth=4                            " width for indents
+set smarttab                                " auto tabs
+set softtabstop=4                           " see multiple spaces as tab stops so <BS> does the right thing
+set tabstop=4                               " number of columns occupied by a tab
+
+" Visual
+set colorcolumn=100                         " set an 100 column border
+set foldmethod=manual                       " enable folding
+set laststatus=2                            " always show status line
+set ttyfast                                 " speed up scrolling
+set wildmode=longest,list                   " get bash-like tab completions
+
+" Special characters
+set list                                    " show special characters
+set listchars=eol:¬
+set listchars+=extends:›
+set listchars+=precedes:‹
+set listchars+=space:·
+set listchars+=tab:»\
+set listchars+=trail:·
+
+
+" [Keyboard]
+
+" Keymaps
+let mapleader=' '
+nmap <F8> :TagbarToggle<CR>
+map <leader>f :call FormatBuffer()<CR>
+nmap tj :TagbarOpen('cfj')<CR>
+nmap <leader>s :SemanticHighlightToggle<CR>
+nmap <leader>o <Esc>o<Esc>
+inoremap <leader>{ <Space>{<CR><BS>}<Esc>O
+inoremap <leader>[ <Space>{<CR><BS>}<Esc>O
+inoremap jk <Esc>
+inoremap { {}<Esc>i
+inoremap [ []<Esc>i
+inoremap ( ()<Esc>i
+inoremap " ""<Esc>i
+inoremap ' ''<Esc>i
+
+" Backspace
+set backspace=eol,start,indent              "
+set whichwrap+=b                            " allow backspace to move the cursor
