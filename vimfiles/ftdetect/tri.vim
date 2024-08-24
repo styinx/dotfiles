@@ -1,0 +1,1 @@
+autocmd BufRead,BufNewFile *.tri set filetype=tri
