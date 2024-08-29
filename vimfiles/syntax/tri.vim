@@ -5,13 +5,15 @@ endif
 
 " [Identifiers]
 
-syn match triIdentifier         /\<\w\+\>/
-syn match triIdentifierAlias    /\<\w\+\>/      contains=@NoSpell contained
-syn match triIdentifierCall     /\zs\w\+\ze(/   contains=@NoSpell
-syn match triIdentifierFunction /\<\w\+\>/      contains=@NoSpell contained
-syn match triIdentifierModule   /\<\w\+\>/      contains=@NoSpell contained
-syn match triIdentifierRecord   /\<\w\+\>/      contains=@NoSpell contained
-syn match triIdentifierType     /\<\w\+\>/      contains=@NoSpell contained
+syn match triIdentifier             /\<\w\+\>/      contains=@NoSpell
+syn match triIdentifierAlias        /\<\w\+\>/      contains=@NoSpell contained
+syn match triIdentifierAssignment   /\zs\w\+\ze=/   contains=@NoSpell skipwhite
+syn match triIdentifierCall         /\zs\w\+\ze(/   contains=@NoSpell
+syn match triIdentifierDefinition   /\zs\w\+\ze:/   contains=@NoSpell skipwhite
+syn match triIdentifierFunction     /\<\w\+\>/      contains=@NoSpell contained
+syn match triIdentifierModule       /\<\w\+\>/      contains=@NoSpell contained
+syn match triIdentifierRecord       /\<\w\+\>/      contains=@NoSpell contained
+syn match triIdentifierType         /\<\w\+\>/      contains=@NoSpell contained
 
 
 " [Keywords]
@@ -69,10 +71,10 @@ syn match triOpLen          /#/
 
 " [Others]
 
-syn match triNumber                     /\v<[0-9][0-9']*>/              contains=@NoSpell
-syn match triBinNumber                  /\v<0b[01][01']*>/              contains=@NoSpell
-syn match triOctNumber                  /\v<0o[0-7][0-7']*>/            contains=@NoSpell
-syn match triHexNumber                  /\v<0[hx][0-9A-F][0-9A-F']*>/   contains=@NoSpell
+syn match triNumber                     /\v<[0-9][0-9_]*>/              contains=@NoSpell
+syn match triBinNumber                  /\v<0b[01][01_]*>/              contains=@NoSpell
+syn match triOctNumber                  /\v<0o[0-7][0-7_]*>/            contains=@NoSpell
+syn match triHexNumber                  /\v<0[hx][0-9A-F][0-9A-F_]*>/   contains=@NoSpell
 
 syn match triCharacter                  /\v'[^']*'/
 syn match triString                     /\v"[^"]*"/
@@ -105,26 +107,33 @@ syn match triUnderscore                 /_/
 " [Colors]
 
 " [Color overwrite]
-hi Operator cterm=None ctermbg=None guifg=darkgreen
-hi Alias    cterm=None ctermbg=None guifg=darkyellow
-hi Call     cterm=None ctermbg=None guifg=orange
-hi Function cterm=None ctermbg=None guifg=darkcyan
-hi Module   cterm=None ctermbg=None guifg=darkred
-hi Record   cterm=None ctermbg=None guifg=gold
-hi Typename cterm=None ctermbg=None guifg=darkmagenta
+"hi Operator cterm=None ctermbg=None guifg=darkgreen
 
 " [Color definition]
+hi cOperator    cterm=None ctermbg=None guifg=darkgreen
+hi cAlias       cterm=None ctermbg=None guifg=darkyellow
+hi cAssignment  cterm=None ctermbg=None guifg=gray
+hi cCall        cterm=None ctermbg=None guifg=orange
+hi cDefinition  cterm=None ctermbg=None guifg=lightgray
+hi cFunction    cterm=None ctermbg=None guifg=darkcyan
+hi cModule      cterm=None ctermbg=None guifg=darkred
+hi cRecord      cterm=None ctermbg=None guifg=gold
+hi cTypename    cterm=None ctermbg=None guifg=darkmagenta
+
+" [Color links]
 hi def link colKeyword                  Keyword
 hi def link colIdentifier               Identifier
-hi def link colIdentifierAlias          Alias
-hi def link colIdentifierCall           Call
-hi def link colIdentifierFunction       Function
-hi def link colIdentifierModule         Module
-hi def link colIdentifierRecord         Record
+hi def link colIdentifierAlias          cAlias
+hi def link colIdentifierAssignment     cAssignment
+hi def link colIdentifierCall           cCall
+hi def link colIdentifierDefinition     cDefinition
+hi def link colIdentifierFunction       cFunction
+hi def link colIdentifierModule         cModule
+hi def link colIdentifierRecord         cRecord
 hi def link colIdentifierType           Typename
 hi def link colConstant                 Constant
 hi def link colType                     Type
-hi def link colOperator                 Operator
+hi def link colOperator                 cOperator
 hi def link colNumber                   Number
 hi def link colSpecial                  Special
 
@@ -133,7 +142,9 @@ hi def link colSpecial                  Special
 " Identifiers
 hi def link triIdentifier           colIdentifier
 hi def link triIdentifierAlias      colIdentifierAlias
+hi def link triIdentifierAssignment colIdentifierAssignment
 hi def link triIdentifierCall       colIdentifierCall
+hi def link triIdentifierDefinition colIdentifierDefinition
 hi def link triIdentifierFunction   colIdentifierFunction
 hi def link triIdentifierModule     colIdentifierModule
 hi def link triIdentifierRecord     colIdentifierRecord
