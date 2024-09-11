@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
   "version": 2,
-  "final_space": true,
+  "final_space": false,
   "console_title": true,
   "console_title_template": "{{ .PWD }}",
   "blocks": 
@@ -14,8 +14,7 @@
       [
         {
           "type": "path",
-          "style": "diamond",
-          "trailing_diamond": "\ue0b0",
+          "style": "powerline",
           "template": "{{ .Path }} ",
           "foreground": "#00AA00",
           "background": "#003300",
@@ -27,8 +26,8 @@
         },
         {
           "type": "git",
-          "style": "diamond",
-          "trailing_diamond": "\ue0b0",
+          "style": "powerline",
+          "powerline_symbol": "\ue0b0",
           "template": " {{ .HEAD }}{{ if gt .Ahead 0 }} +{{.Ahead}}{{end}}{{ if gt .Behind 0 }} -{{.Behind}}{{end}} ",
           "foreground": "#0099CC",
           "foreground_templates": 
@@ -56,8 +55,8 @@
         },
         {
           "type": "git",
-          "style": "diamond",
-          "trailing_diamond": "\ue0b0",
+          "style": "powerline",
+          "powerline_symbol": "\ue0b0",
           "foreground": "#CCCC00",
           "background": "#333300",
           "template": "{{ if gt .Working.Modified 0 }} *{{ .Working.Modified}}{{ end }}{{ if gt .Working.Added 0 }} +{{ .Working.Added}}{{ end }}{{ if gt .Working.Deleted 0 }} -{{ .Working.Deleted}}{{ end }} ",
@@ -68,8 +67,8 @@
         },
         {
           "type": "git",
-          "style": "diamond",
-          "trailing_diamond": "\ue0b0",
+          "style": "powerline",
+          "powerline_symbol": "\ue0b0",
           "foreground": "#DDAA00",
           "background": "#442200",
           "template": "{{ if gt .Staging.Added 0 }} +{{ .Staging.Added}}{{ end }}{{ if gt .Staging.Deleted 0 }} -{{ .Staging.Deleted}}{{ end }}{{ if gt .Staging.Untracked 0 }} ?{{ .Staging.Untracked}}{{ end }} ",
@@ -103,6 +102,11 @@
           {
             "always_enabled": false
           }
+        },
+        {
+            "type": "text",
+            "style": "plain",
+            "template": "\n"
         }
       ]
     }
