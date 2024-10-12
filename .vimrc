@@ -1,3 +1,5 @@
+" vim: et ts=2 sts=2 sw=2
+
 " [System]
 
 set belloff=all
@@ -40,16 +42,21 @@ colorscheme codedark                        " name of color scheme
 hi StatusLine   ctermfg=lightgray   ctermbg=lightblue   guifg=#cccccc guibg=#006699
 hi StatusLineNC ctermfg=darkgray    ctermbg=black       guifg=#777777 guibg=#444444
 
-hi ColNormal    ctermfg=red         ctermbg=darkred     guifg=#ff0000 guibg=#330000
-hi ColInsert    ctermfg=green       ctermbg=darkgreen   guifg=#00ff00 guibg=#003300
-hi ColVisual    ctermfg=blue        ctermbg=darkblue    guifg=#0000ff guibg=#000033
-hi ColReplace   ctermfg=blue        ctermbg=darkblue    guifg=#0000ff guibg=#000033
-hi ColSelect    ctermfg=blue        ctermbg=darkblue    guifg=#0000ff guibg=#000033
-hi ColCommand   ctermfg=blue        ctermbg=darkblue    guifg=#0000ff guibg=#000033
-hi ColTerminal  ctermfg=blue        ctermbg=darkblue    guifg=#0000ff guibg=#000033
-hi ColShell     ctermfg=blue        ctermbg=darkblue    guifg=#0000ff guibg=#000033
-hi ColNeutral   ctermfg=white       ctermbg=black       guifg=#ffffff guibg=#000000
 
+hi ColNormal    ctermfg=red         ctermbg=darkred     guifg=#111111 guibg=#5599dd term=bold cterm=bold gui=bold
+hi ColInsert    ctermfg=green       ctermbg=darkgreen   guifg=#111111 guibg=#ccaa33 term=bold cterm=bold gui=bold
+hi ColVisual    ctermfg=blue        ctermbg=darkblue    guifg=#111111 guibg=#cc88cc term=bold cterm=bold gui=bold
+hi ColReplace   ctermfg=blue        ctermbg=darkblue    guifg=#111111 guibg=#cc9977 term=bold cterm=bold gui=bold
+hi ColSelect    ctermfg=blue        ctermbg=darkblue    guifg=#111111 guibg=#999999 term=bold cterm=bold gui=bold
+hi ColCommand   ctermfg=blue        ctermbg=darkblue    guifg=#111111 guibg=#669955 term=bold cterm=bold gui=bold
+hi ColTerminal  ctermfg=blue        ctermbg=darkblue    guifg=#0000ff guibg=#999999 term=bold cterm=bold gui=bold
+hi ColShell     ctermfg=blue        ctermbg=darkblue    guifg=#0000ff guibg=#000033 term=bold cterm=bold gui=bold
+
+hi colorTabLine             ctermfg=lightgray   ctermbg=darkgray    guifg=#cccccc guibg=#333333
+hi colorTabActive           ctermfg=darkgray    ctermbg=lightblue   guifg=#111111 guibg=#4499ee term=bold cterm=bold gui=bold
+hi colorTabInactive         ctermfg=gray        ctermbg=darkgray    guifg=#999999 guibg=#333333
+
+hi colorStatusLine ctermfg=lightgray   ctermbg=darkgray    guifg=#cccccc guibg=#333333
 hi colorGray    ctermfg=lightgray    ctermbg=darkgray    guifg=#999999 guibg=#333333
 hi colorRed     ctermfg=lightred     ctermbg=darkred     guifg=#CC3333 guibg=#330000
 hi colorGreen   ctermfg=lightgreen   ctermbg=darkgreen   guifg=#00AA00 guibg=#003300
@@ -73,20 +80,6 @@ set guioptions-=T                           " no tool bar
 
 let &t_SI .= "\e[5 q"                       " bar cursor when starting insert mode
 let &t_EI .= "\e[1 q"                       " bar cursor when ending insert mode
-
-" Status line
-
-" TODO
-let s:sl_sections = [
-  \ [function('StatusLineVimMode')],
-  \ [function('StatusLineFileStatus'), 'colorGreen'],
-  \ [function('StatusLineFileEncoding'), 'colorPurple'],
-  \ [function('StatusLineCenter'), 'colorGray'],
-  \ [function('StatusLineGitBranch')],
-  \ ['%=', 'colorRed'],
-  \ [function('StatusLineBufferStatus'), 'colorCyan'],
-  \ [function('StatusLineEditorStatus'), 'colorGreen'],
-\]
 
 
 " [Editor]
@@ -161,23 +154,6 @@ set backspace=eol,start,indent              " allow backspace to behave normally
 set whichwrap+=b                            " allow backspace to move the cursor
 
 
-" [autocmd]
-
-" 
-augroup Statusline
-  autocmd!
-  autocmd WinLeave,BufLeave * setlocal statusline=%f
-  autocmd WinEnter,BufEnter * setlocal statusline=%!StatusLineCreate()
-  autocmd WinEnter,BufEnter * setlocal tabline=%!TabLineCreate()
-augroup END
-
-"
-augroup Formatting
-  autocmd!
-  autocmd BufWritePre *.h,*.hpp,*.c,*.cpp :call FormatBuffer()
-augroup END
-
-
 " [Plugin - Semantic Highlight]
 
 let g:semanticGUIColors = [
@@ -218,6 +194,7 @@ endfunction
 
 " [Functions - Statusline and Tabline]
 
+let g:last_color = 'ColorGray'
 " Blend between two background colors
 function HiBlend(a, b, inverse=0)
     let l:a = a:a
@@ -264,7 +241,9 @@ endfunction
 
 " Return git branch and its color
 function StatusLineGitBranch()
+  "let l:branch = trim(system("git -C " . expand('%:p:h:S') . " rev-parse --abbrev-ref HEAD"))
   let l:branch = ''
+  "echo reltime()
   
   if v:shell_error != 0
     return ['', 'colorGray']
@@ -322,6 +301,7 @@ function StatusLineCreate()
 
     let g:sl .=  '%#' . HiBlend(g:last_color, l:color, l:separator) . '#'
 
+    "      
     if l:separator == 0
       let g:sl .=  ''
     else
@@ -342,30 +322,75 @@ function StatusLineCreate()
 endfunction
 
 function! TabLineCreate()
-  let g:tl = '%=Tabs '
-  let g:last_color = 'ColorCyan'
+  let l:tl = ''
+  let l:color = ''
   
-  for tab in range(1, tabpagenr('$'))
-
-    let g:tl .= '%#' . g:last_color . '#'
-    let g:tl .= ' '. l:tab .' '
+  for l:tab in range(1, tabpagenr('$'))
+    let l:buffer_list = tabpagebuflist(l:tab)
 
     if l:tab == tabpagenr()
-      let l:color = 'ColorRed'
+      let l:color = 'colorTabActive'
     else
-      let l:color = 'ColorBlue'
+      let l:color = 'colorTabInactive'
     endif
 
-    let g:tl .= '%#' . HiBlend(g:last_color, l:color, 0) . '#'
-    let g:tl .= '%#' . l:color . '#'
-    let g:last_color = l:color
+    " Tab index
+    let l:tl .= '%#' . l:color . '#'
+    let l:tl .= ' '. l:tab
 
-    let g:tl .= fnamemodify(bufname(tabpagebuflist(l:tab)[tabpagewinnr(l:tab) - 1]), ':t')
-    let l:color = 'ColorCyan'
+    " Any buffer in the tab modified
+    let l:modified = ' | '
+    for l:buffer in l:buffer_list
+      if getbufinfo(l:buffer)[0].changed
+        let l:modified = '*| '
+        break
+      endif
+    endfor 
+    let l:tl .= l:modified
 
-    let g:tl .= '%#' . HiBlend(g:last_color, l:color, 0) . '#'
-    let g:last_color = l:color
+    " Last active buffer
+    let l:active_buffer = l:buffer_list[tabpagewinnr(l:tab) - 1]
+    let l:tl .= fnamemodify(bufname(l:active_buffer), ':t')
+    let l:tl .= getbufinfo(l:active_buffer)[0].changed ? '* ' : '  '
+
+    " Ending triangle
+    if l:tab == tabpagenr()
+      let l:tl .= '%#' . HiBlend('colorTabActive', 'colorTabInactive') . '#'
+      let l:tl .= "\ue0bc"
+    endif
   endfor
-  
-  return g:tl
+
+  return l:tl . '%#colorTabLine#'
 endfunction
+
+
+" [autocmd]
+
+" 
+augroup Statusline
+  autocmd!
+  autocmd WinLeave,BufLeave * setlocal statusline=%f
+  autocmd WinEnter,BufEnter * setlocal statusline=%!StatusLineCreate()
+  autocmd WinEnter,BufEnter * setlocal tabline=%!TabLineCreate()
+augroup END
+
+"
+augroup Formatting
+  autocmd!
+  autocmd BufWritePre *.h,*.hpp,*.c,*.cpp :call FormatBuffer()
+augroup END
+
+
+" Status line
+
+" TODO
+let s:sl_sections = [
+  \ [function('StatusLineVimMode')],
+  \ [function('StatusLineFileStatus'), 'colorGreen'],
+  \ [function('StatusLineFileEncoding'), 'colorPurple'],
+  \ [function('StatusLineCenter'), 'colorGray'],
+  \ [function('StatusLineGitBranch')],
+  \ ['%=', 'colorRed'],
+  \ [function('StatusLineBufferStatus'), 'colorCyan'],
+  \ [function('StatusLineEditorStatus'), 'colorGreen'],
+\]
