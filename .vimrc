@@ -39,31 +39,30 @@ set guifont=DroidSansM_Nerd_Font:h10.5      " font name and size
 " Colors
 colorscheme codedark                        " name of color scheme
 
-hi StatusLine   ctermfg=lightgray   ctermbg=lightblue   guifg=#cccccc guibg=#006699
-hi StatusLineNC ctermfg=darkgray    ctermbg=black       guifg=#777777 guibg=#444444
+hi StatusLine               ctermfg=lightgray       ctermbg=lightblue   guifg=#cccccc guibg=#006699
+hi StatusLineNC             ctermfg=darkgray        ctermbg=black       guifg=#777777 guibg=#444444
 
+hi colorTabLine             ctermfg=lightgray       ctermbg=darkgray    guifg=#cccccc guibg=#333333
+hi colorTabActive           ctermfg=darkgray        ctermbg=lightblue   guifg=#111111 guibg=#4499ee term=bold cterm=bold gui=bold
+hi colorTabInactive         ctermfg=gray            ctermbg=darkgray    guifg=#999999 guibg=#333333
 
-hi ColNormal    ctermfg=red         ctermbg=darkred     guifg=#111111 guibg=#5599dd term=bold cterm=bold gui=bold
-hi ColInsert    ctermfg=green       ctermbg=darkgreen   guifg=#111111 guibg=#ccaa33 term=bold cterm=bold gui=bold
-hi ColVisual    ctermfg=blue        ctermbg=darkblue    guifg=#111111 guibg=#cc88cc term=bold cterm=bold gui=bold
-hi ColReplace   ctermfg=blue        ctermbg=darkblue    guifg=#111111 guibg=#cc9977 term=bold cterm=bold gui=bold
-hi ColSelect    ctermfg=blue        ctermbg=darkblue    guifg=#111111 guibg=#999999 term=bold cterm=bold gui=bold
-hi ColCommand   ctermfg=blue        ctermbg=darkblue    guifg=#111111 guibg=#669955 term=bold cterm=bold gui=bold
-hi ColTerminal  ctermfg=blue        ctermbg=darkblue    guifg=#0000ff guibg=#999999 term=bold cterm=bold gui=bold
-hi ColShell     ctermfg=blue        ctermbg=darkblue    guifg=#0000ff guibg=#000033 term=bold cterm=bold gui=bold
+hi colorStatusLineNormal    ctermfg=darkgray        ctermbg=lightblue   guifg=#111111 guibg=#5599dd term=bold cterm=bold gui=bold
+hi colorStatusLineInsert    ctermfg=darkgray        ctermbg=darkyellow  guifg=#111111 guibg=#ccaa22 term=bold cterm=bold gui=bold
+hi colorStatusLineVisual    ctermfg=darkgray        ctermbg=darkmagenta guifg=#111111 guibg=#cc88cc term=bold cterm=bold gui=bold
+hi colorStatusLineReplace   ctermfg=darkgray        ctermbg=lightred    guifg=#111111 guibg=#cc9977 term=bold cterm=bold gui=bold
+hi colorStatusLineSelect    ctermfg=darkgray        ctermbg=darkblue    guifg=#111111 guibg=#999999 term=bold cterm=bold gui=bold
+hi colorStatusLineCommand   ctermfg=darkgray        ctermbg=lightgreen  guifg=#111111 guibg=#669955 term=bold cterm=bold gui=bold
+hi colorStatusLineTerminal  ctermfg=darkgray        ctermbg=darkblue    guifg=#111111 guibg=#999999 term=bold cterm=bold gui=bold
+hi colorStatusLineShell     ctermfg=darkgray        ctermbg=darkblue    guifg=#111111 guibg=#999999 term=bold cterm=bold gui=bold
 
-hi colorTabLine             ctermfg=lightgray   ctermbg=darkgray    guifg=#cccccc guibg=#333333
-hi colorTabActive           ctermfg=darkgray    ctermbg=lightblue   guifg=#111111 guibg=#4499ee term=bold cterm=bold gui=bold
-hi colorTabInactive         ctermfg=gray        ctermbg=darkgray    guifg=#999999 guibg=#333333
-
-hi colorStatusLine ctermfg=lightgray   ctermbg=darkgray    guifg=#cccccc guibg=#333333
-hi colorGray    ctermfg=lightgray    ctermbg=darkgray    guifg=#999999 guibg=#333333
-hi colorRed     ctermfg=lightred     ctermbg=darkred     guifg=#CC3333 guibg=#330000
-hi colorGreen   ctermfg=lightgreen   ctermbg=darkgreen   guifg=#00AA00 guibg=#003300
-hi colorBlue    ctermfg=lightblue    ctermbg=darkblue    guifg=#0099CC guibg=#002244
-hi colorMagenta ctermfg=lightmagenta ctermbg=darkmagenta guifg=#CC0099 guibg=#440022
-hi colorPurple  ctermfg=lightmagenta ctermbg=darkmagenta guifg=#9900CC guibg=#220044
-hi colorCyan    ctermfg=lightcyan    ctermbg=darkcyan    guifg=#00CCCC guibg=#004444
+hi colorStatusLine          ctermfg=lightgray       ctermbg=darkgray    guifg=#cccccc guibg=#333333
+hi colorStatusLineGray      ctermfg=lightgray       ctermbg=darkgray    guifg=#999999 guibg=#333333
+hi colorStatusLineRed       ctermfg=lightred        ctermbg=darkred     guifg=#CC3333 guibg=#330000
+hi colorStatusLineGreen     ctermfg=lightgreen      ctermbg=darkgreen   guifg=#00AA00 guibg=#003300
+hi colorStatusLineBlue      ctermfg=lightblue       ctermbg=darkblue    guifg=#0099CC guibg=#002244
+hi colorStatusLineMagenta   ctermfg=lightmagenta    ctermbg=darkmagenta guifg=#CC0099 guibg=#440022
+hi colorStatusLinePurple    ctermfg=lightmagenta    ctermbg=darkmagenta guifg=#9900CC guibg=#220044
+hi colorStatusLineCyan      ctermfg=lightcyan       ctermbg=darkcyan    guifg=#00CCCC guibg=#004444
 
 " GUI
 set guioptions=acd                          " Auto select, console dialog, dark theme
@@ -194,7 +193,10 @@ endfunction
 
 " [Functions - Statusline and Tabline]
 
-let g:last_color = 'ColorGray'
+let g:last_color = 'colorStatusLineGray'
+let g:path = ''
+let g:branch = ''
+
 " Blend between two background colors
 function HiBlend(a, b, inverse=0)
     let l:a = a:a
@@ -217,19 +219,19 @@ endfunction
 " Return vim mode and its color
 function StatusLineVimMode()
   let l:modes = {
-    \ 'n'  : ['NORMAL',   'ColNormal'],
-    \ 'i'  : ['INSERT',   'ColInsert'],
-    \ 'v'  : ['VISUAL',   'ColVisual'],
-    \ 'V'  : ['VISUAL',   'ColVisual'],
-    \ '' : ['VISUAL',   'ColVisual'],
-    \ 'R'  : ['REPLACE',  'ColReplace'],
-    \ 's'  : ['SELECT',   'ColSelect'],
-    \ 'S'  : ['SELECT',   'ColSelect'],
-    \ '' : ['SELECT',   'ColSelect'],
-    \ 'c'  : ['COMMAND',  'ColCommand'],
-    \ 't'  : ['TERMINAL', 'ColTerminal'],
-    \ '!'  : ['SHELL',    'ColShell'],
-    \ '-'  : ['-',        'ColNormal']
+    \ 'n'  : ['NORMAL',   'colorStatusLineNormal'],
+    \ 'i'  : ['INSERT',   'colorStatusLineInsert'],
+    \ 'v'  : ['VISUAL',   'colorStatusLineVisual'],
+    \ 'V'  : ['VISUAL',   'colorStatusLineVisual'],
+    \ '' : ['VISUAL',   'colorStatusLineVisual'],
+    \ 'R'  : ['REPLACE',  'colorStatusLineReplace'],
+    \ 's'  : ['SELECT',   'colorStatusLineSelect'],
+    \ 'S'  : ['SELECT',   'colorStatusLineSelect'],
+    \ '' : ['SELECT',   'colorStatusLineSelect'],
+    \ 'c'  : ['COMMAND',  'colorStatusLineCommand'],
+    \ 't'  : ['TERMINAL', 'colorStatusLineTerminal'],
+    \ '!'  : ['SHELL',    'colorStatusLineShell'],
+    \ '-'  : ['-',        'colorStatusLineNormal']
   \ }
 
   let l:mode = get(l:modes, mode(), '-')
@@ -241,15 +243,17 @@ endfunction
 
 " Return git branch and its color
 function StatusLineGitBranch()
-  "let l:branch = trim(system("git -C " . expand('%:p:h:S') . " rev-parse --abbrev-ref HEAD"))
-  let l:branch = ''
-  "echo reltime()
-  
-  if v:shell_error != 0
-    return ['', 'colorGray']
+  let l:path = expand('%:p:h:S')
+  if g:path != l:path
+    let g:path = l:path
+    let g:branch = trim(system('git -C ' . l:path . ' rev-parse --abbrev-ref HEAD'))
   endif
   
-  return ['' . l:branch, 'colorBlue']
+  if v:shell_error != 0 && g:branch != ''
+    return ['', 'colorStatusLineGray']
+  endif
+  
+  return ['' . g:branch, 'colorStatusLineBlue']
 endfunction
 
 function StatusLineFileStatus()
@@ -338,7 +342,7 @@ function! TabLineCreate()
     let l:tl .= '%#' . l:color . '#'
     let l:tl .= ' '. l:tab
 
-    " Any buffer in the tab modified
+    " Buffer modification flag
     let l:modified = ' | '
     for l:buffer in l:buffer_list
       if getbufinfo(l:buffer)[0].changed
@@ -353,10 +357,9 @@ function! TabLineCreate()
     let l:tl .= fnamemodify(bufname(l:active_buffer), ':t')
     let l:tl .= getbufinfo(l:active_buffer)[0].changed ? '* ' : '  '
 
-    " Ending triangle
+    " Ending triangle for active tab
     if l:tab == tabpagenr()
-      let l:tl .= '%#' . HiBlend('colorTabActive', 'colorTabInactive') . '#'
-      let l:tl .= "\ue0bc"
+      let l:tl .= '%#' . HiBlend('colorTabActive', 'colorTabInactive') . '#'
     endif
   endfor
 
@@ -386,11 +389,11 @@ augroup END
 " TODO
 let s:sl_sections = [
   \ [function('StatusLineVimMode')],
-  \ [function('StatusLineFileStatus'), 'colorGreen'],
-  \ [function('StatusLineFileEncoding'), 'colorPurple'],
-  \ [function('StatusLineCenter'), 'colorGray'],
+  \ [function('StatusLineFileStatus'), 'colorStatusLineGreen'],
+  \ [function('StatusLineFileEncoding'), 'colorStatusLinePurple'],
+  \ [function('StatusLineCenter'), 'colorStatusLineGray'],
   \ [function('StatusLineGitBranch')],
-  \ ['%=', 'colorRed'],
-  \ [function('StatusLineBufferStatus'), 'colorCyan'],
-  \ [function('StatusLineEditorStatus'), 'colorGreen'],
+  \ ['%=', 'colorStatusLineRed'],
+  \ [function('StatusLineBufferStatus'), 'colorStatusLineCyan'],
+  \ [function('StatusLineEditorStatus'), 'colorStatusLineGreen'],
 \]
