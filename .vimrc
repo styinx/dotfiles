@@ -162,15 +162,16 @@ let g:semanticGUIColors = [
 " [Plugin - vim-airline]
 
 " airline - configuration
+let g:airline_detect_modified =     1
 let g:airline_powerline_fonts =     1
 let g:airline_inactive_collapse =   1
-let g:airline_inactive_alt_sep =    1
+let g:airline_inactive_alt_sep =    0
 let g:airline_skip_empty_sections = 1
-let g:airline_theme =               'codedark'
 let g:airline_left_sep =            ''
-let g:airline_left_alt_sep =        ''
+let g:airline_left_alt_sep =        ''
 let g:airline_right_sep =           ''
-let g:airline_right_alt_sep =       ''
+let g:airline_right_alt_sep =       ''
+let g:airline_theme =               'codedark'
 
 " vim-airline - symbols
 if !exists('g:airline_symbols')
@@ -181,12 +182,15 @@ let g:airline_symbols.readonly = ''
 let g:airline_symbols.dirty =    '⚡'
 
 " vim-airline - extensions
+let g:airline#extensions#default#show_devicons =     1
 let g:airline#extensions#branch#enabled =            1
 let g:airline#extensions#tabline#enabled =           1
 let g:airline#extensions#tabline#show_close_button = 0
 let g:airline#extensions#tabline#fnamemod =          ':t'
+let g:airline#extensions#tabline#show_tabs =         1
 let g:airline#extensions#tabline#show_tab_nr =       1
 let g:airline#extensions#tabline#tab_nr_type =       1
+let g:airline#extensions#tabline#show_buffers =      1
 let g:airline#extensions#tabline#buffer_nr_show =    0
 let g:airline#extensions#tabline#show_tab_count =    0
 let g:airline#extensions#tabline#left_sep =          ''
@@ -195,18 +199,23 @@ let g:airline#extensions#tabline#right_sep =         ''
 let g:airline#extensions#tabline#right_alt_sep =     ''
 
 " vim-airline - sections
-let g:airline_section_a = airline#section#create(['mode'])
-let g:airline_section_b = airline#section#create(['file'])
-let g:airline_section_c = airline#section#create(['branch'])
-let g:airline_section_x = airline#section#create(['tagbar'])
-let g:airline_section_y = airline#section#create(['ffenc '])
-let g:airline_section_z = airline#section#create(['%c', ' %l/%L ', '%P'])
+let g:airline_section_a       = airline#section#create(['mode'])
+let g:airline_section_b       = airline#section#create(['file', ' ', 'readonly'])
+let g:airline_section_c       = airline#section#create(['branch'])
+let g:airline_section_x       = airline#section#create(['%{&fileencoding}', ' ', '%{WebDevIconsGetFileFormatSymbol()}'])
+let g:airline_section_y       = airline#section#create(['%{WebDevIconsGetFileTypeSymbol()}'])
+let g:airline_section_z       = airline#section#create(['%c', ' %l/%L ', '%P'])
 
 
 " [Plugin - vim-devicons]
-
+"
+let g:webdevicons_enable = 1
+let g:webdevicons_enable_airline_tabline = 1
+let g:webdevicons_enable_airline_statusline = 1
+let g:webdevicons_enable_airline_statusline_fileformat_symbols = 1
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 let g:WebDevIconsTabAirLineBeforeGlyphPadding = ' '
-let g:WebDevIconsTabAirLineAfterGlyphPadding = ''
+let g:WebDevIconsTabAirLineAfterGlyphPadding = ' '
 
 
 " [Functions]
