@@ -250,7 +250,7 @@ function StatusLineGitBranch()
   endif
   
   if v:shell_error != 0 && g:branch != ''
-    return ['', 'colorStatusLineGray']
+    return ['', 'colorStatusLine']
   endif
   
   return ['' . g:branch, 'colorStatusLineBlue']
@@ -281,11 +281,55 @@ function StatusLineCenter()
   return repeat(' ', size / 2 - used)
 endfunction
 
-function StatusLineCreate()
+function StatusLineActive()
   let l:separator = 0
   let g:sl = ""
 
-  for l:section in s:sl_sections
+  for l:section in s:sl_active_sections
+    let l:text = ""
+    let l:color = ""
+    
+    if type(l:section[0]) == v:t_func
+      let l:result = l:section[0]()
+      if type(l:result) == v:t_list
+        let l:text = l:result[0]
+        let l:color = l:result[1]
+      else
+        let l:text = l:result
+        let l:color = l:section[1]
+      endif
+    else
+      let l:text = l:section[0]
+      let l:color = l:section[1]
+    endif
+
+    let g:sl .=  '%#' . HiBlend(g:last_color, l:color, l:separator) . '#'
+
+    "      
+    if l:separator == 0
+      let g:sl .=  ''
+    else
+      let g:sl .=  ''
+    endif
+
+    let g:sl .=  '%#' . l:color . '#'
+    let g:sl .= ' ' . l:text . ' '
+    let g:last_color = l:color
+
+    if stridx(l:text, '%=') >= 0
+      let l:separator = 1
+    endif
+
+  endfor
+
+  return g:sl
+endfunction
+
+function StatusLineInactive()
+  let l:separator = 0
+  let g:sl = ""
+
+  for l:section in s:sl_inactive_sections
     let l:text = ""
     let l:color = ""
     
@@ -372,8 +416,8 @@ endfunction
 " 
 augroup Statusline
   autocmd!
-  autocmd WinLeave,BufLeave * setlocal statusline=%f
-  autocmd WinEnter,BufEnter * setlocal statusline=%!StatusLineCreate()
+  autocmd WinLeave,BufLeave * setlocal statusline=%!StatusLineInactive()
+  autocmd WinEnter,BufEnter * setlocal statusline=%!StatusLineActive()
   autocmd WinEnter,BufEnter * setlocal tabline=%!TabLineCreate()
 augroup END
 
@@ -387,13 +431,19 @@ augroup END
 " Status line
 
 " TODO
-let s:sl_sections = [
+let s:sl_active_sections = [
   \ [function('StatusLineVimMode')],
   \ [function('StatusLineFileStatus'), 'colorStatusLineGreen'],
   \ [function('StatusLineFileEncoding'), 'colorStatusLinePurple'],
-  \ [function('StatusLineCenter'), 'colorStatusLineGray'],
+  \ [function('StatusLineCenter'), 'colorStatusLine'],
   \ [function('StatusLineGitBranch')],
-  \ ['%=', 'colorStatusLineRed'],
+  \ ['%=', 'colorStatusLine'],
   \ [function('StatusLineBufferStatus'), 'colorStatusLineCyan'],
   \ [function('StatusLineEditorStatus'), 'colorStatusLineGreen'],
+\]
+
+let s:sl_inactive_sections = [
+  \ [function('StatusLineCenter'), 'colorStatusLine'],
+  \ [function('StatusLineFileStatus'), 'colorStatusLineGreen'],
+  \ ['%=', 'colorStatusLine'],
 \]
