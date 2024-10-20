@@ -1,5 +1,3 @@
-" vim: et ts=2 sts=2 sw=2
-
 " [System]
 
 set belloff=all
@@ -11,7 +9,7 @@ set termguicolors                           " enable 24bit terminal colors
 
 
 " [Plugins]
-"
+
 filetype off
 
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -20,6 +18,10 @@ call vundle#begin()
   Plugin 'jaxbot/semantic-highlight.vim'
   Plugin 'junegunn/fzf.vim'
   Plugin 'junegunn/fzf'
+  Plugin 'ryanoasis/vim-devicons'
+  Plugin 'styinx/vim-airline'
+  Plugin 'styinx/vim-airline-themes'
+  Plugin 'tpope/vim-fugitive'
   Plugin 'VundleVim/Vundle.vim'
 call vundle#end()
 
@@ -27,7 +29,7 @@ filetype on
 filetype plugin on                          " support for known file types
 filetype plugin indent on                   " allow auto-indenting depending on file type
 
-set showcmd
+set showcmd                                 " show motion
 
 
 " [Appearance]
@@ -41,28 +43,6 @@ colorscheme codedark                        " name of color scheme
 
 hi StatusLine               ctermfg=lightgray       ctermbg=lightblue   guifg=#cccccc guibg=#006699
 hi StatusLineNC             ctermfg=darkgray        ctermbg=black       guifg=#777777 guibg=#444444
-
-hi colorTabLine             ctermfg=lightgray       ctermbg=darkgray    guifg=#cccccc guibg=#333333
-hi colorTabActive           ctermfg=darkgray        ctermbg=lightblue   guifg=#111111 guibg=#4499ee term=bold cterm=bold gui=bold
-hi colorTabInactive         ctermfg=gray            ctermbg=darkgray    guifg=#999999 guibg=#333333
-
-hi colorStatusLineNormal    ctermfg=darkgray        ctermbg=lightblue   guifg=#111111 guibg=#5599dd term=bold cterm=bold gui=bold
-hi colorStatusLineInsert    ctermfg=darkgray        ctermbg=darkyellow  guifg=#111111 guibg=#ccaa22 term=bold cterm=bold gui=bold
-hi colorStatusLineVisual    ctermfg=darkgray        ctermbg=darkmagenta guifg=#111111 guibg=#cc88cc term=bold cterm=bold gui=bold
-hi colorStatusLineReplace   ctermfg=darkgray        ctermbg=lightred    guifg=#111111 guibg=#cc9977 term=bold cterm=bold gui=bold
-hi colorStatusLineSelect    ctermfg=darkgray        ctermbg=darkblue    guifg=#111111 guibg=#999999 term=bold cterm=bold gui=bold
-hi colorStatusLineCommand   ctermfg=darkgray        ctermbg=lightgreen  guifg=#111111 guibg=#669955 term=bold cterm=bold gui=bold
-hi colorStatusLineTerminal  ctermfg=darkgray        ctermbg=darkblue    guifg=#111111 guibg=#999999 term=bold cterm=bold gui=bold
-hi colorStatusLineShell     ctermfg=darkgray        ctermbg=darkblue    guifg=#111111 guibg=#999999 term=bold cterm=bold gui=bold
-
-hi colorStatusLine          ctermfg=lightgray       ctermbg=darkgray    guifg=#cccccc guibg=#333333
-hi colorStatusLineGray      ctermfg=lightgray       ctermbg=darkgray    guifg=#999999 guibg=#333333
-hi colorStatusLineRed       ctermfg=lightred        ctermbg=darkred     guifg=#CC3333 guibg=#330000
-hi colorStatusLineGreen     ctermfg=lightgreen      ctermbg=darkgreen   guifg=#00AA00 guibg=#003300
-hi colorStatusLineBlue      ctermfg=lightblue       ctermbg=darkblue    guifg=#0099CC guibg=#002244
-hi colorStatusLineMagenta   ctermfg=lightmagenta    ctermbg=darkmagenta guifg=#CC0099 guibg=#440022
-hi colorStatusLinePurple    ctermfg=lightmagenta    ctermbg=darkmagenta guifg=#9900CC guibg=#220044
-hi colorStatusLineCyan      ctermfg=lightcyan       ctermbg=darkcyan    guifg=#00CCCC guibg=#004444
 
 " GUI
 set guioptions=acd                          " Auto select, console dialog, dark theme
@@ -153,7 +133,7 @@ set backspace=eol,start,indent              " allow backspace to behave normally
 set whichwrap+=b                            " allow backspace to move the cursor
 
 
-" [Plugin - Semantic Highlight]
+" [Plugin - semantic-highlight]
 
 let g:semanticGUIColors = [
   \"#4c93a1","#97a65f","#99b68f","#b0a568","#9d70a8",
@@ -179,6 +159,56 @@ let g:semanticGUIColors = [
 \]
 
 
+" [Plugin - vim-airline]
+
+" airline - configuration
+let g:airline_powerline_fonts =     1
+let g:airline_inactive_collapse =   1
+let g:airline_inactive_alt_sep =    1
+let g:airline_skip_empty_sections = 1
+let g:airline_theme =               'codedark'
+let g:airline_left_sep =            ''
+let g:airline_left_alt_sep =        ''
+let g:airline_right_sep =           ''
+let g:airline_right_alt_sep =       ''
+
+" vim-airline - symbols
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+let g:airline_symbols.branch =   ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.dirty =    '⚡'
+
+" vim-airline - extensions
+let g:airline#extensions#branch#enabled =            1
+let g:airline#extensions#tabline#enabled =           1
+let g:airline#extensions#tabline#show_close_button = 0
+let g:airline#extensions#tabline#fnamemod =          ':t'
+let g:airline#extensions#tabline#show_tab_nr =       1
+let g:airline#extensions#tabline#tab_nr_type =       1
+let g:airline#extensions#tabline#buffer_nr_show =    0
+let g:airline#extensions#tabline#show_tab_count =    0
+let g:airline#extensions#tabline#left_sep =          ''
+let g:airline#extensions#tabline#left_alt_sep =      ''
+let g:airline#extensions#tabline#right_sep =         ''
+let g:airline#extensions#tabline#right_alt_sep =     ''
+
+" vim-airline - sections
+let g:airline_section_a = airline#section#create(['mode'])
+let g:airline_section_b = airline#section#create(['file'])
+let g:airline_section_c = airline#section#create(['branch'])
+let g:airline_section_x = airline#section#create(['tagbar'])
+let g:airline_section_y = airline#section#create(['ffenc '])
+let g:airline_section_z = airline#section#create(['%c', ' %l/%L ', '%P'])
+
+
+" [Plugin - vim-devicons]
+
+let g:WebDevIconsTabAirLineBeforeGlyphPadding = ' '
+let g:WebDevIconsTabAirLineAfterGlyphPadding = ''
+
+
 " [Functions]
 
 " Format c,c++ files
@@ -191,259 +221,11 @@ function FormatBuffer()
 endfunction
 
 
-" [Functions - Statusline and Tabline]
-
-let g:last_color = 'colorStatusLineGray'
-let g:path = ''
-let g:branch = ''
-
-" Blend between two background colors
-function HiBlend(a, b, inverse=0)
-    let l:a = a:a
-    let l:b = a:b
-    if a:inverse == 1
-      let l:a = a:b
-      let l:b = a:a
-    endif
-
-    let l:ha = execute('hi ' . l:a)
-    let l:hb = execute('hi ' . l:b)
-    let l:ctermfg = matchstr(l:ha, 'ctermbg=\zs\S*')
-    let l:ctermbg = matchstr(l:hb, 'ctermbg=\zs\S*')
-    let l:guifg = matchstr(l:ha, 'guibg=\zs\S*')
-    let l:guibg = matchstr(l:hb, 'guibg=\zs\S*')
-    call execute(printf("hi %sBlend%s ctermfg=%s ctermbg=%s guifg=%s guibg=%s", l:a, l:b, l:ctermfg, l:ctermbg, l:guifg, l:guibg))
-    return l:a . 'Blend' . l:b
-endfunction
-
-" Return vim mode and its color
-function StatusLineVimMode()
-  let l:modes = {
-    \ 'n'  : ['NORMAL',   'colorStatusLineNormal'],
-    \ 'i'  : ['INSERT',   'colorStatusLineInsert'],
-    \ 'v'  : ['VISUAL',   'colorStatusLineVisual'],
-    \ 'V'  : ['VISUAL',   'colorStatusLineVisual'],
-    \ '' : ['VISUAL',   'colorStatusLineVisual'],
-    \ 'R'  : ['REPLACE',  'colorStatusLineReplace'],
-    \ 's'  : ['SELECT',   'colorStatusLineSelect'],
-    \ 'S'  : ['SELECT',   'colorStatusLineSelect'],
-    \ '' : ['SELECT',   'colorStatusLineSelect'],
-    \ 'c'  : ['COMMAND',  'colorStatusLineCommand'],
-    \ 't'  : ['TERMINAL', 'colorStatusLineTerminal'],
-    \ '!'  : ['SHELL',    'colorStatusLineShell'],
-    \ '-'  : ['-',        'colorStatusLineNormal']
-  \ }
-
-  let l:mode = get(l:modes, mode(), '-')
-  let l:name = l:mode[0]
-  let l:color = l:mode[1]
-
-  return [printf('%-8s', l:name), l:color]
-endfunction
-
-" Return git branch and its color
-function StatusLineGitBranch()
-  let l:path = expand('%:p:h:S')
-  if g:path != l:path
-    let g:path = l:path
-    let g:branch = trim(system('git -C ' . l:path . ' rev-parse --abbrev-ref HEAD'))
-  endif
-  
-  if v:shell_error != 0 && g:branch != ''
-    return ['', 'colorStatusLine']
-  endif
-  
-  return ['' . g:branch, 'colorStatusLineBlue']
-endfunction
-
-function StatusLineFileStatus()
-  return expand('%t') . (&readonly ? ' ' : '') . (&modified ? ' ⚡' : '')
-endfunction
-
-function StatusLineFileEncoding()
-  return &filetype . ' ' . &fileencoding . ' ' . &fileformat
-endfunction
-
-function StatusLineBufferStatus()
-  return 'B' . bufnr('$') . ' W' . win_getid()
-endfunction
-
-function StatusLineEditorStatus()
-  let l:columns = col('.') . '/' . col('$')
-  let l:lines = line('.') . '/' . line('$')
-  let l:progress = line('.') * 100 / line('$') . '%%'
-  return l:columns . ' ' . l:lines . ' ' . l:progress
-endfunction
-
-function StatusLineCenter()
-  let l:size = winwidth(win_getid())
-  let l:used = len(substitute(g:sl, '%#.\{-}#', '', 'g'))
-  return repeat(' ', size / 2 - used)
-endfunction
-
-function StatusLineActive()
-  let l:separator = 0
-  let g:sl = ""
-
-  for l:section in s:sl_active_sections
-    let l:text = ""
-    let l:color = ""
-    
-    if type(l:section[0]) == v:t_func
-      let l:result = l:section[0]()
-      if type(l:result) == v:t_list
-        let l:text = l:result[0]
-        let l:color = l:result[1]
-      else
-        let l:text = l:result
-        let l:color = l:section[1]
-      endif
-    else
-      let l:text = l:section[0]
-      let l:color = l:section[1]
-    endif
-
-    let g:sl .=  '%#' . HiBlend(g:last_color, l:color, l:separator) . '#'
-
-    "      
-    if l:separator == 0
-      let g:sl .=  ''
-    else
-      let g:sl .=  ''
-    endif
-
-    let g:sl .=  '%#' . l:color . '#'
-    let g:sl .= ' ' . l:text . ' '
-    let g:last_color = l:color
-
-    if stridx(l:text, '%=') >= 0
-      let l:separator = 1
-    endif
-
-  endfor
-
-  return g:sl
-endfunction
-
-function StatusLineInactive()
-  let l:separator = 0
-  let g:sl = ""
-
-  for l:section in s:sl_inactive_sections
-    let l:text = ""
-    let l:color = ""
-    
-    if type(l:section[0]) == v:t_func
-      let l:result = l:section[0]()
-      if type(l:result) == v:t_list
-        let l:text = l:result[0]
-        let l:color = l:result[1]
-      else
-        let l:text = l:result
-        let l:color = l:section[1]
-      endif
-    else
-      let l:text = l:section[0]
-      let l:color = l:section[1]
-    endif
-
-    let g:sl .=  '%#' . HiBlend(g:last_color, l:color, l:separator) . '#'
-
-    "      
-    if l:separator == 0
-      let g:sl .=  ''
-    else
-      let g:sl .=  ''
-    endif
-
-    let g:sl .=  '%#' . l:color . '#'
-    let g:sl .= ' ' . l:text . ' '
-    let g:last_color = l:color
-
-    if stridx(l:text, '%=') >= 0
-      let l:separator = 1
-    endif
-
-  endfor
-
-  return g:sl
-endfunction
-
-function! TabLineCreate()
-  let l:tl = ''
-  let l:color = ''
-  
-  for l:tab in range(1, tabpagenr('$'))
-    let l:buffer_list = tabpagebuflist(l:tab)
-
-    if l:tab == tabpagenr()
-      let l:color = 'colorTabActive'
-    else
-      let l:color = 'colorTabInactive'
-    endif
-
-    " Tab index
-    let l:tl .= '%#' . l:color . '#'
-    let l:tl .= ' '. l:tab
-
-    " Buffer modification flag
-    let l:modified = ' | '
-    for l:buffer in l:buffer_list
-      if getbufinfo(l:buffer)[0].changed
-        let l:modified = '*| '
-        break
-      endif
-    endfor 
-    let l:tl .= l:modified
-
-    " Last active buffer
-    let l:active_buffer = l:buffer_list[tabpagewinnr(l:tab) - 1]
-    let l:tl .= fnamemodify(bufname(l:active_buffer), ':t')
-    let l:tl .= getbufinfo(l:active_buffer)[0].changed ? '* ' : '  '
-
-    " Ending triangle for active tab
-    if l:tab == tabpagenr()
-      let l:tl .= '%#' . HiBlend('colorTabActive', 'colorTabInactive') . '#'
-    endif
-  endfor
-
-  return l:tl . '%#colorTabLine#'
-endfunction
-
-
 " [autocmd]
 
-" 
-augroup Statusline
-  autocmd!
-  autocmd WinLeave,BufLeave * setlocal statusline=%!StatusLineInactive()
-  autocmd WinEnter,BufEnter * setlocal statusline=%!StatusLineActive()
-  autocmd WinEnter,BufEnter * setlocal tabline=%!TabLineCreate()
-augroup END
-
-"
+" Formatting
 augroup Formatting
   autocmd!
   autocmd BufWritePre *.h,*.hpp,*.c,*.cpp :call FormatBuffer()
 augroup END
 
-
-" Status line
-
-" TODO
-let s:sl_active_sections = [
-  \ [function('StatusLineVimMode')],
-  \ [function('StatusLineFileStatus'), 'colorStatusLineGreen'],
-  \ [function('StatusLineFileEncoding'), 'colorStatusLinePurple'],
-  \ [function('StatusLineCenter'), 'colorStatusLine'],
-  \ [function('StatusLineGitBranch')],
-  \ ['%=', 'colorStatusLine'],
-  \ [function('StatusLineBufferStatus'), 'colorStatusLineCyan'],
-  \ [function('StatusLineEditorStatus'), 'colorStatusLineGreen'],
-\]
-
-let s:sl_inactive_sections = [
-  \ [function('StatusLineCenter'), 'colorStatusLine'],
-  \ [function('StatusLineFileStatus'), 'colorStatusLineGreen'],
-  \ ['%=', 'colorStatusLine'],
-\]
