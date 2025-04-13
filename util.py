@@ -5,6 +5,9 @@ from shutil import copy, copytree
 from sys import version_info
 
 
+SKIP = '-'
+
+
 def check():
     if version_info < (3, 8, 0):
         print(f'Python version {version_info} too old')
@@ -29,6 +32,12 @@ def recurse(path: Path, src, dst, exceptions: dict):
 
         if entry.name in exceptions:
             if not isinstance(list(exceptions[entry.name].values())[0], dict):
+                if system() not in exceptions[entry.name]:
+                    continue
+            
+                if exceptions[entry.name][system()] == SKIP:
+                    continue
+            
                 exception = exceptions[entry.name][system()] / entry.name
                 if src == repo:
                     d_entry = exception
@@ -46,19 +55,24 @@ def recurse(path: Path, src, dst, exceptions: dict):
         print(f'{str(s_entry):60s} -> {str(d_entry):60s}')
 
 
+check()
+
+home = Path().home()
+repo = Path(__file__).parent.resolve()
+
 exceptions = {
     '.config' : {
         'nvim' : {
             'Windows': Path(getenv('LOCALAPPDATA'))
         }
     },
+    'Documents': {
+        'WindowsPowerShell': {
+            'Linux': SKIP
+        }
+    }
 }
 
-
-check()
-
-home = Path().home()
-repo = Path(__file__).parent.resolve()
 ignore = [
     '.git',
     '__pycache__',

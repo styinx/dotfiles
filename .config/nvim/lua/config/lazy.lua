@@ -24,6 +24,7 @@ vim.opt.rtp:prepend(lazy_data)
 
 require('lazy').setup({
   spec = {
-    { import = 'plugins' },
+    { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+    { import = 'plugins' }
   },
 })

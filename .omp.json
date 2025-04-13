@@ -1,114 +1,110 @@
 {
   "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
-  "version": 2,
-  "final_space": false,
-  "console_title": true,
   "console_title_template": "{{ .PWD }}",
-  "blocks": 
-  [
+  "blocks": [
     {
       "type": "prompt",
       "alignment": "left",
-      "newline": true,
-      "segments": 
-      [
+      "segments": [
         {
-          "type": "path",
-          "style": "powerline",
+          "properties": {
+            "cache_duration": "none",
+            "folder_separator_icon": "/",
+            "style": "full"
+          },
           "template": "{{ .Path }} ",
           "foreground": "#00AA00",
           "background": "#003300",
-          "properties": 
-          {
-            "style": "full",
-            "folder_separator_icon": "/"
-          }
+          "type": "path",
+          "style": "powerline"
         },
         {
-          "type": "git",
-          "style": "powerline",
-          "powerline_symbol": "\ue0b0",
-          "template": " {{ .HEAD }}{{ if gt .Ahead 0 }} +{{.Ahead}}{{end}}{{ if gt .Behind 0 }} -{{.Behind}}{{end}} ",
-          "foreground": "#0099CC",
-          "foreground_templates": 
-          [
-            "{{ if gt .Ahead 0 }}#CC0099{{ end }}",
-            "{{ if gt .Behind 0 }}#9900CC{{ end }}"
-          ],
-          "background": "#002244",
-          "background_templates": 
-          [
-            "{{ if gt .Ahead 0 }}#440022{{ end }}",
-            "{{ if gt .Behind 0 }}#220044{{ end }}"
-          ],
-          "properties": 
-          {
+          "properties": {
             "branch_max_length": 25,
-            "fetch_status": true,
-            "cherry_pick_icon": "\u2713 ",
+            "cache_duration": "none",
+            "cherry_pick_icon": "✓ ",
             "commit_icon": "\u25b7 ",
+            "fetch_status": true,
             "merge_icon": "\u25f4 ",
             "no_commits_icon": "[no commits]",
             "rebase_icon": "\u2c62 ",
             "tag_icon": "\u25b6 "
-          }
-        },
-        {
+          },
+          "template": " {{ .HEAD }}{{ if gt .Ahead 0 }} +{{.Ahead}}{{end}}{{ if gt .Behind 0 }} -{{.Behind}}{{end}} ",
+          "foreground": "#0099CC",
+          "powerline_symbol": "\ue0b0",
+          "background": "#002244",
           "type": "git",
           "style": "powerline",
-          "powerline_symbol": "\ue0b0",
-          "foreground": "#CCCC00",
-          "background": "#333300",
+          "foreground_templates": [
+            "{{ if gt .Ahead 0 }}#CC0099{{ end }}",
+            "{{ if gt .Behind 0 }}#9900CC{{ end }}"
+          ],
+          "background_templates": [
+            "{{ if gt .Ahead 0 }}#440022{{ end }}",
+            "{{ if gt .Behind 0 }}#220044{{ end }}"
+          ]
+        },
+        {
+          "properties": {
+            "cache_duration": "none",
+            "fetch_status": true
+          },
           "template": "{{ if gt .Working.Modified 0 }} *{{ .Working.Modified}}{{ end }}{{ if gt .Working.Added 0 }} +{{ .Working.Added}}{{ end }}{{ if gt .Working.Deleted 0 }} -{{ .Working.Deleted}}{{ end }} ",
-          "properties": 
-          {
-            "fetch_status": true
-          }
-        },
-        {
-          "type": "git",
-          "style": "powerline",
+          "foreground": "#CCCC00",
           "powerline_symbol": "\ue0b0",
-          "foreground": "#DDAA00",
-          "background": "#442200",
-          "template": "{{ if gt .Staging.Added 0 }} +{{ .Staging.Added}}{{ end }}{{ if gt .Staging.Deleted 0 }} -{{ .Staging.Deleted}}{{ end }}{{ if gt .Staging.Untracked 0 }} ?{{ .Staging.Untracked}}{{ end }} ",
-          "properties": 
-          {
-            "fetch_status": true
-          }
+          "background": "#333300",
+          "type": "git",
+          "style": "powerline"
         },
         {
-          "type": "executiontime",
-          "style": "plain",
+          "properties": {
+            "cache_duration": "none",
+            "fetch_status": true
+          },
+          "template": "{{ if gt .Staging.Added 0 }} +{{ .Staging.Added}}{{ end }}{{ if gt .Staging.Deleted 0 }} -{{ .Staging.Deleted}}{{ end }}{{ if gt .Staging.Untracked 0 }} ?{{ .Staging.Untracked}}{{ end }} ",
+          "foreground": "#DDAA00",
+          "powerline_symbol": "\ue0b0",
+          "background": "#442200",
+          "type": "git",
+          "style": "powerline"
+        },
+        {
+          "properties": {
+            "always_enabled": false,
+            "cache_duration": "none",
+            "style": "round"
+          },
           "template": " {{ .FormattedMs }} ",
           "foreground": "#DDDDDD",
-          "properties": 
-          {
-            "always_enabled": false,
-            "style": "round"
-          }
+          "type": "executiontime",
+          "style": "plain"
         },
         {
-          "type": "exit",
-          "style": "plain",
+          "properties": {
+            "always_enabled": false,
+            "cache_duration": "none"
+          },
           "template": " {{ if gt .Code 0 }}\uf00d {{ reason .Code }}{{ else }}\uf42e{{ end }} ",
           "foreground": "#DDDDDD",
-          "foreground_templates": 
-          [
+          "type": "exit",
+          "style": "plain",
+          "foreground_templates": [
             "{{ if gt .Code 0 }}#CC3333{{ end }}",
             "{{ if eq .Code 0 }}#33CC33{{ end }}"
-          ],
-          "properties": 
-          {
-            "always_enabled": false
-          }
+          ]
         },
         {
-            "type": "text",
-            "style": "plain",
-            "template": "\n"
+          "properties": {
+            "cache_duration": "none"
+          },
+          "template": "\n",
+          "type": "text",
+          "style": "plain"
         }
-      ]
+      ],
+      "newline": true
     }
-  ]
+  ],
+  "version": 3
 }

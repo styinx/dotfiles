@@ -22,6 +22,7 @@ call vundle#begin()
   Plugin 'styinx/vim-airline'
   Plugin 'styinx/vim-airline-themes'
   Plugin 'tpope/vim-fugitive'
+  Plugin 'tpope/vim-surround'
   Plugin 'VundleVim/Vundle.vim'
 call vundle#end()
 
@@ -52,13 +53,13 @@ set guioptions-=r                           " no scroll bar
 set guioptions-=T                           " no tool bar
 
 " Cursor
-"set guicursor=n-c-v:block-Cursor           " in normal mode use block cursor
-"set guicursor+=i:ver100-iCursor
-"set guicursor+=n-v-c:blinkon0
-"set guicursor+=i:blinkwait10
-
-let &t_SI .= "\e[5 q"                       " bar cursor when starting insert mode
-let &t_EI .= "\e[1 q"                       " bar cursor when ending insert mode
+if &term =~ 'xterm' || &term == 'win32'
+  let &t_SI = "\e[5 q"                      " blinking bar cursor when entering insert mode
+  let &t_SR = "\e[3 q"                      " blinking underscore cursor when entering replace mode
+  let &t_EI = "\e[1 q"                      " blinking block cursor when ending insert or replace mode
+  let &t_ti .= "\e[1 q"                     " blinking block cursor when starting termcap
+  let &t_te .= "\e[0 q"                     " default terminal cursor when ending termcap
+endif
 
 
 " [Editor]
