@@ -4,6 +4,8 @@ local is_windows = vim.loop.os_uname().sysname == "Windows_NT"
 
 require("bufferline").setup({})
 
+require("fzf-lua").setup({})
+
 require("vscode").setup({
   disable_nvimtree_bg = true,
   italic_comments = true,
