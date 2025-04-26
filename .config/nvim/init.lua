@@ -142,9 +142,9 @@ local function add_plugin(start, plugin, hash)
   local plugin_url = github_url .. plugin
 
   if vim.fn.empty(vim.fn.glob(plugin_path)) == 0 then
-    vim.notify("Plugin '" .. plugin_name .. "': Already installed")
+    vim.notify("Plugin installed   " .. plugin_name)
   else
-    vim.notify("Plugin '" .. plugin_name .. "': Installing " .. plugin_url)
+    vim.notify("Plugin installing  " .. plugin_name .. " - " .. plugin_url)
     vim.fn.system({"git", "clone", "--depth=1", plugin_url, plugin_path})
   end
 
@@ -153,7 +153,7 @@ local function add_plugin(start, plugin, hash)
   end
 
   if not start then
-    vim.notify("Plugin '" .. plugin_name .. "': Loading")
+    vim.notify("Plugin loading     " .. plugin_name)
     vim.cmd.packadd(plugin_name)
   end
 end
