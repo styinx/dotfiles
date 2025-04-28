@@ -2,10 +2,38 @@ local is_windows = vim.loop.os_uname().sysname == "Windows_NT"
 
 -- [start]
 
+-- bufferline
 require("bufferline").setup({})
 
+-- nvim-cmp
+local cmp = require("cmp")
+cmp.setup({
+  experimental = {
+    ghost_text = {
+      hl_group = "CmpGhostText"
+    },
+    native_menu = false
+  },
+  mapping = cmp.mapping.preset.insert({
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    ['<Tab>'] = cmp.mapping.select_next_item(),
+    ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+  }),
+  sources = cmp.config.sources({
+    { name = "nvim_lsp"},
+    { name = "buffer"},
+  }),
+  window = {
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered()
+  }
+})
+
+-- fzf-lua
 require("fzf-lua").setup({})
 
+-- vscode
 require("vscode").setup({
   disable_nvimtree_bg = true,
   italic_comments = true,
@@ -13,6 +41,7 @@ require("vscode").setup({
   terminal_colors = true,
 })
 
+-- ibl
 require("ibl").setup({
   indent = {
     char = "┊",

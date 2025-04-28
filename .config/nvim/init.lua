@@ -42,6 +42,7 @@ opt.scrolloff = 10
 opt.hlsearch = true
 opt.ignorecase = true
 opt.incsearch = true
+opt.inccommand = "nosplit"
 
 -- Spacing
 opt.autoindent = true
@@ -160,6 +161,9 @@ end
 
 -- Plugin install
 add_plugin(true, "akinsho/bufferline.nvim")
+add_plugin(true, "hrsh7th/nvim-cmp")
+add_plugin(true, "hrsh7th/cmp-nvim-lsp")
+add_plugin(true, "hrsh7th/cmp-buffer")
 add_plugin(true, "ibhagwan/fzf-lua")
 add_plugin(true, "junegunn/fzf")
 add_plugin(true, "lukas-reineke/indent-blankline.nvim")
@@ -173,17 +177,34 @@ add_plugin(false, "nvim-tree/nvim-tree.lua")
 -- Plugin setup
 require("plugins.setup")
 
--- Plugin configuration
+-- vscode
 local vscode_loaded, _ = pcall(require, "vscode")
 if vscode_loaded then
   vim.cmd.colorscheme("vscode")
 end
 
+-- fzf-lua
 local fzflua_loaded, fzflua = pcall(require, "fzf-lua")
 if fzflua_loaded then
   map('n', '<leader>ff', fzflua.files)
   map('n', '<leader>fb', fzflua.buffers)
   map('n', '<leader>ft', fzflua.tabs)
+end
+
+-- nvim-cmp
+local cmp_loaded, cmp = pcall(require, "cmp")
+if cmp_loaded then
+  vim.api.nvim_set_hl(0, "CmpGhostText", {
+    fg = "#999999",
+    italic = true
+  })
+end
+
+-- cmp-nvim-lsp
+local cmp_nvim_lsp_loaded, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+local capabilities = nil
+if cmp_nvim_lsp_loaded then
+  capabilities = cmp_nvim_lsp.default_capabilities()
 end
 
 
@@ -208,26 +229,37 @@ end
 
 -- Diagnostic
 vim.diagnostic.config({
-    severity_sort = true,
-    signs = true,
-    underline = true,
-    update_in_insert = true,
-    virtual_text = true,
-    virtual_lines = false
+  float = {
+	  border = "rounded",
+	  header = ""
+  },
+  severity_sort = true,
+  signs = true,
+  underline = true,
+  update_in_insert = true,
+  virtual_text = true,
+  virtual_lines = false
 })
 
 -- LSP servers
 local lspconfig = require('lspconfig')
 
 -- C/C++
-lspconfig.clangd.setup({on_attach = on_attach})
+lspconfig.clangd.setup({
+  on_attach = on_attach,
+  capabilities = capabilities
+})
 
 -- Python
-lspconfig.pyright.setup({on_attach = on_attach})
+lspconfig.pyright.setup({
+  on_attach = on_attach,
+  capabilities = capabilities
+})
 
 -- Lua
 lspconfig.lua_ls.setup({
   on_attach = on_attach,
+  capabilities = capabilities,
   settings = {
     Lua = {
       diagnostics = {
@@ -238,5 +270,13 @@ lspconfig.lua_ls.setup({
     }
   }
 })
+
+
+-- [User config]
+
+local user_loaded, user = pcall(require, "user")
+if user_loaded then
+
+end
 
 
