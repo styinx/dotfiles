@@ -33,14 +33,6 @@ cmp.setup({
 -- fzf-lua
 require("fzf-lua").setup({})
 
--- vscode
-require("vscode").setup({
-  disable_nvimtree_bg = true,
-  italic_comments = true,
-  underline_links = true,
-  terminal_colors = true,
-})
-
 -- ibl
 require("ibl").setup({
   indent = {
@@ -134,5 +126,12 @@ require("lualine").setup({
   extensions = {}
 })
 
+-- vscode
+require("vscode").setup({
+  disable_nvimtree_bg = true,
+  italic_comments = true,
+  underline_links = true,
+  terminal_colors = true,
+})
+
 -- [opt]
-require("nvim-tree").setup()

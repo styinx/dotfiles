@@ -128,7 +128,7 @@ autocmd("FileType", {
 -- [Plugins]
 
 -- Helper function
-local function add_plugin(start, plugin, hash)
+local function add_plugin(start, name, author, hash)
   local github_url = "https://github.com/"
   local pack_path = vim.fn.stdpath("data") .. "/site/pack/"
 
@@ -138,14 +138,13 @@ local function add_plugin(start, plugin, hash)
     group_path = pack_path .. group .. "/start/"
   end
 
-  local plugin_name = string.match(plugin, "%w+/([%w%p]+)")
-  local plugin_path = group_path .. plugin_name
-  local plugin_url = github_url .. plugin
+  local plugin_path = group_path .. name
+  local plugin_url = github_url .. author .. "/" .. name
 
   if vim.fn.empty(vim.fn.glob(plugin_path)) == 0 then
-    vim.notify("Plugin installed   " .. plugin_name)
+    vim.notify("Plugin installed   " .. name)
   else
-    vim.notify("Plugin installing  " .. plugin_name .. " - " .. plugin_url)
+    vim.notify("Plugin installing  " .. name .. " - " .. plugin_url)
     vim.fn.system({"git", "clone", "--depth=1", plugin_url, plugin_path})
   end
 
@@ -154,57 +153,63 @@ local function add_plugin(start, plugin, hash)
   end
 
   if not start then
-    vim.notify("Plugin loading     " .. plugin_name)
-    vim.cmd.packadd(plugin_name)
+    vim.notify("Plugin loading     " .. name)
+    vim.cmd.packadd(name)
   end
 end
 
 -- Plugin install
-add_plugin(true, "akinsho/bufferline.nvim")
-add_plugin(true, "hrsh7th/nvim-cmp")
-add_plugin(true, "hrsh7th/cmp-nvim-lsp")
-add_plugin(true, "hrsh7th/cmp-buffer")
-add_plugin(true, "ibhagwan/fzf-lua")
-add_plugin(true, "junegunn/fzf")
-add_plugin(true, "lukas-reineke/indent-blankline.nvim")
-add_plugin(true, "Mofiqul/vscode.nvim")
-add_plugin(true, "neovim/nvim-lspconfig")
-add_plugin(true, "nvim-treesitter/nvim-treesitter")
-add_plugin(true, "nvim-lualine/lualine.nvim")
-add_plugin(false, "nvim-tree/nvim-web-devicons")
-add_plugin(false, "nvim-tree/nvim-tree.lua")
+add_plugin(true, "bufferline.nvim",         "akinsho")
+add_plugin(true, "cmp-buffer",              "hrsh7th")
+add_plugin(true, "cmp-nvim-lsp",            "hrsh7th")
+add_plugin(true, "fzf",                     "junegunn")
+add_plugin(true, "fzf-lua",                 "ibhagwan")
+add_plugin(true, "indent-blankline.nvim",   "lukas-reineke")
+add_plugin(true, "lualine.nvim",            "nvim-lualine")
+add_plugin(true, "nvim-cmp",                "hrsh7th")
+add_plugin(true, "nvim-cursorword",         "xiyaowong")
+add_plugin(true, "nvim-lspconfig",          "neovim")
+add_plugin(true, "nvim-tree.lua",           "nvim-tree")
+add_plugin(true, "nvim-treesitter",         "nvim-treesitter")
+add_plugin(true, "nvim-web-devicons",       "nvim-tree")
+add_plugin(true, "vscode.nvim",             "Mofiqul")
 
 -- Plugin setup
 require("plugins.setup")
-
--- vscode
-local vscode_loaded, _ = pcall(require, "vscode")
-if vscode_loaded then
-  vim.cmd.colorscheme("vscode")
-end
-
--- fzf-lua
-local fzflua_loaded, fzflua = pcall(require, "fzf-lua")
-if fzflua_loaded then
-  map('n', '<leader>ff', fzflua.files)
-  map('n', '<leader>fb', fzflua.buffers)
-  map('n', '<leader>ft', fzflua.tabs)
-end
-
--- nvim-cmp
-local cmp_loaded, cmp = pcall(require, "cmp")
-if cmp_loaded then
-  vim.api.nvim_set_hl(0, "CmpGhostText", {
-    fg = "#999999",
-    italic = true
-  })
-end
 
 -- cmp-nvim-lsp
 local cmp_nvim_lsp_loaded, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
 local capabilities = nil
 if cmp_nvim_lsp_loaded then
   capabilities = cmp_nvim_lsp.default_capabilities()
+end
+
+-- fzf-lua
+local fzf_lua_loaded, fzf_lua = pcall(require, "fzf-lua")
+if fzf_lua_loaded then
+  map('n', '<leader>ff', fzf_lua.files)
+  map('n', '<leader>fb', fzf_lua.buffers)
+  map('n', '<leader>ft', fzf_lua.tabs)
+end
+
+-- nvim-cmp
+local nvim_cmp_loaded, _ = pcall(require, "cmp")
+if nvim_cmp_loaded then
+  vim.api.nvim_set_hl(0, "CmpGhostText", {
+    fg = "#999999",
+    italic = true
+  })
+end
+
+-- vscode
+local vscode_loaded, _ = pcall(require, "vscode")
+if vscode_loaded then
+  vim.cmd.colorscheme("vscode")
+
+  -- nvim-cursorword
+  vim.api.nvim_set_hl(0, "CursorWord", {
+    bg = "#555555",
+  })
 end
 
 
