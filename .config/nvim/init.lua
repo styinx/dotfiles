@@ -114,13 +114,36 @@ autocmd("FileType", {
   end,
 })
 
--- Lua
+-- Indents by 2
 autocmd("FileType", {
-  pattern = "lua",
+  pattern = "css,html,js,lua,xml",
   callback = function()
     vim.opt_local.expandtab = true
     vim.opt_local.shiftwidth = 2
+    vim.opt_local.softtabstop = 2
     vim.opt_local.tabstop = 2
+  end
+})
+
+-- Indents by 3
+autocmd("FileType", {
+  pattern = "rst",
+  callback = function()
+    vim.opt_local.expandtab = true
+    vim.opt_local.shiftwidth = 3
+    vim.opt_local.softtabstop = 3
+    vim.opt_local.tabstop = 3
+  end
+})
+
+-- Indents by 4
+autocmd("FileType", {
+  pattern = "c,cmake,cpp,hpp,make,py",
+  callback = function()
+    vim.opt_local.expandtab = true
+    vim.opt_local.shiftwidth = 4
+    vim.opt_local.softtabstop = 4
+    vim.opt_local.tabstop = 4
   end
 })
 
@@ -160,6 +183,7 @@ end
 
 -- Plugin install
 add_plugin(true, "bufferline.nvim",         "akinsho")
+add_plugin(true, "nvim-colorizer.lua",      "catgoose")
 add_plugin(true, "cmp-buffer",              "hrsh7th")
 add_plugin(true, "cmp-nvim-lsp",            "hrsh7th")
 add_plugin(true, "fzf",                     "junegunn")

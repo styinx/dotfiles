@@ -49,41 +49,7 @@ require("ibl").setup({
   },
 })
 
-require("nvim-treesitter.install").compilers = { "clang" }
-
-require("nvim-treesitter.configs").setup({
-  ensure_installed = {
-    "asm",
-    "c",
-    "cpp",
-    "css",
-    "html",
-    "javascript",
-    "lua",
-    "markdown",
-    "python",
-    "vim",
-    "vimdoc",
-    "xml",
-  },
-  sync_install = true,
-  auto_install = true,
-  ignore_install = {},
-
-  autopairs = {
-    enable = true
-  },
-
-  highlight = {
-    enable = true
-  },
-
-  indent = {
-    enable = true
-  },
-
-})
-
+-- lualine
 require("lualine").setup({
   options = {
     icons_enabled = true,
@@ -124,6 +90,58 @@ require("lualine").setup({
   winbar = {},
   inactive_winbar = {},
   extensions = {}
+})
+
+-- nvim-colorizer
+require("colorizer").setup({
+  filetypes = {
+    "css",
+    "html"
+  },
+  user_default_options = {
+    mode = "virtualtext",
+    rgb_fn = true
+  }
+})
+
+-- nvim-tree
+require("nvim-tree").setup()
+
+-- nvim-treesitter.install-
+require("nvim-treesitter.install").compilers = { "clang" }
+
+-- nvim-treesitter.configs-
+require("nvim-treesitter.configs").setup({
+  ensure_installed = {
+    "asm",
+    "c",
+    "cpp",
+    "css",
+    "html",
+    "javascript",
+    "lua",
+    "markdown",
+    "python",
+    "vim",
+    "vimdoc",
+    "xml",
+  },
+  sync_install = true,
+  auto_install = true,
+  ignore_install = {},
+
+  autopairs = {
+    enable = true
+  },
+
+  highlight = {
+    enable = true
+  },
+
+  indent = {
+    enable = true
+  },
+
 })
 
 -- vscode
