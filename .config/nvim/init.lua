@@ -87,6 +87,8 @@ map("i", "'", "''<Esc>i")
 map("i", '"', '""<Esc>i')
 map("n", "<leader>o", "<Esc>o<Esc>")
 map("n", "<leader>O", "<Esc>O<Esc>")
+map("n", "<C-j>", "<C-d>")
+map("n", "<C-k>", "<C-u>")
 
 
 -- [autocmd]
