@@ -37,6 +37,7 @@ opt.cursorline = true
 opt.number = true
 opt.relativenumber = true
 opt.scrolloff = 10
+opt.guicursor = "n-v-c:block-Cursor,i-ci:ver25-CursorInsert,r-cr:hor20-CursorReplace"
 
 -- Searching
 opt.hlsearch = true
@@ -150,6 +151,11 @@ autocmd("FileType", {
 })
 
 
+-- [Theme]
+
+require("theme").load()
+
+
 -- [Plugins]
 
 -- Helper function
@@ -190,6 +196,7 @@ add_plugin(true, "cmp-buffer",              "hrsh7th")
 add_plugin(true, "cmp-nvim-lsp",            "hrsh7th")
 add_plugin(true, "fzf",                     "junegunn")
 add_plugin(true, "fzf-lua",                 "ibhagwan")
+add_plugin(true, "gitsigns.nvim",           "lewis6991")
 add_plugin(true, "indent-blankline.nvim",   "lukas-reineke")
 add_plugin(true, "lualine.nvim",            "nvim-lualine")
 add_plugin(true, "nvim-cmp",                "hrsh7th")
@@ -227,16 +234,19 @@ if nvim_cmp_loaded then
   })
 end
 
+--[[
 -- vscode
 local vscode_loaded, _ = pcall(require, "vscode")
 if vscode_loaded then
   vim.cmd.colorscheme("vscode")
-
-  -- nvim-cursorword
-  vim.api.nvim_set_hl(0, "CursorWord", {
-    bg = "#555555",
-  })
 end
+]]--
+
+-- nvim-cursorword
+vim.api.nvim_set_hl(0, "CmpGhostText", {
+  fg = "#999999",
+  italic = true
+})
 
 
 -- [LSP]

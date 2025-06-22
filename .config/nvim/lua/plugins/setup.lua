@@ -1,4 +1,5 @@
 local is_windows = vim.loop.os_uname().sysname == "Windows_NT"
+local theme = require("theme")
 
 -- [start]
 
@@ -33,6 +34,24 @@ cmp.setup({
 -- fzf-lua
 require("fzf-lua").setup({})
 
+-- gitsigns
+require("gitsigns").setup({
+  signs = {
+    add          = { text = '│' },
+    change       = { text = '│' },
+    delete       = { text = '_' },
+    topdelete    = { text = '‾' },
+    changedelete = { text = '~' },
+  },
+  signcolumn = true,
+  numhl = false,
+  linehl = false,
+  watch_gitdir = {
+    interval = 1000,
+    follow_files = true
+  },
+})
+
 -- ibl
 require("ibl").setup({
   indent = {
@@ -53,7 +72,7 @@ require("ibl").setup({
 require("lualine").setup({
   options = {
     icons_enabled = true,
-    theme = "vscode",
+    theme = theme.lualine,
     component_separators = { left = "", right = ""},
     section_separators = { left = "", right = ""},
     disabled_filetypes = {
@@ -79,12 +98,12 @@ require("lualine").setup({
     lualine_z = {"location"}
   },
   inactive_sections = {
-    lualine_a = {},
-    lualine_b = {},
+    lualine_a = {"mode"},
+    lualine_b = {"diagnostics"},
     lualine_c = {"filename"},
-    lualine_x = {"location"},
-    lualine_y = {},
-    lualine_z = {}
+    lualine_x = {"filetype"},
+    lualine_y = {"progress"},
+    lualine_z = {"location"}
   },
   tabline = {},
   winbar = {},
@@ -96,7 +115,10 @@ require("lualine").setup({
 require("colorizer").setup({
   filetypes = {
     "css",
-    "html"
+    "html",
+    lua = {
+      names = false
+    },
   },
   user_default_options = {
     mode = "virtualtext",
@@ -144,6 +166,7 @@ require("nvim-treesitter.configs").setup({
 
 })
 
+--[[
 -- vscode
 require("vscode").setup({
   disable_nvimtree_bg = true,
@@ -151,5 +174,6 @@ require("vscode").setup({
   underline_links = true,
   terminal_colors = true,
 })
+]]--
 
 -- [opt]
