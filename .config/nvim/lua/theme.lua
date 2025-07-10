@@ -1,37 +1,47 @@
 local theme = {}
 
 local p = {
-  background = "#101010",
-  foreground = "#b8b8a8",
+  background      = "#101010",
+  foreground      = "#a8a898",
 
-  bark       = "#885858",
-  bee        = "#b8a858",
-  beetle     = "#1a1f1a",
-  dark_leaf  = "#232b1f",
-  dark_rock  = "#555555",
-  dirt       = "#685818",
-  fern       = "#989868",
-  flower     = "#d58a4e",
-  frog       = "#3f8f9f",
-  ivy        = "#408050",
-  lavender   = "#7050a0",
-  leaf       = "#6f9f4f",
-  lemon      = "#989848",
-  moss       = "#5f8f4f",
-  mushroom   = "#b84838",
-  olive      = "#b2b790",
-  rock       = "#586858",
-  sand       = "#9d6d4d",
-  pebble     = "#486878",
-  squirrel   = "#a85858",
-  water      = "#207080",
+  add             = "#104010",
+  add_light       = "#308030",
+  change          = "#404000",
+  change_light    = "#a0a000",
+  delete          = "#602010",
+  delete_light    = "#a03020",
+  untracked       = "#404040",
+  untracked_light = "#808080",
+
+  bark            = "#885858",
+  bee             = "#b8a858",
+  beetle          = "#202020",
+  dark_leaf       = "#232b1f",
+  dark_rock       = "#555555",
+  dirt            = "#706020",
+  fern            = "#989868",
+  flower          = "#d58a4e",
+  frog            = "#3f8f9f",
+  ivy             = "#408050",
+  lavender        = "#7050a0",
+  leaf            = "#6f9f4f",
+  lemon           = "#989848",
+  moss            = "#609050",
+  mushroom        = "#b84838",
+  olive           = "#b2b790",
+  rock            = "#586858",
+  sand            = "#9d6d4d",
+  starling        = "#1a1f1a",
+  pebble          = "#507080",
+  squirrel        = "#a85858",
+  water           = "#207080",
 }
 
 local highlights = {
   -- UI
-  CursorLine                = { bg = p.beetle },
+  CursorLine                = { bg = p.starling },
   StatusLine                = { fg = p.foreground },
-  StatusLineNC              = { fg = p.rock, bg = p.beetle, italic = true },
+  StatusLineNC              = { fg = p.rock, bg = p.starling, italic = true },
   Visual                    = { bg = p.dark_leaf },
 
   -- Syntax
@@ -50,6 +60,10 @@ local highlights = {
   String                    = { fg = p.lemon },
   Type                      = { fg = p.moss },
 
+  -- Search
+  CurSearch                 = { fg = p.starling, bg = p.fern },
+  Search                    = { fg = p.starling, bg = p.rock },
+
   -- Spelling
   SpellBad                  = { sp = p.sand, undercurl = true },
 
@@ -67,19 +81,30 @@ local highlights = {
   -- Floating Windows
   FloatBorder               = { fg = p.rock, bg = p.background },
   NormalFloat               = { fg = p.foreground, bg = p.background },
-  FloatTitle                = { fg = p.bee, bg = p.background },
+  FloatTitle                = { fg = p.bee, bg = p.background, bold = true },
 
   -- Completion
-  Pmenu                     = { fg = p.foreground, bg = p.beetle },
+  Pmenu                     = { fg = p.foreground, bg = p.background },
   PmenuSel                  = { fg = p.background, bg = p.rock },
   PmenuThumb                = { bg = p.dark_rock },
   PmenuSbar                 = { bg = p.ivy },
 
   -- Diff
-  DiffAdd                   = { bg = "#183018" },
-  DiffChange                = { bg = "#2a2a10" },
-  DiffDelete                = { bg = "#301818" },
-  DiffText                  = { bg = "#3a3a1a" },
+  DiffAdd                   = { bg = p.add },
+  DiffChange                = { bg = p.change },
+  DiffDelete                = { bg = p.delete },
+  DiffText                  = { bg = p.untracked },
+
+  -- Gitsigns
+  GitSignsAdd               = { fg = p.add },
+  GitSignsChange            = { fg = p.change },
+  GitSignsDelete            = { fg = p.delete },
+  GitSignsUntracked         = { fg = p.untracked },
+
+  -- LuaLine
+  LuaLineDiffAdd            = { fg = p.add_light },
+  LuaLineDiffChange         = { fg = p.change_light },
+  LuaLineDiffDelete         = { fg = p.delete_light },
 
   -- Treesitter
   ["@comment"]              = { link = "Comment" },
@@ -96,7 +121,7 @@ local highlights = {
   ["@string.documentation"] = { link = "Comment" },
   ["@type"]                 = { link = "Type" },
   ["@variable"]             = { link = "Identifier" },
-  ["@variable.member"]      = { link = "Constant" },
+  ["@variable.member"]      = { fg = p.fern },
   ["@variable.parameter"]   = { fg = p.leaf },
 
   -- NvimTree
@@ -110,36 +135,42 @@ local highlights = {
   NvimTreeOpenedFile        = { fg = p.olive },
   NvimTreeModifiedFile      = { fg = p.bee },
   NvimTreeRootFolder        = { fg = p.sand, bold = true },
+
+  -- nvim-cmp
+  CmpGhostText              = { fg = p.foreground, italic = true },
+
+  -- nvim-cursorword
+  CursorWord                = { underline = true },
 }
 
 local lualine = {
   normal = {
     a = { fg = p.background, bg = p.rock, gui = "bold" },
-    b = { fg = p.foreground, bg = p.beetle },
+    b = { fg = p.foreground, bg = p.starling },
     c = { fg = p.foreground, bg = p.background },
   },
   command = {
     a = { fg = p.background, bg = p.water, gui = "bold" },
-    b = { fg = p.foreground, bg = p.beetle },
+    b = { fg = p.foreground, bg = p.starling },
     c = { fg = p.foreground, bg = p.background },
   },
   insert = {
     a = { fg = p.background, bg = p.fern, gui = "bold" },
-    b = { fg = p.foreground, bg = p.beetle },
+    b = { fg = p.foreground, bg = p.starling },
     c = { fg = p.foreground, bg = p.background },
   },
   visual = {
     a = { fg = p.background, bg = p.squirrel, gui = "bold" },
-    b = { fg = p.foreground, bg = p.beetle },
+    b = { fg = p.foreground, bg = p.starling },
     c = { fg = p.foreground, bg = p.background },
   },
   replace = {
     a = { fg = p.background, bg = p.sand, gui = "bold" },
-    b = { fg = p.foreground, bg = p.beetle },
+    b = { fg = p.foreground, bg = p.starling },
     c = { fg = p.foreground, bg = p.background },
   },
   inactive = {
-    a = { fg = p.dirt, bg = p.beetle },
+    a = { fg = p.dirt, bg = p.starling },
     b = { fg = p.dirt, bg = p.background },
     c = { fg = p.dirt, bg = p.background },
   },

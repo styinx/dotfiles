@@ -16,7 +16,7 @@ cmp.setup({
     native_menu = false
   },
   mapping = cmp.mapping.preset.insert({
-    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-Space>'] =  cmp.mapping.complete(), -- Keycode not recognized
     ['<CR>'] = cmp.mapping.confirm({ select = true }),
     ['<Tab>'] = cmp.mapping.select_next_item(),
     ['<S-Tab>'] = cmp.mapping.select_prev_item(),
@@ -31,26 +31,20 @@ cmp.setup({
   }
 })
 
+-- colorful-winsep
+require("colorful-winsep").setup({
+  hi = {
+    fg = theme.palette.pebble,
+    bg = "NONE"
+  },
+  smooth = false
+})
+
 -- fzf-lua
 require("fzf-lua").setup({})
 
 -- gitsigns
-require("gitsigns").setup({
-  signs = {
-    add          = { text = '│' },
-    change       = { text = '│' },
-    delete       = { text = '_' },
-    topdelete    = { text = '‾' },
-    changedelete = { text = '~' },
-  },
-  signcolumn = true,
-  numhl = false,
-  linehl = false,
-  watch_gitdir = {
-    interval = 1000,
-    follow_files = true
-  },
-})
+require("gitsigns").setup({})
 
 -- ibl
 require("ibl").setup({
@@ -68,7 +62,30 @@ require("ibl").setup({
   },
 })
 
+-- lspsaga
+require("lspsaga").setup({})
+
 -- lualine
+local ll_diagnostics = {
+  "diagnostics",
+  diagnostics_color = {
+      error = "DiagnosticError",
+      warn  = "DiagnosticWarn",
+      info  = "DiagnosticInfo",
+      hint  = "DiagnosticHint",
+    },
+}
+
+local ll_diff = {
+  "diff",
+  colored = true,
+  diff_color = {
+    added    = "LuaLineDiffAdd",
+    modified = "LuaLineDiffChange",
+    removed  = "LuaLineDiffDelete",
+  },
+}
+
 require("lualine").setup({
   options = {
     icons_enabled = true,
@@ -76,7 +93,7 @@ require("lualine").setup({
     component_separators = { left = "", right = ""},
     section_separators = { left = "", right = ""},
     disabled_filetypes = {
-      statusline = {},
+      statusline = { "NvimTree" },
       winbar = {},
     },
     ignore_focus = {},
@@ -91,16 +108,16 @@ require("lualine").setup({
   },
   sections = {
     lualine_a = {"mode"},
-    lualine_b = {"branch", "diff", "diagnostics"},
+    lualine_b = {"branch", ll_diff, ll_diagnostics, "lsp_status"},
     lualine_c = {"filename"},
     lualine_x = {"encoding", "fileformat", "filetype"},
     lualine_y = {"progress"},
     lualine_z = {"location"}
   },
   inactive_sections = {
-    lualine_a = {"mode"},
+    lualine_a = {"filename"},
     lualine_b = {"diagnostics"},
-    lualine_c = {"filename"},
+    lualine_c = {},
     lualine_x = {"filetype"},
     lualine_y = {"progress"},
     lualine_z = {"location"}

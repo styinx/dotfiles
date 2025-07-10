@@ -1,6 +1,5 @@
 local opt = vim.opt
 
-
 -- [System]
 
 opt.belloff = "all"
@@ -97,16 +96,16 @@ map("n", "<C-k>", "<C-u>")
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 
+-- Load nvim-tree on session restore
+autocmd("SessionLoadPost", {
+  callback = function()
+    require("nvim-tree.api").tree.open()
+  end
+})
 -- Remove trailing space
 autocmd("BufWritePre", {
   pattern = "*",
   command = [[:%s/\s\+$//e]]
-})
-
--- Format C/C++ files on save
-autocmd("BufWritePre", {
-  pattern = "*.c,*.cc,*.cpp,*.h,*.hpp",
-  command = "format()"
 })
 
 -- Close quick fix window after choosing
@@ -191,6 +190,7 @@ end
 
 -- Plugin install
 add_plugin(true, "bufferline.nvim",         "akinsho")
+add_plugin(true, "colorful-winsep.nvim",    "nvim-zh")
 add_plugin(true, "nvim-colorizer.lua",      "catgoose")
 add_plugin(true, "cmp-buffer",              "hrsh7th")
 add_plugin(true, "cmp-nvim-lsp",            "hrsh7th")
@@ -199,6 +199,7 @@ add_plugin(true, "fzf-lua",                 "ibhagwan")
 add_plugin(true, "gitsigns.nvim",           "lewis6991")
 add_plugin(true, "indent-blankline.nvim",   "lukas-reineke")
 add_plugin(true, "lualine.nvim",            "nvim-lualine")
+add_plugin(true, "lspsaga.nvim",            "nvimdev")
 add_plugin(true, "nvim-cmp",                "hrsh7th")
 add_plugin(true, "nvim-cursorword",         "xiyaowong")
 add_plugin(true, "nvim-lspconfig",          "neovim")
@@ -217,21 +218,16 @@ if cmp_nvim_lsp_loaded then
   capabilities = cmp_nvim_lsp.default_capabilities()
 end
 
+-- lspsaga
+local lspsaga_loaded, lspsaga = pcall(require, "lspsaga")
+
 -- fzf-lua
 local fzf_lua_loaded, fzf_lua = pcall(require, "fzf-lua")
 if fzf_lua_loaded then
-  map('n', '<leader>ff', fzf_lua.files)
-  map('n', '<leader>fb', fzf_lua.buffers)
-  map('n', '<leader>ft', fzf_lua.tabs)
-end
-
--- nvim-cmp
-local nvim_cmp_loaded, _ = pcall(require, "cmp")
-if nvim_cmp_loaded then
-  vim.api.nvim_set_hl(0, "CmpGhostText", {
-    fg = "#999999",
-    italic = true
-  })
+  map("n", "<leader>ff", fzf_lua.files)
+  map("n", "<leader>fb", fzf_lua.buffers)
+  map("n", "<leader>ft", fzf_lua.tabs)
+  map("n", "<leader>fs", fzf_lua.grep)
 end
 
 --[[
@@ -242,31 +238,37 @@ if vscode_loaded then
 end
 ]]--
 
--- nvim-cursorword
-vim.api.nvim_set_hl(0, "CmpGhostText", {
-  fg = "#999999",
-  italic = true
-})
-
 
 -- [LSP]
 
 -- LSP keys
 local on_attach = function(_, bufnr)
   local opts = { buffer = bufnr }
-  map('n', '<leader>lgd', vim.lsp.buf.definition, opts)
-  map('n', '<leader>lgD', vim.lsp.buf.declaration, opts)
-  map('n', '<leader>lgi', vim.lsp.buf.implementation, opts)
-  map('n', '<leader>lgr', vim.lsp.buf.references, opts)
-  map('n', '<leader>lh', vim.lsp.buf.hover, opts)
-  map('n', '<leader>lr', vim.lsp.buf.rename, opts)
-  map('n', '<leader>la', vim.lsp.buf.code_action, opts)
-  map('n', '<leader>lf', vim.lsp.buf.format, opts)
-  map('n', '<leader>dn', vim.diagnostic.goto_next, opts)
-  map('n', '<leader>dN', vim.diagnostic.goto_prev, opts)
-  map('n', '<leader>do', vim.diagnostic.open_float, opts)
-  map('n', '<leader>dq', vim.diagnostic.setqflist, opts)
+  map("n", "<leader>lgd", vim.lsp.buf.definition, opts)
+  map("n", "<leader>lgD", vim.lsp.buf.declaration, opts)
+  map("n", "<leader>lgi", vim.lsp.buf.implementation, opts)
+  map("n", "<leader>lgr", vim.lsp.buf.references, opts)
+  map("n", "<leader>ls", vim.lsp.buf.signature_help, opts)
+  map("n", "<leader>lh", vim.lsp.buf.hover, opts)
+  map("n", "<leader>lr", vim.lsp.buf.rename, opts)
+  map("n", "<leader>la", "<cmd>Lspsaga code_action<CR>", opts)
+  map("n", "<leader>lf", vim.lsp.buf.format, opts)
+  map("n", "<leader>dn", vim.diagnostic.goto_next, opts)
+  map("n", "<leader>dN", vim.diagnostic.goto_prev, opts)
+  map("n", "<leader>do", vim.diagnostic.open_float, opts)
+  map("n", "<leader>dq", vim.diagnostic.setqflist, opts)
 end
+
+-- Hack for rounded borders on hover window.
+local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+
+function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+  opts = opts or {}
+  opts.border = opts.border or "rounded"
+
+  return orig_util_open_floating_preview(contents, syntax, opts, ...)
+end
+--
 
 -- Diagnostic
 vim.diagnostic.config({
