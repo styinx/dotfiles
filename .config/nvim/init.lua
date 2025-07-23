@@ -89,6 +89,8 @@ map("n", "<leader>o", "<Esc>o<Esc>")
 map("n", "<leader>O", "<Esc>O<Esc>")
 map("n", "<C-j>", "<C-d>")
 map("n", "<C-k>", "<C-u>")
+map("v", "<C-j>", "<C-d>gv")
+map("v", "<C-k>", "<C-u>gv")
 
 
 -- [autocmd]
@@ -230,29 +232,40 @@ if fzf_lua_loaded then
   map("n", "<leader>fs", fzf_lua.grep)
 end
 
---[[
--- vscode
-local vscode_loaded, _ = pcall(require, "vscode")
-if vscode_loaded then
-  vim.cmd.colorscheme("vscode")
-end
-]]--
-
 
 -- [LSP]
 
 -- LSP keys
 local on_attach = function(_, bufnr)
+
+  vim.lsp.buf.switch_source_header = function()
+    local params = { uri = vim.uri_from_bufnr(0) }
+    vim.lsp.buf_request(0, 'textDocument/switchSourceHeader', params, function(err, result)
+      if err then
+        vim.notify('Clangd: error switching source/header: ' .. err.message, vim.log.levels.ERROR)
+      elseif not result then
+        vim.notify('Clangd: no corresponding file found', vim.log.levels.WARN)
+      else
+        vim.cmd('edit ' .. vim.uri_to_fname(result))
+      end
+    end)
+  end
+
   local opts = { buffer = bufnr }
+  map("n", "<leader>lf", vim.lsp.buf.format, opts)
   map("n", "<leader>lgd", vim.lsp.buf.definition, opts)
   map("n", "<leader>lgD", vim.lsp.buf.declaration, opts)
   map("n", "<leader>lgi", vim.lsp.buf.implementation, opts)
   map("n", "<leader>lgr", vim.lsp.buf.references, opts)
-  map("n", "<leader>ls", vim.lsp.buf.signature_help, opts)
   map("n", "<leader>lh", vim.lsp.buf.hover, opts)
+  map("n", "<leader>lo", vim.lsp.buf.switch_source_header, opts)
+  map("n", "<leader>ls", vim.lsp.buf.signature_help, opts)
   map("n", "<leader>lr", vim.lsp.buf.rename, opts)
-  map("n", "<leader>la", "<cmd>Lspsaga code_action<CR>", opts)
-  map("n", "<leader>lf", vim.lsp.buf.format, opts)
+  map("n", "<leader>lla", "<cmd>Lspsaga code_action<CR>", opts)
+  map("n", "<leader>llh", "<cmd>Lspsaga hover_doc<CR>", opts)
+  map("n", "<leader>llf", "<cmd>Lspsaga finder<CR>", opts)
+  map("n", "<leader>llo", "<cmd>Lspsaga outline<CR>", opts)
+  map("n", "<leader>llr", "<cmd>Lspsaga rename<CR>", opts)
   map("n", "<leader>dn", vim.diagnostic.goto_next, opts)
   map("n", "<leader>dN", vim.diagnostic.goto_prev, opts)
   map("n", "<leader>do", vim.diagnostic.open_float, opts)
@@ -290,7 +303,13 @@ local lspconfig = require('lspconfig')
 -- C/C++
 lspconfig.clangd.setup({
   on_attach = on_attach,
-  capabilities = capabilities
+  capabilities = capabilities,
+  cmd = {
+    "clangd",
+    "--background-index",
+    "--limit-results=100",
+    "--header-insertion=never"
+  },
 })
 
 -- Python
