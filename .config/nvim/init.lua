@@ -209,6 +209,7 @@ add_plugin(true, "nvim-dap-python",         "mfussenegger")
 add_plugin(true, "nvim-dap-ui",             "rcarriga")
 add_plugin(true, "nvim-dap-virtual-text",   "theHamsta")
 add_plugin(true, "nvim-lspconfig",          "neovim")
+add_plugin(true, "nvim-nio",                "nvim-neotest")
 add_plugin(true, "nvim-tree.lua",           "nvim-tree")
 add_plugin(true, "nvim-treesitter",         "nvim-treesitter")
 add_plugin(true, "nvim-web-devicons",       "nvim-tree")
@@ -235,13 +236,6 @@ end
 -- nvim-dap
 local nvim_dap_loaded, nvim_dap = pcall(require, "dap")
 if nvim_dap_loaded then
-  map("n", "<F5>", nvim_dap.continue)
-  map("n", "<F6>", nvim_dap.step_over)
-  map("n", "<F7>", nvim_dap.step_into)
-  map("n", "<F8>", nvim_dap.step_out)
-  map("n", "<leader>bb", nvim_dap.toggle_breakpoint)
-  map("n", "<leader>bq", nvim_dap.terminate)
-
   vim.fn.sign_define("DapBreakpoint", {
     text = "",
     texthl = "DiagnosticSignError",
@@ -257,23 +251,23 @@ if nvim_dap_loaded then
   -- nvim-dap-ui
   local nvim_dap_ui_loaded, nvim_dap_ui = pcall(require, "dapui")
   if nvim_dap_ui_loaded then
+    local dap_before = nvim_dap.listeners.before
 
-    nvim_dap.listeners.before.attach.dapui_config = function()
-      nvim_dap_ui.open()
-    end
-    nvim_dap.listeners.before.launch.dapui_config = function()
-      nvim_dap_ui.open()
-    end
-    nvim_dap.listeners.before.event_terminated.dapui_config = function()
-      nvim_dap_ui.close()
-    end
-    nvim_dap.listeners.before.event_exited.dapui_config = function()
-      nvim_dap_ui.close()
-    end
+    dap_before.attach.dapui_config = function() nvim_dap_ui.open() end
+    dap_before.launch.dapui_config = function() nvim_dap_ui.open() end
+    dap_before.event_terminated.dapui_config = function() nvim_dap_ui.close() end
+    dap_before.event_exited.dapui_config = function() nvim_dap_ui.close() end
 
-    map("n", "<leader>bu", nvim_dap_ui.toggle, { desc = "Toggle DAP UI" })
+    map("n", "<leader>but", nvim_dap_ui.toggle)
+    map("n", "<leader>bue", function () nvim_dap_ui.eval(nil, {enter = true}) end)
   end
 
+  map("n", "<F5>", nvim_dap.continue)
+  map("n", "<F6>", nvim_dap.step_over)
+  map("n", "<F7>", nvim_dap.step_into)
+  map("n", "<F8>", nvim_dap.step_out)
+  map("n", "<leader>bb", nvim_dap.toggle_breakpoint)
+  map("n", "<leader>bq", nvim_dap.terminate)
 end
 
 

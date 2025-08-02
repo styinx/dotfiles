@@ -134,11 +134,16 @@ require("colorizer").setup({
   }
 })
 
+-- nvim-dapui
+require("dapui").setup()
+
 -- nvim-dap-python
 require("dap-python").setup("python")
 
 -- nvim-dap-virtual-text
-require("nvim-dap-virtual-text").setup()
+require("nvim-dap-virtual-text").setup({
+  virt_text_pos = "eol"
+})
 
 -- nvim-tree.lua
 require("nvim-tree").setup()
