@@ -3,7 +3,7 @@ local theme = require("theme")
 
 -- [start]
 
--- bufferline
+-- bufferline.nvim
 require("bufferline").setup({})
 
 -- nvim-cmp
@@ -31,22 +31,13 @@ cmp.setup({
   }
 })
 
--- colorful-winsep
-require("colorful-winsep").setup({
-  hi = {
-    fg = theme.palette.pebble,
-    bg = "NONE"
-  },
-  smooth = false
-})
-
 -- fzf-lua
 require("fzf-lua").setup({})
 
--- gitsigns
+-- gitsigns.nvim
 require("gitsigns").setup({})
 
--- ibl
+-- indent-blankline.nvim
 require("ibl").setup({
   indent = {
     char = "┊",
@@ -62,10 +53,10 @@ require("ibl").setup({
   },
 })
 
--- lspsaga
+-- lspsaga.nvim
 require("lspsaga").setup({})
 
--- lualine
+-- lualine.nvim
 local ll_diagnostics = {
   "diagnostics",
   diagnostics_color = {
@@ -128,7 +119,7 @@ require("lualine").setup({
   extensions = {}
 })
 
--- nvim-colorizer
+-- nvim-colorizer.lua
 require("colorizer").setup({
   filetypes = {
     "css",
@@ -143,7 +134,13 @@ require("colorizer").setup({
   }
 })
 
--- nvim-tree
+-- nvim-dap-python
+require("dap-python").setup("python")
+
+-- nvim-dap-virtual-text
+require("nvim-dap-virtual-text").setup()
+
+-- nvim-tree.lua
 require("nvim-tree").setup()
 
 -- nvim-treesitter.install-
@@ -182,15 +179,5 @@ require("nvim-treesitter.configs").setup({
   },
 
 })
-
---[[
--- vscode
-require("vscode").setup({
-  disable_nvimtree_bg = true,
-  italic_comments = true,
-  underline_links = true,
-  terminal_colors = true,
-})
-]]--
 
 -- [opt]

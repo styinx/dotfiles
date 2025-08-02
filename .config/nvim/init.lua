@@ -1,6 +1,6 @@
-local opt = vim.opt
+  local opt = vim.opt
 
--- [System]
+  -- [System]
 
 opt.belloff = "all"
 opt.errorbells = false
@@ -193,7 +193,6 @@ end
 -- Plugin install
 add_plugin(true, "bufferline.nvim",         "akinsho")
 add_plugin(true, "colorful-winsep.nvim",    "nvim-zh")
-add_plugin(true, "nvim-colorizer.lua",      "catgoose")
 add_plugin(true, "cmp-buffer",              "hrsh7th")
 add_plugin(true, "cmp-nvim-lsp",            "hrsh7th")
 add_plugin(true, "fzf",                     "junegunn")
@@ -203,12 +202,16 @@ add_plugin(true, "indent-blankline.nvim",   "lukas-reineke")
 add_plugin(true, "lualine.nvim",            "nvim-lualine")
 add_plugin(true, "lspsaga.nvim",            "nvimdev")
 add_plugin(true, "nvim-cmp",                "hrsh7th")
+add_plugin(true, "nvim-colorizer.lua",      "catgoose")
 add_plugin(true, "nvim-cursorword",         "xiyaowong")
+add_plugin(true, "nvim-dap",                "mfussenegger")
+add_plugin(true, "nvim-dap-python",         "mfussenegger")
+add_plugin(true, "nvim-dap-ui",             "rcarriga")
+add_plugin(true, "nvim-dap-virtual-text",   "theHamsta")
 add_plugin(true, "nvim-lspconfig",          "neovim")
 add_plugin(true, "nvim-tree.lua",           "nvim-tree")
 add_plugin(true, "nvim-treesitter",         "nvim-treesitter")
 add_plugin(true, "nvim-web-devicons",       "nvim-tree")
-add_plugin(true, "vscode.nvim",             "Mofiqul")
 
 -- Plugin setup
 require("plugins.setup")
@@ -220,9 +223,6 @@ if cmp_nvim_lsp_loaded then
   capabilities = cmp_nvim_lsp.default_capabilities()
 end
 
--- lspsaga
-local lspsaga_loaded, lspsaga = pcall(require, "lspsaga")
-
 -- fzf-lua
 local fzf_lua_loaded, fzf_lua = pcall(require, "fzf-lua")
 if fzf_lua_loaded then
@@ -232,12 +232,70 @@ if fzf_lua_loaded then
   map("n", "<leader>fs", fzf_lua.grep)
 end
 
+-- nvim-dap
+local nvim_dap_loaded, nvim_dap = pcall(require, "dap")
+if nvim_dap_loaded then
+  map("n", "<F5>", nvim_dap.continue)
+  map("n", "<F6>", nvim_dap.step_over)
+  map("n", "<F7>", nvim_dap.step_into)
+  map("n", "<F8>", nvim_dap.step_out)
+  map("n", "<leader>bb", nvim_dap.toggle_breakpoint)
+  map("n", "<leader>bq", nvim_dap.terminate)
+
+  vim.fn.sign_define("DapBreakpoint", {
+    text = "",
+    texthl = "DiagnosticSignError",
+    linehl = "",
+    numhl = "",
+  })
+
+  vim.fn.sign_define("DapStopped", {
+    text = "",
+    texthl = "DiagnosticSignHint",
+  })
+
+  -- nvim-dap-ui
+  local nvim_dap_ui_loaded, nvim_dap_ui = pcall(require, "dapui")
+  if nvim_dap_ui_loaded then
+
+    nvim_dap.listeners.before.attach.dapui_config = function()
+      nvim_dap_ui.open()
+    end
+    nvim_dap.listeners.before.launch.dapui_config = function()
+      nvim_dap_ui.open()
+    end
+    nvim_dap.listeners.before.event_terminated.dapui_config = function()
+      nvim_dap_ui.close()
+    end
+    nvim_dap.listeners.before.event_exited.dapui_config = function()
+      nvim_dap_ui.close()
+    end
+
+    map("n", "<leader>bu", nvim_dap_ui.toggle, { desc = "Toggle DAP UI" })
+  end
+
+end
+
+
+-- [Diagnostic]
+
+-- Diagnostic keys
+map("n", "<leader>dn", vim.diagnostic.goto_next)
+map("n", "<leader>dN", vim.diagnostic.goto_prev)
+map("n", "<leader>do", vim.diagnostic.open_float)
+map("n", "<leader>dq", vim.diagnostic.setqflist)
+
+-- Diagnostic symbols
+for type, icon in pairs({ Error = "", Warn  = "", Hint  = "", Info  = "" }) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+end
+
 
 -- [LSP]
 
 -- LSP keys
 local on_attach = function(_, bufnr)
-
   vim.lsp.buf.switch_source_header = function()
     local params = { uri = vim.uri_from_bufnr(0) }
     vim.lsp.buf_request(0, 'textDocument/switchSourceHeader', params, function(err, result)
@@ -266,10 +324,6 @@ local on_attach = function(_, bufnr)
   map("n", "<leader>llf", "<cmd>Lspsaga finder<CR>", opts)
   map("n", "<leader>llo", "<cmd>Lspsaga outline<CR>", opts)
   map("n", "<leader>llr", "<cmd>Lspsaga rename<CR>", opts)
-  map("n", "<leader>dn", vim.diagnostic.goto_next, opts)
-  map("n", "<leader>dN", vim.diagnostic.goto_prev, opts)
-  map("n", "<leader>do", vim.diagnostic.open_float, opts)
-  map("n", "<leader>dq", vim.diagnostic.setqflist, opts)
 end
 
 -- Hack for rounded borders on hover window.
