@@ -1,6 +1,6 @@
-  local opt = vim.opt
+local opt = vim.opt
 
-  -- [System]
+-- [System]
 
 opt.belloff = "all"
 opt.errorbells = false
@@ -30,6 +30,9 @@ opt.spell = true
 
 -- Visual
 opt.signcolumn = "yes"
+opt.foldmethod = "indent"
+opt.foldlevel = 99
+opt.foldenable = true
 
 -- Cursor
 opt.cursorline = true
@@ -104,6 +107,7 @@ autocmd("SessionLoadPost", {
     require("nvim-tree.api").tree.open()
   end
 })
+
 -- Remove trailing space
 autocmd("BufWritePre", {
   pattern = "*",
@@ -237,14 +241,14 @@ end
 local nvim_dap_loaded, nvim_dap = pcall(require, "dap")
 if nvim_dap_loaded then
   vim.fn.sign_define("DapBreakpoint", {
-    text = "",
+    text = "◉",
     texthl = "DiagnosticSignError",
     linehl = "",
     numhl = "",
   })
 
   vim.fn.sign_define("DapStopped", {
-    text = "",
+    text = "<U+F061>",
     texthl = "DiagnosticSignHint",
   })
 
@@ -273,23 +277,45 @@ end
 
 -- [Diagnostic]
 
+-- Diagnostic config
+vim.diagnostic.config({
+  float = {
+    border = "rounded",
+    header = ""
+  },
+  severity_sort = true,
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = "󰅙",
+      [vim.diagnostic.severity.WARN]  = "",
+      [vim.diagnostic.severity.INFO]  = "",
+      [vim.diagnostic.severity.HINT]  = "󰌵",
+    },
+    numhl = {
+      [vim.diagnostic.severity.ERROR] = "DiagnosticError",
+      [vim.diagnostic.severity.WARN]  = "DiagnosticWarn",
+      [vim.diagnostic.severity.HINT]  = "DiagnosticHint",
+      [vim.diagnostic.severity.INFO]  = "DiagnosticInfo",
+    },
+  },
+  underline = true,
+  update_in_insert = true,
+  virtual_text = true,
+  virtual_lines = false
+})
+
 -- Diagnostic keys
 map("n", "<leader>dn", vim.diagnostic.goto_next)
 map("n", "<leader>dN", vim.diagnostic.goto_prev)
 map("n", "<leader>do", vim.diagnostic.open_float)
 map("n", "<leader>dq", vim.diagnostic.setqflist)
 
--- Diagnostic symbols
-for type, icon in pairs({ Error = "", Warn  = "", Hint  = "", Info  = "" }) do
-  local hl = "DiagnosticSign" .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-end
-
 
 -- [LSP]
 
 -- LSP keys
 local on_attach = function(_, bufnr)
+
   vim.lsp.buf.switch_source_header = function()
     local params = { uri = vim.uri_from_bufnr(0) }
     vim.lsp.buf_request(0, 'textDocument/switchSourceHeader', params, function(err, result)
@@ -314,7 +340,6 @@ local on_attach = function(_, bufnr)
   map("n", "<leader>ls", vim.lsp.buf.signature_help, opts)
   map("n", "<leader>lr", vim.lsp.buf.rename, opts)
   map("n", "<leader>lla", "<cmd>Lspsaga code_action<CR>", opts)
-  map("n", "<leader>llh", "<cmd>Lspsaga hover_doc<CR>", opts)
   map("n", "<leader>llf", "<cmd>Lspsaga finder<CR>", opts)
   map("n", "<leader>llo", "<cmd>Lspsaga outline<CR>", opts)
   map("n", "<leader>llr", "<cmd>Lspsaga rename<CR>", opts)
@@ -329,21 +354,6 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
 
   return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
---
-
--- Diagnostic
-vim.diagnostic.config({
-  float = {
-	  border = "rounded",
-	  header = ""
-  },
-  severity_sort = true,
-  signs = true,
-  underline = true,
-  update_in_insert = true,
-  virtual_text = true,
-  virtual_lines = false
-})
 
 -- LSP servers
 local lspconfig = require('lspconfig')
