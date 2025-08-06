@@ -248,7 +248,7 @@ if nvim_dap_loaded then
   })
 
   vim.fn.sign_define("DapStopped", {
-    text = "<U+F061>",
+    text = "",
     texthl = "DiagnosticSignHint",
   })
 

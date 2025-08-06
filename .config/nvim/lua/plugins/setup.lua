@@ -54,7 +54,18 @@ require("ibl").setup({
 })
 
 -- lspsaga.nvim
-require("lspsaga").setup({})
+require("lspsaga").setup({
+  outline = {
+    layout = "float",
+    keys = {
+      quit = "q",
+      jump = "<CR>",
+    },
+  },
+  ui = {
+    code_action = "🛠"
+  }
+})
 
 -- lualine.nvim
 local ll_diagnostics = {
@@ -146,7 +157,11 @@ require("nvim-dap-virtual-text").setup({
 })
 
 -- nvim-tree.lua
-require("nvim-tree").setup()
+require("nvim-tree").setup({
+  update_focused_file = {
+    enable = true,
+  }
+})
 
 -- nvim-treesitter.install-
 require("nvim-treesitter.install").compilers = { "clang" }
