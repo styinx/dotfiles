@@ -47,7 +47,7 @@ local highlights = {
   -- Syntax
   Normal                    = { fg = p.foreground, bg = p.background },
   Comment                   = { fg = p.dark_rock, italic = true },
-  Constant                  = { fg = p.dirt },
+  Constant                  = { fg = p.frog },
   Function                  = { fg = p.ivy },
   Identifier                = { fg = p.pebble },
   Keyword                   = { fg = p.sand },
