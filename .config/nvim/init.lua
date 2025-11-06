@@ -94,6 +94,8 @@ map("n", "<C-j>", "<C-d>")
 map("n", "<C-k>", "<C-u>")
 map("v", "<C-j>", "<C-d>gv")
 map("v", "<C-k>", "<C-u>gv")
+map("n", "<leader>bn", ":bn<CR>")
+map("n", "<leader>bp", ":bp<CR>")
 
 
 -- [autocmd]
@@ -188,45 +190,44 @@ local function add_plugin(start, name, author, hash)
     vim.fn.system({"git", "-C", plugin_path, "checkout", hash})
   end
 
-  if not start then
+  if start then
     vim.notify("Plugin loading     " .. name)
     vim.cmd.packadd(name)
   end
 end
 
 -- Plugin install
-add_plugin(true, "bufferline.nvim",         "akinsho")
-add_plugin(true, "colorful-winsep.nvim",    "nvim-zh")
-add_plugin(true, "cmp-buffer",              "hrsh7th")
-add_plugin(true, "cmp-nvim-lsp",            "hrsh7th")
-add_plugin(true, "fzf",                     "junegunn")
-add_plugin(true, "fzf-lua",                 "ibhagwan")
-add_plugin(true, "gitsigns.nvim",           "lewis6991")
-add_plugin(true, "indent-blankline.nvim",   "lukas-reineke")
-add_plugin(true, "lualine.nvim",            "nvim-lualine")
-add_plugin(true, "lspsaga.nvim",            "nvimdev")
-add_plugin(true, "nvim-cmp",                "hrsh7th")
-add_plugin(true, "nvim-colorizer.lua",      "catgoose")
-add_plugin(true, "nvim-cursorword",         "xiyaowong")
-add_plugin(true, "nvim-dap",                "mfussenegger")
-add_plugin(true, "nvim-dap-python",         "mfussenegger")
-add_plugin(true, "nvim-dap-ui",             "rcarriga")
-add_plugin(true, "nvim-dap-virtual-text",   "theHamsta")
-add_plugin(true, "nvim-lspconfig",          "neovim")
-add_plugin(true, "nvim-nio",                "nvim-neotest")
-add_plugin(true, "nvim-tree.lua",           "nvim-tree")
-add_plugin(true, "nvim-treesitter",         "nvim-treesitter")
-add_plugin(true, "nvim-web-devicons",       "nvim-tree")
+add_plugin(true,  "bufferline.nvim",         "akinsho")
+add_plugin(true,  "colorful-winsep.nvim",    "nvim-zh")
+add_plugin(true,  "cmp-buffer",              "hrsh7th")
+add_plugin(true,  "cmp-nvim-lsp",            "hrsh7th")
+add_plugin(true,  "fzf",                     "junegunn")
+add_plugin(true,  "fzf-lua",                 "ibhagwan")
+add_plugin(true,  "gitsigns.nvim",           "lewis6991")
+add_plugin(true,  "indent-blankline.nvim",   "lukas-reineke")
+add_plugin(true,  "lualine.nvim",            "nvim-lualine")
+add_plugin(true,  "lspsaga.nvim",            "nvimdev")
+add_plugin(true,  "nvim-cmp",                "hrsh7th")
+add_plugin(true,  "nvim-colorizer.lua",      "catgoose")
+add_plugin(true,  "nvim-cursorword",         "xiyaowong")
+add_plugin(false, "nvim-dap",                "mfussenegger")
+add_plugin(false, "nvim-dap-python",         "mfussenegger")
+add_plugin(false, "nvim-dap-ui",             "rcarriga")
+add_plugin(false, "nvim-dap-virtual-text",   "theHamsta")
+add_plugin(false, "nvim-nio",                "nvim-neotest")
+add_plugin(false, "nvim-tree.lua",           "nvim-tree")
+add_plugin(true,  "nvim-treesitter",         "nvim-treesitter")
+add_plugin(true,  "nvim-web-devicons",       "nvim-tree")
 
 -- Plugin setup
 require("plugins.setup")
 
 -- cmp-nvim-lsp
-local cmp_nvim_lsp_loaded, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-local capabilities = nil
-if cmp_nvim_lsp_loaded then
-  capabilities = cmp_nvim_lsp.default_capabilities()
-end
+--local cmp_nvim_lsp_loaded, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+--local capabilities = nil
+--if cmp_nvim_lsp_loaded then
+--  capabilities = cmp_nvim_lsp.default_capabilities()
+--end
 
 -- fzf-lua
 local fzf_lua_loaded, fzf_lua = pcall(require, "fzf-lua")
@@ -356,40 +357,54 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
 end
 
 -- LSP servers
-local lspconfig = require('lspconfig')
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+vim.lsp.config("*", {
+  capabilities = {
+    textDocument = {
+      semanticTokens = {
+        multilineTokenSupport = true,
+      }
+    }
+  },
+  root_markers = { ".git" },
+})
 
 -- C/C++
-lspconfig.clangd.setup({
+vim.lsp.config("clangd", {
   on_attach = on_attach,
-  capabilities = capabilities,
   cmd = {
     "clangd",
     "--background-index",
     "--limit-results=100",
     "--header-insertion=never"
   },
+  filetypes = { "c", "cpp", "h", "hpp" },
+  root_markers = { ".clangd", "compile_commands.json" }
 })
+vim.lsp.enable("clangd")
 
 -- Python
-lspconfig.pyright.setup({
+vim.lsp.config("pyright", {
   on_attach = on_attach,
-  capabilities = capabilities
+  filetypes = { "py" },
 })
+vim.lsp.enable("pyright")
 
 -- Lua
-lspconfig.lua_ls.setup({
+vim.lsp.config("luals", {
   on_attach = on_attach,
-  capabilities = capabilities,
+  filetypes = { "lua" },
   settings = {
     Lua = {
       diagnostics = {
         globals = {
-          'vim'
+          "vim"
         }
       }
     }
   }
 })
+vim.lsp.enable("luals")
 
 
 -- [User config]
