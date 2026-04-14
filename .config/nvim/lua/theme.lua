@@ -34,6 +34,7 @@ local p = {
   starling        = "#1a1f1a",
   pebble          = "#507080",
   squirrel        = "#a85858",
+  void            = "#0C0C0C",
   water           = "#207080",
 }
 
@@ -77,6 +78,10 @@ local highlights = {
   DiagnosticUnderlineWarn   = { fg = p.flower, sp = p.flower },
   DiagnosticUnderlineInfo   = { fg = p.frog, sp = p.frog },
   DiagnosticUnderlineHint   = { fg = p.olive, sp = p.olive },
+
+  -- Windows
+  WinSeparator              = { fg = p.starling },
+  NormalNC                  = { bg = p.void },
 
   -- Floating Windows
   FloatBorder               = { fg = p.rock, bg = p.background },

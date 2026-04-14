@@ -9,16 +9,15 @@ end
 Theme = require("theme")
 Theme.load()
 
-require("config.lsp")
-require("config.options")
-require("config.keymaps")
-require("config.autocmd")
-require("config.diagnostic")
-require("config.plugins")
+require("options")
+require("keymaps")
+require("autocmd")
+require("diagnostic")
+require("lsp")
+require("plugins")
 
 
--- [Custom user config]
-
+-- Custom user config
 local user_loaded, user = pcall(require, "user")
 if user_loaded then
 
