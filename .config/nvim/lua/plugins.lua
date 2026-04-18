@@ -262,23 +262,42 @@ plugins["nvim-web-devicons"] = {{
 }
 
 -- Helper function
-local function add_plugin(config)
-  local remotes, setup = config[1], config[2]
+local function add_plugins(plugin_list)
+  local remotes = {}
+  local setups = {}
+
+  for _, plugin in ipairs(plugin_list) do
+    if plugin then
+      local plug_remotes, plug_setup = plugin[1], plugin[2]
+
+      for _, r in ipairs(plug_remotes) do
+        table.insert(remotes, r)
+      end
+
+      if plug_setup then
+        table.insert(setups, plug_setup)
+      end
+    end
+  end
+
   vim.pack.add(remotes)
-  if setup then
+
+  for _, setup in ipairs(setups) do
     setup()
   end
 end
 
 -- Install plugins
-add_plugin(plugins["bufferline"])
-add_plugin(plugins["cmp"])
-add_plugin(plugins["colorizer"])
-add_plugin(plugins["fzf-lua"])
-add_plugin(plugins["gitsigns"])
-add_plugin(plugins["ibl"])
-add_plugin(plugins["lualine"])
-add_plugin(plugins["lspsaga"])
-add_plugin(plugins["nvim-cursorword"])
-add_plugin(plugins["nvim-treesitter"])
-add_plugin(plugins["nvim-web-devicons"])
+add_plugins({
+  plugins["bufferline"],
+  plugins["cmp"],
+  plugins["colorizer"],
+  plugins["fzf-lua"],
+  plugins["gitsigns"],
+  plugins["ibl"],
+  plugins["lualine"],
+  plugins["lspsaga"],
+  plugins["nvim-cursorword"],
+  plugins["nvim-treesitter"],
+  plugins["nvim-web-devicons"]
+})
