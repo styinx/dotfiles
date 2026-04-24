@@ -40,6 +40,7 @@ vim.lsp.config("*", {
 
 -- C/C++
 vim.lsp.config("clangd", {
+  on_attach = on_attach,
   cmd = {
     "clangd",
     "--background-index",
@@ -52,6 +53,7 @@ vim.lsp.config("clangd", {
 
 -- Lua
 vim.lsp.config("lua_ls", {
+  on_attach = on_attach,
   filetypes = { "lua" },
   settings = {
     Lua = {
@@ -66,6 +68,7 @@ vim.lsp.config("lua_ls", {
 
 -- Python
 vim.lsp.config("pyright", {
+  on_attach = on_attach,
   filetypes = { "python" },
 })
 
