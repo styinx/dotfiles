@@ -27,7 +27,6 @@ plugins["cmp"] = {{
         native_menu = false
       },
       mapping = cmp.mapping.preset.insert({
-        ['<C-Space>'] =  cmp.mapping.complete(), -- Keycode not recognized
         ['<CR>'] = cmp.mapping.confirm({ select = true }),
         ['<Tab>'] = cmp.mapping.select_next_item(),
         ['<S-Tab>'] = cmp.mapping.select_prev_item(),
@@ -213,41 +212,19 @@ plugins["nvim-treesitter"] = {{
     { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
   },
   function ()
-    -- nvim-treesitter.install-
-    require("nvim-treesitter.install").compilers = { "clang" }
-
-    -- nvim-treesitter.configs-
-    require("nvim-treesitter.configs").setup({
-      ensure_installed = {
-        "asm",
-        "c",
-        "cpp",
-        "css",
-        "html",
-        "javascript",
-        "lua",
-        "markdown",
-        "python",
-        "vim",
-        "vimdoc",
-        "xml",
-      },
-      sync_install = true,
-      auto_install = true,
-      ignore_install = {},
-
-      autopairs = {
-        enable = true
-      },
-
-      highlight = {
-        enable = true
-      },
-
-      indent = {
-        enable = true
-      },
-
+    require("nvim-treesitter").install({
+      "asm",
+      "c",
+      "cpp",
+      "css",
+      "html",
+      "javascript",
+      "lua",
+      "markdown",
+      "python",
+      "vim",
+      "vimdoc",
+      "xml",
     })
   end
 }
@@ -283,7 +260,10 @@ local function add_plugins(plugin_list)
   vim.pack.add(remotes)
 
   for _, setup in ipairs(setups) do
-    setup()
+    local ok, err = pcall(setup)
+    if not ok then
+      vim.notify("Plugin setup error: " .. err, vim.log.levels.ERROR)
+    end
   end
 end
 

@@ -52,6 +52,7 @@ vim.lsp.config("clangd", {
 
 -- Lua
 vim.lsp.config("lua_ls", {
+  cmd = { "lua-language-server" },
   filetypes = { "lua" },
   settings = {
     Lua = {
@@ -66,6 +67,7 @@ vim.lsp.config("lua_ls", {
 
 -- Python
 vim.lsp.config("pyright", {
+  cmd = { "pyright-langserver", "--stdio" },
   filetypes = { "python" },
 })
 

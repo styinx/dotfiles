@@ -1,10 +1,3 @@
--- Helper function
-local function map(mode, keys, action, options)
-    options = options or {}
-    options["noremap"] = true
-    options["silent"] = true
-    vim.keymap.set(mode, keys, action, options)
-end
 -- [Keyboard]
 
 vim.g.mapleader = " "
