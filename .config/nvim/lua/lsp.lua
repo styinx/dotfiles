@@ -40,6 +40,7 @@ vim.lsp.config("*", {
 
 -- C/C++
 vim.lsp.config("clangd", {
+  on_attach = on_attach,
   cmd = {
     "clangd",
     "--background-index",
