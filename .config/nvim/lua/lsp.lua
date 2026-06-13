@@ -67,8 +67,8 @@ vim.lsp.config("lua_ls", {
 })
 
 -- Python
-vim.lsp.config("pyright", {
-  cmd = { "pyright-langserver", "--stdio" },
+vim.lsp.config("basedpyright", {
+  cmd = { "basedpyright-langserver", "--stdio" },
   filetypes = { "python" },
 })
 
@@ -77,5 +77,5 @@ vim.lsp.config("pyright", {
 vim.lsp.enable({
   "clangd",
   "lua_ls",
-  "pyright",
+  "basedpyright",
 })

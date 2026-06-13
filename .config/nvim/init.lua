@@ -8,6 +8,7 @@ end
 
 Theme = require("theme")
 Theme.load()
+Theme.color_locals(10)
 
 require("options")
 require("keymaps")

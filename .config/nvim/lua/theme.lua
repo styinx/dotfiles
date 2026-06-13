@@ -1,7 +1,7 @@
 local theme = {}
 
 local p = {
-  background      = "#101010",
+  background      = "#0C0C0C",
   foreground      = "#a8a898",
 
   add             = "#104010",
@@ -34,118 +34,161 @@ local p = {
   starling        = "#1a1f1a",
   pebble          = "#507080",
   squirrel        = "#a85858",
-  void            = "#0C0C0C",
+  void            = "#101010",
   water           = "#207080",
 }
 
 local highlights = {
   -- UI
-  CursorLine                = { bg = p.starling },
-  StatusLine                = { fg = p.foreground },
-  StatusLineNC              = { fg = p.rock, bg = p.starling, italic = true },
-  Visual                    = { bg = p.dark_leaf },
+  CursorLine                               = { bg = p.starling },
+  StatusLine                               = { fg = p.foreground },
+  StatusLineNC                             = { fg = p.rock, bg = p.starling, italic = true },
+  Visual                                   = { fg = p.foreground, bg = p.dark_leaf },
 
   -- Syntax
-  Normal                    = { fg = p.foreground, bg = p.background },
-  Comment                   = { fg = p.dark_rock, italic = true },
-  Constant                  = { fg = p.frog },
-  Function                  = { fg = p.ivy },
-  Identifier                = { fg = p.pebble },
-  Keyword                   = { fg = p.sand },
-  Number                    = { fg = p.squirrel },
-  Operator                  = { fg = p.foreground },
-  PreProc                   = { fg = p.sand },
-  Punctuation               = { fg = p.bark },
-  Special                   = { fg = p.bark },
-  Statement                 = { fg = p.sand },
-  String                    = { fg = p.lemon },
-  Type                      = { fg = p.moss },
+  Normal                                   = { fg = p.foreground, bg = p.background },
+  Comment                                  = { fg = p.dark_rock, italic = true },
+  Constant                                 = { fg = p.frog },
+  Function                                 = { fg = p.ivy },
+  Identifier                               = { fg = p.pebble },
+  Keyword                                  = { fg = p.sand },
+  Number                                   = { fg = p.squirrel },
+  Operator                                 = { fg = p.sand },
+  PreProc                                  = { fg = p.sand },
+  Punctuation                              = { fg = p.bark },
+  Special                                  = { fg = p.bark },
+  Statement                                = { fg = p.sand },
+  String                                   = { fg = p.lemon },
+  Structure                                = { fg = p.sand },
+  Type                                     = { fg = p.moss },
 
   -- Search
-  CurSearch                 = { fg = p.starling, bg = p.fern },
-  Search                    = { fg = p.starling, bg = p.rock },
+  CurSearch                                = { fg = p.starling, bg = p.fern },
+  Search                                   = { fg = p.starling, bg = p.rock },
+  IncSearch                                = { fg = p.starling, bg = p.rock },
 
   -- Spelling
-  SpellBad                  = { sp = p.sand, undercurl = true },
+  SpellBad                                 = { sp = p.sand, undercurl = true },
 
   -- Diagnostics
-  DiagnosticError           = { fg = p.mushroom },
-  DiagnosticWarn            = { fg = p.flower },
-  DiagnosticInfo            = { fg = p.water },
-  DiagnosticHint            = { fg = p.olive },
-  DiagnosticUnnecessary     = { link = "DiagnosticHint" },
-  DiagnosticUnderlineError  = { fg = p.mushroom, sp = p.mushroom },
-  DiagnosticUnderlineWarn   = { fg = p.flower, sp = p.flower },
-  DiagnosticUnderlineInfo   = { fg = p.frog, sp = p.frog },
-  DiagnosticUnderlineHint   = { fg = p.olive, sp = p.olive },
+  DiagnosticError                          = { fg = p.mushroom },
+  DiagnosticWarn                           = { fg = p.flower },
+  DiagnosticInfo                           = { fg = p.water },
+  DiagnosticHint                           = { fg = p.olive },
+  DiagnosticUnnecessary                    = { link = "DiagnosticHint" },
+  DiagnosticUnderlineError                 = { fg = p.mushroom, sp = p.mushroom },
+  DiagnosticUnderlineWarn                  = { fg = p.flower, sp = p.flower },
+  DiagnosticUnderlineInfo                  = { fg = p.frog, sp = p.frog },
+  DiagnosticUnderlineHint                  = { fg = p.olive, sp = p.olive },
 
   -- Windows
-  WinSeparator              = { fg = p.starling },
-  NormalNC                  = { bg = p.void },
+  WinSeparator                             = { fg = p.starling },
+  NormalNC                                 = { bg = p.void },
 
   -- Floating Windows
-  FloatBorder               = { fg = p.rock, bg = p.background },
-  NormalFloat               = { fg = p.foreground, bg = p.background },
-  FloatTitle                = { fg = p.bee, bg = p.background, bold = true },
+  FloatBorder                              = { fg = p.rock, bg = p.background },
+  NormalFloat                              = { fg = p.foreground, bg = p.background },
+  FloatTitle                               = { fg = p.bee, bg = p.background, bold = true },
 
   -- Completion
-  Pmenu                     = { fg = p.foreground, bg = p.background },
-  PmenuSel                  = { fg = p.background, bg = p.rock },
-  PmenuThumb                = { bg = p.dark_rock },
-  PmenuSbar                 = { bg = p.ivy },
+  Pmenu                                    = { fg = p.foreground, bg = p.background },
+  PmenuSel                                 = { fg = p.background, bg = p.rock },
+  PmenuThumb                               = { bg = p.dark_rock },
+  PmenuSbar                                = { bg = p.ivy },
 
   -- Diff
-  DiffAdd                   = { bg = p.add },
-  DiffChange                = { bg = p.change },
-  DiffDelete                = { bg = p.delete },
-  DiffText                  = { bg = p.untracked },
+  DiffAdd                                  = { bg = p.add },
+  DiffChange                               = { bg = p.change },
+  DiffDelete                               = { bg = p.delete },
+  DiffText                                 = { bg = p.untracked },
 
   -- Gitsigns
-  GitSignsAdd               = { fg = p.add },
-  GitSignsChange            = { fg = p.change },
-  GitSignsDelete            = { fg = p.delete },
-  GitSignsUntracked         = { fg = p.untracked },
+  GitSignsAdd                              = { fg = p.add },
+  GitSignsChange                           = { fg = p.change },
+  GitSignsDelete                           = { fg = p.delete },
+  GitSignsUntracked                        = { fg = p.untracked },
+
+  -- LSP
+  ["@lsp.mod.abstract"]                    = {},
+  ["@lsp.mod.async"]                       = {},
+  ["@lsp.mod.declaration"]                 = {},
+  ["@lsp.mod.defaultLibrary"]              = {},
+  ["@lsp.mod.definition"]                  = {},
+  ["@lsp.mod.deprecated"]                  = { strikethrough = true },
+  ["@lsp.mod.documentation"]               = { link = "Comment" },
+  ["@lsp.mod.modification"]                = {},
+  ["@lsp.mod.readonly"]                    = {},
+  ["@lsp.mod.static"]                      = {},
+  ["@lsp.type.class"]                      = { link = "Type" },
+  ["@lsp.type.comment"]                    = { link = "Comment" },
+  ["@lsp.type.decorator"]                  = { link = "PreProc" },
+  ["@lsp.type.enum"]                       = { link = "Enum" },
+  ["@lsp.type.enumMember"]                 = { link = "Constant" },
+  ["@lsp.type.event"]                      = {},
+  ["@lsp.type.function"]                   = { link = "Function" },
+  ["@lsp.type.interface"]                  = { link = "Type" },
+  ["@lsp.type.keyword"]                    = { link = "Keyword" },
+  ["@lsp.type.macro"]                      = { link = "PreProc" },
+  ["@lsp.type.method"]                     = { link = "Function" },
+  ["@lsp.type.modifier"]                   = {},
+  ["@lsp.type.namespace"]                  = { link = "Constant" },
+  ["@lsp.type.number"]                     = { link = "Number" },
+  ["@lsp.type.operator"]                   = { link = "Operator" },
+  ["@lsp.type.parameter"]                  = { link = "@variable.parameter" },
+  ["@lsp.type.property"]                   = { link = "@variable.member" },
+  ["@lsp.type.regexp"]                     = { link = "Keyword" },
+  ["@lsp.type.string"]                     = { link = "String" },
+  ["@lsp.type.struct"]                     = { link = "Type" },
+  ["@lsp.type.type"]                       = { link = "Type" },
+  ["@lsp.type.typeParameter"]              = { link = "Type" },
+  ["@lsp.type.variable"]                   = { link = "@variable" },
+  ["@lsp.typemod.function.declaration"]    = {},
+  ["@lsp.typemod.function.defaultLibrary"] = {},
+  ["@lsp.typemod.method.async"]            = {},
+  ["@lsp.typemod.variable.defaultLibrary"] = {},
+  ["@lsp.typemod.variable.readonly"]       = {},
+  ["@lsp.typemod.variable.static"]         = {},
 
   -- LuaLine
-  LuaLineDiffAdd            = { fg = p.add_light },
-  LuaLineDiffChange         = { fg = p.change_light },
-  LuaLineDiffDelete         = { fg = p.delete_light },
+  LuaLineDiffAdd                           = { fg = p.add_light },
+  LuaLineDiffChange                        = { fg = p.change_light },
+  LuaLineDiffDelete                        = { fg = p.delete_light },
 
   -- Treesitter
-  ["@comment"]              = { link = "Comment" },
-  ["@constant"]             = { link = "Constant" },
-  ["@constructor"]          = { link = "Function" },
-  ["@constructor.lua"]      = { link = "Punctuation" },
-  ["@function"]             = { link = "Function" },
-  ["@function.builtin"]     = { fg = p.water },
-  ["@keyword"]              = { link = "Keyword" },
-  ["@number"]               = { link = "Number" },
-  ["@punctuation"]          = { link = "Punctuation" },
-  ["@punctuation.bracket"]  = { link = "Punctuation" },
-  ["@string"]               = { link = "String" },
-  ["@string.documentation"] = { link = "Comment" },
-  ["@type"]                 = { link = "Type" },
-  ["@variable"]             = { link = "Identifier" },
-  ["@variable.member"]      = { fg = p.fern },
-  ["@variable.parameter"]   = { fg = p.leaf },
+  ["@comment"]                             = { link = "Comment" },
+  ["@constant"]                            = { link = "Constant" },
+  ["@constructor"]                         = { link = "Function" },
+  ["@constructor.lua"]                     = { link = "Punctuation" },
+  ["@function"]                            = { link = "Function" },
+  ["@function.builtin"]                    = { fg = p.water },
+  ["@keyword"]                             = { link = "Keyword" },
+  ["@number"]                              = { link = "Number" },
+  ["@punctuation"]                         = { link = "Punctuation" },
+  ["@punctuation.bracket"]                 = { link = "Punctuation" },
+  ["@string"]                              = { link = "String" },
+  ["@string.documentation"]                = { link = "Comment" },
+  ["@type"]                                = { link = "Type" },
+  ["@variable"]                            = { link = "Identifier" },
+  ["@variable.member"]                     = { fg = p.fern },
+  ["@variable.parameter"]                  = { fg = p.leaf },
 
   -- NvimTree
-  NvimTreeNormal            = { fg = p.foreground, bg = p.background },
-  NvimTreeFolderName        = { fg = p.water },
-  NvimTreeFolderIcon        = { fg = p.water },
-  NvimTreeIndentMarker      = { fg = p.rock },
-  NvimTreeGitDirty          = { fg = p.flower },
-  NvimTreeGitNew            = { fg = p.leaf },
-  NvimTreeGitDeleted        = { fg = p.squirrel },
-  NvimTreeOpenedFile        = { fg = p.olive },
-  NvimTreeModifiedFile      = { fg = p.bee },
-  NvimTreeRootFolder        = { fg = p.sand, bold = true },
+  NvimTreeNormal                           = { fg = p.foreground, bg = p.background },
+  NvimTreeFolderName                       = { fg = p.water },
+  NvimTreeFolderIcon                       = { fg = p.water },
+  NvimTreeIndentMarker                     = { fg = p.rock },
+  NvimTreeGitDirty                         = { fg = p.flower },
+  NvimTreeGitNew                           = { fg = p.leaf },
+  NvimTreeGitDeleted                       = { fg = p.squirrel },
+  NvimTreeOpenedFile                       = { fg = p.olive },
+  NvimTreeModifiedFile                     = { fg = p.bee },
+  NvimTreeRootFolder                       = { fg = p.sand, bold = true },
 
   -- nvim-cmp
-  CmpGhostText              = { fg = p.foreground, italic = true },
+  CmpGhostText                             = { fg = p.foreground, italic = true },
 
   -- nvim-cursorword
-  CursorWord                = { underline = true },
+  CursorWord                               = { underline = true },
 }
 
 local lualine = {
@@ -185,6 +228,80 @@ theme.palette = p
 theme.highlights = highlights
 theme.lualine = lualine
 
+-- Convert HSV to RGB
+local function hsv_rgb(h, s, v)
+  local c = s * v
+  local x = c * (1 - math.abs((h / 60) % 2 - 1))
+  local m = v - c
+
+  local r, g, b = 0, 0, 0
+
+  if h > 0 and h < 60 then
+    r, g, b = c, x, 0
+  elseif h >= 60 and h < 120 then
+    r, g, b = x, c, 0
+  elseif h >= 120 and h < 180 then
+    r, g, b = 0, c, x
+  elseif h >= 180 and h < 240 then
+    r, g, b = 0, x, c
+  elseif h >= 240 and h < 300 then
+    r, g, b = x, 0, c
+  elseif h >= 300 and h < 360 then
+    r, g, b = c, 0, x
+  end
+
+  return (r + m) * 255, (g + m) * 255, (b + m) * 255
+end
+
+-- Generate rainbow colors
+local function rainbow_palette(color_count)
+  local h = 0
+  local s = 0.25
+  local v = 0.5
+  local h_s = 360 / color_count
+
+  local colors = {}
+  for i=1, color_count, 1 do
+    local r, g, b = hsv_rgb(h, s, v)
+    colors[i] = string.format("#%02X%02X%02X", r, g, b)
+    h = h + h_s
+  end
+
+  return colors
+end
+
+-- Colorize local variables
+function theme.color_locals(color_count)
+  for i, color in ipairs(rainbow_palette(color_count)) do
+      vim.api.nvim_set_hl(0, "rainbowVariable" .. i, { fg = color })
+  end
+
+  local function hash_token(token, buf)
+    local line = vim.api.nvim_buf_get_lines(buf, token.line, token.line + 1, true)[1]
+    local varname = string.sub(line, token.start_col + 1, token.end_col)
+    local ret = 0
+    local factor = 27
+    for i=1,string.len(varname),1 do
+      ret = ((ret * factor) + string.byte(varname,i)) % color_count
+    end
+    return ret
+  end
+
+  vim.api.nvim_create_autocmd("LspTokenUpdate", {
+    callback = function(args)
+      local token = args.data.token
+      local buf = args.buf
+      local client_id = args.data.client_id
+      if token.type == "variable" then
+        vim.lsp.semantic_tokens.highlight_token(
+          token, buf, client_id,
+          "rainbowVariable" .. hash_token(token, buf)
+        )
+      end
+    end
+  })
+end
+
 -- Apply all highlight groups
 function theme.load()
   vim.cmd("highlight clear")
@@ -192,7 +309,9 @@ function theme.load()
   vim.g.colors_name = "mytheme"
 
   for group, opts in pairs(theme.highlights) do
-    vim.api.nvim_set_hl(0, group, opts)
+    if next(opts) then
+      vim.api.nvim_set_hl(0, group, opts)
+    end
   end
 end
 
