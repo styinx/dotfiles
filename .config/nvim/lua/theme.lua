@@ -145,7 +145,7 @@ local highlights = {
   ["@lsp.typemod.function.declaration"]    = {},
   ["@lsp.typemod.function.defaultLibrary"] = {},
   ["@lsp.typemod.method.async"]            = {},
-  ["@lsp.typemod.variable.defaultLibrary"] = {},
+  ["@lsp.typemod.variable.defaultLibrary"] = { link = "Constant" },
   ["@lsp.typemod.variable.readonly"]       = {},
   ["@lsp.typemod.variable.static"]         = {},
 
@@ -162,6 +162,8 @@ local highlights = {
   ["@function"]                            = { link = "Function" },
   ["@function.builtin"]                    = { fg = p.water },
   ["@keyword"]                             = { link = "Keyword" },
+  ["@module"]                              = { link = "Constant" },
+  ["@module.builtin.lua"]                  = { link = "Constant" },
   ["@number"]                              = { link = "Number" },
   ["@punctuation"]                         = { link = "Punctuation" },
   ["@punctuation.bracket"]                 = { link = "Punctuation" },
@@ -254,17 +256,21 @@ local function hsv_rgb(h, s, v)
 end
 
 -- Generate rainbow colors
-local function rainbow_palette(color_count)
-  local h = 0
-  local s = 0.25
-  local v = 0.5
-  local h_s = 360 / color_count
+local function rainbow_palette(color_count, h_range, s_range, v_range)
+  local h = h_range[1]
+  local s = s_range[1]
+  local v = v_range[1]
+  local h_step = (h_range[2] - h_range[1]) / color_count
+  local s_step = (s_range[2] - s_range[1]) / color_count
+  local v_step = (v_range[2] - v_range[1]) / color_count
 
   local colors = {}
   for i=1, color_count, 1 do
     local r, g, b = hsv_rgb(h, s, v)
     colors[i] = string.format("#%02X%02X%02X", r, g, b)
-    h = h + h_s
+    h = h + h_step
+    s = s + s_step
+    v = v + v_step
   end
 
   return colors
@@ -272,7 +278,11 @@ end
 
 -- Colorize local variables
 function theme.color_locals(color_count)
-  for i, color in ipairs(rainbow_palette(color_count)) do
+  local h_range = {170, 220}
+  local s_range = {0.5, 0.7}
+  local v_range = {0.4, 0.6}
+
+  for i, color in ipairs(rainbow_palette(color_count, h_range, s_range, v_range)) do
       vim.api.nvim_set_hl(0, "rainbowVariable" .. i, { fg = color })
   end
 
@@ -292,7 +302,7 @@ function theme.color_locals(color_count)
       local token = args.data.token
       local buf = args.buf
       local client_id = args.data.client_id
-      if token.type == "variable" then
+      if token.type == "variable" and not token.modifiers.defaultLibrary then
         vim.lsp.semantic_tokens.highlight_token(
           token, buf, client_id,
           "rainbowVariable" .. hash_token(token, buf)
