@@ -212,6 +212,7 @@ plugins["nvim-treesitter"] = {{
     { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
   },
   function ()
+    --[[
     require("nvim-treesitter").install({
       "asm",
       "c",
@@ -226,6 +227,7 @@ plugins["nvim-treesitter"] = {{
       "vimdoc",
       "xml",
     })
+    ]]--
   end
 }
 
