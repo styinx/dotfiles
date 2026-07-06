@@ -207,30 +207,6 @@ plugins["nvim-cursorword"] = {{
   function () end
 }
 
--- nvim-treesitter
-plugins["nvim-treesitter"] = {{
-    { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
-  },
-  function ()
-    --[[
-    require("nvim-treesitter").install({
-      "asm",
-      "c",
-      "cpp",
-      "css",
-      "html",
-      "javascript",
-      "lua",
-      "markdown",
-      "python",
-      "vim",
-      "vimdoc",
-      "xml",
-    })
-    ]]--
-  end
-}
-
 -- nvim-web-devicons
 plugins["nvim-web-devicons"] = {{
     { src = "https://github.com/nvim-tree/nvim-web-devicons" },
@@ -280,6 +256,5 @@ add_plugins({
   plugins["lualine"],
   plugins["lspsaga"],
   plugins["nvim-cursorword"],
-  plugins["nvim-treesitter"],
   plugins["nvim-web-devicons"]
 })

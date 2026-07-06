@@ -31,10 +31,15 @@
 ; Operators
 ; -----------------------------------------------------------------------------
 
+"#"  @special
+"^"  @special
+"$"  @special
+
 "="  @operator
 "->" @operator
 
 ":"  @punctuation.delimiter
+"."  @punctuation.delimiter
 ","  @punctuation.delimiter
 ".." @punctuation.delimiter
 

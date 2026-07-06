@@ -6,7 +6,7 @@ local autocmd = vim.api.nvim_create_autocmd
 
 -- [Buffer]
 
-local buffer_group = augroup("Buffer", { clear = true })
+local buffer_group = augroup("buffer", { clear = true })
 
 -- Auto create missing file paths
 autocmd("BufWritePre", {
@@ -21,6 +21,7 @@ autocmd("BufWritePre", {
 
 -- Remove trailing space
 autocmd("BufWritePre", {
+  group = buffer_group,
   pattern = "*",
   callback = function()
     local pos = vim.api.nvim_win_get_cursor(0)
@@ -35,6 +36,8 @@ autocmd("BufWritePre", {
 
 -- Open buffer on last position
 autocmd("BufReadPost", {
+  group = buffer_group,
+  pattern = "*",
   callback = function()
     local mark = vim.api.nvim_buf_get_mark(0, '"')
     local line_count = vim.api.nvim_buf_line_count(0)
@@ -45,10 +48,11 @@ autocmd("BufReadPost", {
 })
 
 
--- [Indents]
+-- [FileType]
 
-local indent_group = augroup("Indents", { clear = true })
+local filetype_group = augroup("filetype", { clear = true })
 
+-- File indents
 local indents = {
   [2] = { "css", "html", "javascript", "lua", "xml" },
   [3] = { "rst" },
@@ -57,7 +61,7 @@ local indents = {
 
 for size, filetypes in pairs(indents) do
   autocmd("FileType", {
-    group = indent_group,
+    group = filetype_group,
     pattern = filetypes,
     callback = function()
       vim.opt_local.expandtab = true
@@ -67,6 +71,15 @@ for size, filetypes in pairs(indents) do
     end,
   })
 end
+
+-- Treesitter highlighting
+autocmd("FileType", {
+  group = filetype_group,
+  pattern = "*",
+  callback = function(args)
+    pcall(vim.treesitter.start, args.buf)
+  end,
+})
 
 
 -- [Misc]
@@ -88,7 +101,7 @@ autocmd("FileType", {
 local system_group = augroup("System", { clear = true })
 
 -- Reload buffer
-autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
+autocmd({ "FocusGained", "BufEnter" }, {
   group = system_group,
   callback = function()
     if vim.fn.mode() ~= "c" then
