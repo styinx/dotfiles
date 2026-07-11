@@ -1,8 +1,11 @@
 ; -----------------------------------------------------------------------------
-; Fallback
+; Defaults
 ; -----------------------------------------------------------------------------
 
-(identifier) @variable
+(comment) @comment
+((identifier) @variable
+  (#set! priority 90)
+)
 
 ; -----------------------------------------------------------------------------
 ; Literals
@@ -17,6 +20,7 @@
 (float) @number.float
 (bin) @number
 (hex) @number
+(oct) @number
 
 (string) @string
 
@@ -31,22 +35,32 @@
 ; Operators
 ; -----------------------------------------------------------------------------
 
-"#"  @special
-"^"  @special
-"$"  @special
-
-"="  @operator
+(operator) @operator
+(unary_operator) @operator
+(assignment_operator) @operator
 "->" @operator
+"=" @operator
 
-":"  @punctuation.delimiter
-"."  @punctuation.delimiter
-","  @punctuation.delimiter
-".." @punctuation.delimiter
+[
+  ":"
+  "."
+  ","
+  ".."
+] @punctuation.delimiter
 
-"(" @punctuation.bracket
-")" @punctuation.bracket
-"[" @punctuation.bracket
-"]" @punctuation.bracket
+[
+  "("
+  ")"
+  "["
+  "]"
+] @punctuation.bracket
+
+[
+  "#"
+  "^"
+  "$"
+] @special
+
 
 ; -----------------------------------------------------------------------------
 ; Keywords
@@ -58,10 +72,13 @@
   "elif"
   "else"
   "end"
+  "enum"
   "for"
   "fun"
   "if"
+  "import"
   "in"
+  "match"
   "mod"
   "rec"
   "ret"
@@ -73,47 +90,73 @@
 ; -----------------------------------------------------------------------------
 
 (alias_declaration
-  name: (identifier) @type)
+  name: (identifier) @type
+)
+
+(enum_declaration
+  name: (identifier) @enum
+  enumerator: (identifier) @constant
+)
 
 (function_declaration
-  name: (identifier) @function)
+  name: (identifier) @function
+)
+
+(function_declaration
+  [
+    (variable_definition
+      name: (identifier) @variable.parameter
+    )
+    (variable_declaration
+      (variable_definition
+        name: (identifier) @variable.parameter
+      )
+    )
+  ]
+)
 
 (module_declaration
-  name: (identifier) @module)
+  name: (identifier) @module
+)
 
 (record_declaration
-  name: (identifier) @type)
+  name: (identifier) @structure
+)
+
+(record_declaration
+  [
+    (variable_definition
+      name: (identifier) @variable.member
+    )
+    (variable_declaration
+      (variable_definition
+        name: (identifier) @variable.member
+      )
+    )
+  ]
+)
 
 (type_declaration
-  name: (identifier) @type)
-
-(variable_declaration
-  name: (identifier) @variable.parameter)
-
-; -----------------------------------------------------------------------------
-; Parameters
-; -----------------------------------------------------------------------------
-
-(parameter_declaration_list
-  (variable_declaration
-    name: (identifier) @variable.parameter))
+  name: (identifier) @type
+)
 
 ; -----------------------------------------------------------------------------
 ; Expressions
 ; -----------------------------------------------------------------------------
 
 (call_expression
-  name: (identifier) @function.call)
-
-(operation_expression
-  operator: (operator) @operator)
+  name: (identifier) @function.call
+)
 
 ; -----------------------------------------------------------------------------
 ; Statements
 ; -----------------------------------------------------------------------------
 
-(for_statement
-  counter: (identifier) @variable)
+(import_statement
+  "import" @keyword.import
+  (identifier) @module
+)
 
 (return_statement
-  "ret" @keyword.return)
+  "ret" @keyword.return
+)

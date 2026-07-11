@@ -36,8 +36,12 @@ plugins["cmp"] = {{
         { name = "buffer"},
       }),
       window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered()
+        completion = cmp.config.window.bordered({
+          winhighlight = "Normal:Pmenu,CursorLine:PmenuSel",
+        }),
+        documentation = cmp.config.window.bordered({
+          winhighlight = "Normal:Pmenu,CursorLine:PmenuSel",
+        })
       }
     })
   end
