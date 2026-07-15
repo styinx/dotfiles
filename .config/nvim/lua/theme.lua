@@ -25,7 +25,7 @@ local p = {
   warning_light   = "#c09000",
 
   bark            = "#845444",
-  bee             = "#b8a858",
+  bee             = "#b4a454",
   beetle          = "#202020",
   clay            = "#886450",
   butterfly       = "#ae7e2e",
@@ -35,7 +35,7 @@ local p = {
   fern            = "#909060",
   flower          = "#d58a4e",
   frog            = "#3f8f9f",
-  grape           = "#6f506a",
+  grape           = "#68506a",
   grass           = "#589458",
   ivy             = "#407840",
   lavender        = "#706090",
@@ -45,6 +45,7 @@ local p = {
   mushroom        = "#b84848",
   olive           = "#b2b790",
   rock            = "#606060",
+  rose            = "#705060",
   sand            = "#906840",
   starling        = "#1a1a1a",
   pebble          = "#507080",
@@ -69,7 +70,7 @@ local highlights = {
   Normal                                   = { fg = p.foreground, bg = p.background },
   Comment                                  = { fg = p.dark_rock, italic = true },
   Constant                                 = { fg = p.water },
-  Enum                                     = { fg = p.bee },
+  Enum                                     = { fg = p.grass },
   Function                                 = { fg = p.ivy },
   Identifier                               = { fg = p.pebble },
   Keyword                                  = { fg = p.sand },
@@ -80,9 +81,9 @@ local highlights = {
   Special                                  = { fg = p.butterfly },
   Statement                                = { fg = p.sand },
   String                                   = { fg = p.lemon },
-  Structure                                = { fg = p.bee },
+  Structure                                = { fg = p.moss },
   Title                                    = { fg = p.moss },
-  Type                                     = { fg = p.leaf },
+  Type                                     = { fg = p.fern },
 
   -- Search
   CurSearch                                = { fg = p.starling, bg = p.fern },
@@ -113,7 +114,7 @@ local highlights = {
   -- Windows
   NormalNC                                 = { bg = p.void },
   TabLine                                  = { fg = p.foreground },
-  TabLineSel                               = { fg = p.pebble, bg = p.pebble },
+  TabLineSel                               = { fg = p.pebble, bg = p.starling },
   TabLineFill                              = { fg = p.foreground },
   WinBar                                   = { fg = p.rock },
   WinBarNC                                 = { fg = p.rock },
@@ -286,11 +287,11 @@ local highlights = {
   ["@tag.attribute"]                       = { fg = p.clay },
   ["@tag.delimiter"]                       = { link = "Punctuation" },
   ["@type"]                                = { link = "Type" },
-  ["@type.builtin"]                        = { fg = p.grass },
+  ["@type.builtin"]                        = { fg = p.bee },
   ["@variable"]                            = { link = "Identifier" },
   ["@variable.builtin"]                    = { fg = p.bee },
-  ["@variable.member"]                     = { fg = p.fern },
-  ["@variable.parameter"]                  = { fg = p.fern },
+  ["@variable.member"]                     = { fg = p.squirrel },
+  ["@variable.parameter"]                  = { fg = p.rose },
 
   -- NvimTree
   NvimTreeNormal                           = { fg = p.foreground, bg = p.background },
@@ -303,6 +304,10 @@ local highlights = {
   NvimTreeOpenedFile                       = { fg = p.olive },
   NvimTreeModifiedFile                     = { fg = p.bee },
   NvimTreeRootFolder                       = { fg = p.sand, bold = true },
+
+  netrwDir                                 = { link = "Directory" },
+  netrwExe                                 = { link = "PreProc" },
+  netrwPlain                               = { link = "Normal" },
 
   -- nvim-cmp
   CmpGhostText                             = { fg = p.foreground, italic = true },
