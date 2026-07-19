@@ -6,6 +6,8 @@ function map(mode, keys, action, options)
     vim.keymap.set(mode, keys, action, options)
 end
 
+vim.loader.enable(true)
+
 Theme = require("theme")
 Theme.load()
 Theme.color_locals(10)
