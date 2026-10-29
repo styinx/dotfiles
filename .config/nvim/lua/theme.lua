@@ -5,12 +5,16 @@ local p = {
   foreground      = "#a8a8a8",
 
   add             = "#104010",
+  add_dark        = "#003000",
   add_light       = "#207020",
   change          = "#807020",
+  change_dark     = "#404000",
   change_light    = "#a09000",
   delete          = "#703030",
+  delete_dark     = "#502020",
   delete_light    = "#a03000",
   untracked       = "#404040",
+  untracked_dark  = "#303030",
   untracked_light = "#808080",
 
   error           = "#703030",
@@ -161,10 +165,30 @@ local highlights = {
   DiagnosticUnnecessary                    = { link = "DiagnosticHint" },
 
   -- Diff
-  DiffAdd                                  = { bg = p.add_light },
-  DiffChange                               = { bg = p.change_light },
-  DiffDelete                               = { bg = p.delete_light },
-  DiffText                                 = { bg = p.untracked_light },
+  DiffAdd                                  = { bg = p.add_dark },
+  DiffAdded                                = { bg = p.add },
+  DiffChange                               = { bg = p.change_dark },
+  DiffChanged                              = { bg = p.change_dark },
+  DiffDelete                               = { bg = p.delete_dark },
+  DiffRemoved                              = { bg = p.delete },
+  DiffText                                 = { bg = p.change },
+
+  DiffviewDiffAdd                          = { bg = p.add_dark },
+  DiffviewDiffChange                       = { bg = p.change_dark },
+  DiffviewDiffDelete                       = { bg = p.delete_dark },
+  DiffviewDiffModified                     = { bg = p.change_dark },
+  DiffviewDiffText                         = { bg = p.change },
+  DiffviewFilePanelDeletions               = { fg = p.delete_light, bold = true },
+  DiffviewFilePanelInsertions              = { fg = p.add_light, bold = true },
+  DiffviewFilePanelSelected                = { fg = p.info_light, bold = true },
+  DiffviewStatusAdded                      = { fg = p.add_light, bold = true },
+  DiffviewStatusDeleted                    = { fg = p.delete, bold = true },
+  DiffviewStatusModified                   = { fg = p.change, bold = true },
+  DiffviewStatusRenamed                    = { fg = p.change, bold = true },
+  DiffviewStatusUntracked                  = { fg = p.untracked, bold = true },
+  DiffviewStatusIgnored                    = { fg = p.hint, bold = true },
+  DiffviewWinSeparator                     = { fg = p.flower },
+
 
   -- Gitsigns
   GitSignsAdd                              = { fg = p.add },

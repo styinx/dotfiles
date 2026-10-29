@@ -34,10 +34,10 @@ def recurse(path: Path, src, dst, exceptions: dict):
             if not isinstance(list(exceptions[entry.name].values())[0], dict):
                 if system() not in exceptions[entry.name]:
                     continue
-            
+
                 if exceptions[entry.name][system()] == SKIP:
                     continue
-            
+
                 exception = exceptions[entry.name][system()] / entry.name
                 if src == repo:
                     d_entry = exception
@@ -74,7 +74,9 @@ exceptions = {
 }
 
 ignore = [
+    '.config/nvim/lua/user.lua',
     '.git',
+    '.gitconfig.user',
     '__pycache__',
     'wt',
     'install.py',

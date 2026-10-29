@@ -68,6 +68,18 @@ plugins["colorizer"] = {{
   end
 }
 
+-- diffview
+plugins["diffview"] = {{
+    { src = "https://github.com/sindrets/diffview.nvim" },
+  },
+  function ()
+    require("diffview").setup({
+      enhanced_diff_hl = true
+    })
+  end
+}
+
+
 -- fzf-lua
 plugins["fzf-lua"] = {{
     { src = "https://github.com/junegunn/fzf" },
@@ -254,6 +266,7 @@ add_plugins({
   plugins["bufferline"],
   plugins["cmp"],
   plugins["colorizer"],
+  plugins["diffview"],
   plugins["fzf-lua"],
   plugins["gitsigns"],
   plugins["ibl"],
