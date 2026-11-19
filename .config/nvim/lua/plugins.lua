@@ -232,6 +232,16 @@ plugins["nvim-web-devicons"] = {{
   end
 }
 
+-- satellite
+plugins["satellite"] = {{
+    { src = "https://github.com/lewis6991/satellite.nvim" },
+  },
+  function ()
+    require("satellite").setup({})
+  end
+}
+
+
 -- Helper function
 local function add_plugins(plugin_list)
   local remotes = {}
@@ -273,5 +283,6 @@ add_plugins({
   plugins["lualine"],
   plugins["lspsaga"],
   plugins["nvim-cursorword"],
-  plugins["nvim-web-devicons"]
+  plugins["nvim-web-devicons"],
+  plugins["satellite"],
 })
