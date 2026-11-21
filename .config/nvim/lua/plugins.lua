@@ -86,8 +86,46 @@ plugins["fzf-lua"] = {{
     { src = "https://github.com/ibhagwan/fzf-lua" }
   },
   function ()
+    local ignore_dirs  = {
+      ".git",
+      "node_modules",
+      "bin",
+      "build*",
+      "lib",
+      "dependencies",
+      "third_party",
+      "thirdParty"
+    }
+
+    local ignore_files = {
+      "*.exe",
+      "*.lib",
+      "*.o",
+      "*.pdb",
+      "*.so"
+    }
+
+    local fd_excl, rg_excl = {}, {}
+    for _, list in ipairs({ ignore_dirs, ignore_files }) do
+      for _, p in ipairs(list) do
+        table.insert(fd_excl, ("--exclude %q"):format(p))
+        table.insert(rg_excl, ("-g %q"):format("!" .. p))
+      end
+    end
+    fd_excl = table.concat(fd_excl, " ")
+    rg_excl = table.concat(rg_excl, " ")
+
     local fzf_lua = require("fzf-lua")
-    fzf_lua.setup({})
+    fzf_lua.setup({
+      files = {
+        fd_opts = "--color=never --type f --type l --hidden --follow " .. fd_excl,
+        rg_opts = "--color=never --files --hidden --follow " .. rg_excl,
+      },
+      grep = {
+        rg_opts = "--column --line-number --no-heading --color=always "
+          .. "--smart-case --max-columns=4096 --hidden " .. rg_excl .. " -e",
+      },
+    })
 
     map("n", "<leader>ff", fzf_lua.files)
     map("n", "<leader>fb", fzf_lua.buffers)
